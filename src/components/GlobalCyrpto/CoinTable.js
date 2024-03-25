@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { CiStar } from "react-icons/ci";
 import Chart from "@/components/GlobalCyrpto/Chart";
+import Link from "next/link";
 const CoinTable = ({ currency = "inr" }) => {
   const [coins, setCoins] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -12,15 +13,16 @@ const CoinTable = ({ currency = "inr" }) => {
       const currency = "inr"; // You can make this dynamic as needed
       try {
         const response = await axios.get(
-          `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=100&page=${currentPage}&sparkline=true&price_change_percentage=1h%2C24h%2C7d&locale=en`
+          `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=100&page=${currentPage}&sparkline=true&price_change_percentage=1h%2C24h%2C7d`
         );
         setCoins(
           response.data.map((coin, index) => ({
+            id:coin.id,
             rank: index + 1 + 100 * (currentPage - 1),
             name: coin.name,
             logo: coin.image,
-            marketCap: `$${parseFloat(coin.market_cap).toLocaleString()}`,
-            price: `$${parseFloat(coin.current_price).toLocaleString()}`,
+            marketCap: `₹${(coin.market_cap).toLocaleString()}`,
+            price: `₹${coin.current_price.toLocaleString()}`,
             // todayChange: `${
             //   coin.price_change_percentage_24h >= 0 ? "▲" : "▼"
             // } ${Math.abs(coin.price_change_percentage_24h).toFixed(2)}%`,
@@ -137,6 +139,7 @@ const CoinTable = ({ currency = "inr" }) => {
                     {/* <span><CiStar /></span> */}
                     {coin.rank}
                   </td>
+                  <Link href={`/coin/${coin.id}`} passHref>
                   <td className="px-4 py-2 flex items-center">
                     <img
                       src={coin.logo}
@@ -145,6 +148,7 @@ const CoinTable = ({ currency = "inr" }) => {
                     />
                     {coin.name}
                   </td>
+                  </Link>
                   <td className="px-4 py-2 w-1/4 text-right">
                     {/* Right align and fixed width */}
                     {coin.marketCap}
