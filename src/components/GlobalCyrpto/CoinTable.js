@@ -11,37 +11,81 @@ const CoinTable = ({ currency = "inr" }) => {
   useEffect(() => {
     const fetchCoins = async () => {
       const currency = "inr"; // You can make this dynamic as needed
-      try {
-        const response = await axios.get(
-          `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=100&page=${currentPage}&sparkline=true&price_change_percentage=1h%2C24h%2C7d`
-        );
-        setCoins(
-          response.data.map((coin, index) => ({
-            id:coin.id,
-            rank: index + 1 + 100 * (currentPage - 1),
-            name: coin.name,
-            logo: coin.image,
-            marketCap: `₹${(coin.market_cap).toLocaleString()}`,
-            price: `₹${coin.current_price.toLocaleString()}`,
-            // todayChange: `${
-            //   coin.price_change_percentage_24h >= 0 ? "▲" : "▼"
-            // } ${Math.abs(coin.price_change_percentage_24h).toFixed(2)}%`,
-            sparkline_in_7d: coin.sparkline_in_7d,
-            price_change_percentage_1h_in_currency:`${
-              coin.price_change_percentage_1h_in_currency >= 0 ? "▲" : "▼"
-            } ${Math.abs(coin.price_change_percentage_1h_in_currency).toFixed(2)}%`,
-            price_change_percentage_24h_in_currency:`${
-              coin.price_change_percentage_24h_in_currency >= 0 ? "▲" : "▼"
-            } ${Math.abs(coin.price_change_percentage_24h_in_currency).toFixed(2)}%`,
-            price_change_percentage_7d_in_currency:
-              coin.price_change_percentage_7d_in_currency,
-          }))
-        );
+      // try {
+      const options = {
+        method: "GET",
+        url: `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=100&page=${currentPage}&sparkline=true&price_change_percentage=1h%2C24h%2C7d`,
+        headers: { "x-cg-demo-api-key": "CG-5VXoHhbKyGG1GHXDjQLDa13p" },
+      };
+      axios
+        .request(options)
+        .then(function (response) {
+          setCoins(
+            response.data.map((coin, index) => ({
+              id: coin.id,
+              rank: index + 1 + 100 * (currentPage - 1),
+              name: coin.name,
+              logo: coin.image,
+              marketCap: `₹${coin.market_cap.toLocaleString()}`,
+              price: `₹${coin.current_price.toLocaleString()}`,
+              // todayChange: `${
+              //   coin.price_change_percentage_24h >= 0 ? "▲" : "▼"
+              // } ${Math.abs(coin.price_change_percentage_24h).toFixed(2)}%`,
+              sparkline_in_7d: coin.sparkline_in_7d,
+              price_change_percentage_1h_in_currency: `${
+                coin.price_change_percentage_1h_in_currency >= 0 ? "▲" : "▼"
+              } ${Math.abs(coin.price_change_percentage_1h_in_currency).toFixed(
+                2
+              )}%`,
+              price_change_percentage_24h_in_currency: `${
+                coin.price_change_percentage_24h_in_currency >= 0 ? "▲" : "▼"
+              } ${Math.abs(
+                coin.price_change_percentage_24h_in_currency
+              ).toFixed(2)}%`,
+              price_change_percentage_7d_in_currency:
+                coin.price_change_percentage_7d_in_currency,
+            }))
+          );
+          setTotalPages(2);
+          console.log(response.data);
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+      // const response = await axios.get(
+      //   `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=100&page=${currentPage}&sparkline=true&price_change_percentage=1h%2C24h%2C7d`
+      // );
+      // setCoins(
+      //   response.data.map((coin, index) => ({
+      //     id: coin.id,
+      //     rank: index + 1 + 100 * (currentPage - 1),
+      //     name: coin.name,
+      //     logo: coin.image,
+      //     marketCap: `₹${coin.market_cap.toLocaleString()}`,
+      //     price: `₹${coin.current_price.toLocaleString()}`,
+      //     // todayChange: `${
+      //     //   coin.price_change_percentage_24h >= 0 ? "▲" : "▼"
+      //     // } ${Math.abs(coin.price_change_percentage_24h).toFixed(2)}%`,
+      //     sparkline_in_7d: coin.sparkline_in_7d,
+      //     price_change_percentage_1h_in_currency: `${
+      //       coin.price_change_percentage_1h_in_currency >= 0 ? "▲" : "▼"
+      //     } ${Math.abs(coin.price_change_percentage_1h_in_currency).toFixed(
+      //       2
+      //     )}%`,
+      //     price_change_percentage_24h_in_currency: `${
+      //       coin.price_change_percentage_24h_in_currency >= 0 ? "▲" : "▼"
+      //     } ${Math.abs(coin.price_change_percentage_24h_in_currency).toFixed(
+      //       2
+      //     )}%`,
+      //     price_change_percentage_7d_in_currency:
+      //       coin.price_change_percentage_7d_in_currency,
+      //   }))
+      // );
 
-        setTotalPages(2);
-      } catch (error) {
-        console.error("Failed to fetch coins data:", error);
-      }
+      // setTotalPages(2);
+      // } catch (error) {
+      //   console.error("Failed to fetch coins data:", error);
+      // }
     };
 
     fetchCoins();
@@ -118,7 +162,7 @@ const CoinTable = ({ currency = "inr" }) => {
 
     <div className="p-5 relative">
       <div className="overflow-x-auto">
-        <div className="max-h-[600px] overflow-y-auto">
+        <div className="mx-[5%] overflow-y-auto">
           <table className="table-auto w-full bg-white">
             <thead className="sticky top-0 z-10 border-b-2 text-black bg-yellow-100">
               <tr>
@@ -140,14 +184,14 @@ const CoinTable = ({ currency = "inr" }) => {
                     {coin.rank}
                   </td>
                   <Link href={`/coin/${coin.id}`} passHref>
-                  <td className="px-4 py-2 flex items-center">
-                    <img
-                      src={coin.logo}
-                      alt={`${coin.name} logo`}
-                      className="mr-2 w-16 h-16 rounded-full shadow-sm"
-                    />
-                    {coin.name}
-                  </td>
+                    <td className="px-4 py-2 flex items-center">
+                      <img
+                        src={coin.logo}
+                        alt={`${coin.name} logo`}
+                        className="mr-2 w-16 h-16 rounded-full shadow-sm"
+                      />
+                      {coin.name}
+                    </td>
                   </Link>
                   <td className="px-4 py-2 w-1/4 text-right">
                     {/* Right align and fixed width */}
@@ -161,7 +205,9 @@ const CoinTable = ({ currency = "inr" }) => {
                     {/* Right align and conditional color */}
                     <span
                       className={`${
-                        coin.price_change_percentage_1h_in_currency.startsWith("▼")
+                        coin.price_change_percentage_1h_in_currency.startsWith(
+                          "▼"
+                        )
                           ? "text-red-500"
                           : "text-green-500"
                       }`}
@@ -173,7 +219,9 @@ const CoinTable = ({ currency = "inr" }) => {
                     {/* Right align and conditional color */}
                     <span
                       className={`${
-                        coin.price_change_percentage_24h_in_currency.startsWith("▼")
+                        coin.price_change_percentage_24h_in_currency.startsWith(
+                          "▼"
+                        )
                           ? "text-red-500"
                           : "text-green-500"
                       }`}
