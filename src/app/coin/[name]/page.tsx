@@ -30,7 +30,14 @@ const Coin = ({ params }: { params: Params }) => {
     // Fetch chart data
     const fetchChartData = async () => {
       const response = await axios.get(
-        `https://api.coingecko.com/api/v3/coins/${name}/market_chart?vs_currency=${currency}&days=${days}`
+        `https://api.coingecko.com/api/v3/coins/${name}/market_chart?vs_currency=${currency}&days=${days}`,
+        {
+          headers: {
+            "x-cg-demo-api-key": "CG-5VXoHhbKyGG1GHXDjQLDa13p" 
+           
+            
+          }
+        }
       );
       setChartData(response.data);
     };
@@ -92,6 +99,12 @@ const Coin = ({ params }: { params: Params }) => {
               className="px-4 py-2 bg-blue-500 text-white rounded-lg"
             >
               365 Days
+            </button>
+            <button
+              onClick={() => handleDaysChange("1825")}
+              className="px-4 py-2 bg-blue-500 text-white rounded-lg"
+            >
+              5 years
             </button>
           </div>
         </div>
