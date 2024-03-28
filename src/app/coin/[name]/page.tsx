@@ -25,10 +25,8 @@ const Coin = ({ params }: { params: Params }) => {
         `https://api.coingecko.com/api/v3/coins/${name}`,
         {
           headers: {
-            "x-cg-demo-api-key": "CG-5VXoHhbKyGG1GHXDjQLDa13p" 
-           
-            
-          }
+            "x-cg-demo-api-key": "CG-5VXoHhbKyGG1GHXDjQLDa13p",
+          },
         }
       );
       setCoinData(response.data);
@@ -39,11 +37,10 @@ const Coin = ({ params }: { params: Params }) => {
       const response = await axios.get(
         `https://api.coingecko.com/api/v3/coins/${name}/market_chart?vs_currency=${currency}&days=${days}`,
         {
+          params: {precision: '2'},
           headers: {
-            "x-cg-demo-api-key": "CG-5VXoHhbKyGG1GHXDjQLDa13p" 
-           
-            
-          }
+            "x-cg-demo-api-key": "CG-5VXoHhbKyGG1GHXDjQLDa13p",
+          },
         }
       );
       setChartData(response.data);
@@ -70,16 +67,22 @@ const Coin = ({ params }: { params: Params }) => {
                   alt={coinData.name}
                   className="w-32 h-32 -ml-10"
                 />
-                <h1 className="mt-11 ml-10 text-4xl font-bold">{coinData.name}</h1>
+                <h1 className="mt-11 ml-10 text-4xl font-bold">
+                  {coinData.name}
+                </h1>
               </div>
 
               <p className=" text-white mt-4">
                 {coinData.description.en.split(". ")[0]}
               </p>
               <h1 className="font-semibold text-lg mt-6">Market Cap</h1>
-              <h1 className=" text-md ">{`₹${coinData.market_data.market_cap[currency].toLocaleString()}`}</h1>
+              <h1 className=" text-md ">{`₹${coinData.market_data.market_cap[
+                currency
+              ].toLocaleString()}`}</h1>
               <h1 className="font-semibold text-lg  mt-3">Price</h1>
-              <h1 className=" text-md">{`₹${coinData.market_data.current_price[currency].toLocaleString()}`}</h1>
+              <h1 className=" text-md">{`₹${coinData.market_data.current_price[
+                currency
+              ].toLocaleString()}`}</h1>
             </div>
           )}
         </div>
@@ -106,12 +109,6 @@ const Coin = ({ params }: { params: Params }) => {
               className="px-4 py-2 bg-blue-500 text-white rounded-lg"
             >
               365 Days
-            </button>
-            <button
-              onClick={() => handleDaysChange("1825")}
-              className="px-4 py-2 bg-blue-500 text-white rounded-lg"
-            >
-              5 years
             </button>
           </div>
         </div>
