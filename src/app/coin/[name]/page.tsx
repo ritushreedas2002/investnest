@@ -22,7 +22,14 @@ const Coin = ({ params }: { params: Params }) => {
     // Fetch coin data
     const fetchCoinData = async () => {
       const response = await axios.get(
-        `https://api.coingecko.com/api/v3/coins/${name}`
+        `https://api.coingecko.com/api/v3/coins/${name}`,
+        {
+          headers: {
+            "x-cg-demo-api-key": "CG-5VXoHhbKyGG1GHXDjQLDa13p" 
+           
+            
+          }
+        }
       );
       setCoinData(response.data);
     };
