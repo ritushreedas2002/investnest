@@ -7,17 +7,56 @@ const CoinChart = ({ chartData }) => {
 
   const options = {
     chart: {
-      type: 'line',
+      toolbar:{
+        tools:{
+          pan:false,
+        }
+      },
+      type: 'area',
       zoom: {
-        enabled: false,
+        enabled: true,
       },
       foreColor: '#ffffff', // Sets the color of the text for the entire chart
+    },
+    fill: {
+      type: 'gradient',
+      gradient: {
+        shadeIntensity: 1,
+        opacityFrom: 0.7,
+        opacityTo: 0.0,
+        stops: [0, 100],
+        colorStops: [
+          {
+            offset: 0,
+            color: "#5356FF",
+            opacity: 1
+          },
+          {
+            offset: 100,
+            opacity: 0.5
+          }
+        ]
+      }
     },
     dataLabels: {
       enabled: false,
     },
     stroke: {
       curve: 'smooth',
+      width: 3,
+    },
+    grid:{
+      xaxis:{
+        lines:{
+          show: false,
+          strokeWidth:1
+        }
+      },
+      yaxis:{
+        lines:{
+          show: false,
+        }
+      }
     },
     title: {
       text: 'Market Price',
@@ -26,33 +65,25 @@ const CoinChart = ({ chartData }) => {
         color: '#ffffff', // Specifically sets the title text color to white
       },
     },
-    // grid: {
-    //   row: {
-    //     colors: ['#f3f3f3', 'transparent'],
-    //     opacity: 0.5,
-    //   },
-    // },
     xaxis: {
       categories: dates,
+      tickAmount: 6,
+      tooltip: {
+        enabled: false, // Disable the x-axis tooltip here
+      },
       labels: {
+        // show:false,
+        rotate: 0,
         style: {
           colors: '#ffffff', // Sets the x-axis label text color to white
         },
-      },
+      },  
     },
     yaxis: {
       labels: {
         style: {
           colors: '#ffffff', // Sets the y-axis label text color to white
         },
-      },
-    },
-    tooltip: {
-      style: {
-        colors: '#ffffff', // Sets the tooltip text color to white
-      },
-      x: {
-        format: 'dd/MM/yy',
       },
     },
   };
@@ -66,7 +97,7 @@ const CoinChart = ({ chartData }) => {
   
 
   return (
-    <ReactApexChart options={options} series={series} type="line" height={500} />
+    <ReactApexChart options={options} series={series} type="area" height={500} />
   );
 };
 
