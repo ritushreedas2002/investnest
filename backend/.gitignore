@@ -1,0 +1,6 @@
+env_for_fast_api_backend
+env_for_dev_dependency
+dev/automation
+dev/chromedriver-linux64
+dev/utility_function
+__pycache__/
