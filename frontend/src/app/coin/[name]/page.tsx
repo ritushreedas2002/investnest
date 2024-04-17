@@ -192,20 +192,22 @@ const Coin = ({ params }: { params: Params }) => {
           setChartData30(response30.data);
     
           // Delay the next API call by another 1000 milliseconds
-          setTimeout(async () => {
-            const response365 = await axios.get(
-              `https://api.coingecko.com/api/v3/coins/${name}/market_chart?vs_currency=${currency}&days=365`,
-              {
-                params: { precision: '2' },
-                headers: {
-                  "x-cg-demo-api-key": "CG-YkDCZeia3Rt81Xesk36q17Mq",
-                },
-              }
-            );
-            setChartData365(response365.data);
-          }, 1000);
+          
     
         }, 1000);
+
+        setTimeout(async () => {
+          const response365 = await axios.get(
+            `https://api.coingecko.com/api/v3/coins/${name}/market_chart?vs_currency=${currency}&days=365`,
+            {
+              params: { precision: '2' },
+              headers: {
+                "x-cg-demo-api-key": "CG-YkDCZeia3Rt81Xesk36q17Mq",
+              },
+            }
+          );
+          setChartData365(response365.data);
+        }, 2000);
         
       } catch (error) {
         console.error("Error fetching chart data:", error);

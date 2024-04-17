@@ -226,28 +226,22 @@ namespace exchange_protocol
                         orderbook->add_order(order_info);
                         return;
                     }
-
                     while(order_info.quantity > 0 && this->isLessThanOrEqual(orderbook->asks.front().price, order_info.price))
                     {
                         OrderBookItem ask_order = orderbook->asks.front();
                         orderbook->asks.pop_front();
-
                         auto fill_quantity = std::min(order_info.quantity, ask_order.quantity);
-
                         order_info.quantity -= fill_quantity;
                         ask_order.quantity -= fill_quantity;
-
                         /* seller , buyer */
                         trades_happened.emplace_back(TradeInfo{ask_order.user_ID, order_info.user_ID, order_info.price, fill_quantity});
                         stock_price = order_info.price;
-
                         if(ask_order.quantity == 0)
                         {
                             orderbook->remove_order(OrderType::SELL, ask_order); /* ask_order is of type OrderBookItem */
                             /** Send HTTP call */
                         }
                     }
-
                     if(order_info.quantity > 0)
                     {
                         orderbook->add_order(order_info);
@@ -261,38 +255,29 @@ namespace exchange_protocol
                         orderbook->add_order(order_info);
                         return;
                     }
-
                     while(order_info.quantity > 0 && this->isMoreThanOrEqual(orderbook->bids.front().price, order_info.price))
                     {
                         OrderBookItem bid_order = orderbook->bids.front();
                         orderbook->bids.pop_front();
-
                         auto fill_quantity = std::min(order_info.quantity, bid_order.quantity);
-
                         order_info.quantity -= fill_quantity;
                         bid_order.quantity -= fill_quantity;
-
                         /* seller , buyer */
                         trades_happened.emplace_back(TradeInfo{order_info.user_ID, bid_order.user_ID, order_info.price, fill_quantity});
                         stock_price = order_info.price;
-
                         if(bid_order.quantity == 0)
                         {
                             orderbook->remove_order(OrderType::BUY, bid_order);/* bid_order is of type OrderBookItem */
                             /** Send HTTP call */
-
                         }
                     }
-
                     if(order_info.quantity > 0)
                     {
                         orderbook->add_order(order_info);
                         /** Send HTTP call */
-
                     }
                 }
             }
-
         };
     }
 }
