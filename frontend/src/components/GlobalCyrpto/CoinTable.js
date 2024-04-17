@@ -1,11 +1,12 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { CryptoContext } from "@/Context/Cyrpto"; // Check for correct import path
 import Link from "next/link";
 import Chart from "@/components/GlobalCyrpto/Chart"; // Check for correct import path
+import ModalComponent from "@/components/GlobalCyrpto/CoinDetails/ModalComponent"
 
 const CoinTable = () => {
   const { cryptoData,currency, error } = useContext(CryptoContext);
-
+  const [selectedCoin, setSelectedCoin] = useState("");
   // Handling errors or no data scenarios
   if (error && (error.data || error.coinData || error.search)) {
     const errorMessage = error.data || error.coinData || error.search;
@@ -15,6 +16,16 @@ const CoinTable = () => {
   if (!cryptoData || cryptoData.length === 0) {
     return <div>No data available</div>;
   }
+
+
+  const handleCoinClick = (coin) => {
+    setSelectedCoin(coin);  // Set the selected coin to show in the modal
+    console.log(coin);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedCoin(null);  // Reset the selected coin when the modal is closed
+  };
 
   return (
     <div className="p-5 relative">
@@ -36,8 +47,8 @@ const CoinTable = () => {
               {cryptoData.map((coin, index) => (
                 <tr key={index}>
                   <td className="px-4 py-2 w-12 text-center">{coin.rank}</td>
-                  <Link href={`/coin/${coin.id}`} passHref>
-                    <td className="px-4 py-2 flex items-center">
+                  
+                    <td className="px-4 py-2 flex items-center cursor-pointer" onClick={() => handleCoinClick(coin.id)} >
                       <img
                         src={coin.image}
                         alt={`${coin.name} logo`}
@@ -45,7 +56,7 @@ const CoinTable = () => {
                       />
                       {coin.name}
                     </td>
-                  </Link>
+                  
                   <td className="px-4 py-2 w-1/4 text-right">
                     {new Intl.NumberFormat("en-IN", {
                       style: 'currency',
@@ -107,6 +118,7 @@ const CoinTable = () => {
             </tbody>
           </table>
         </div>
+        {selectedCoin && <ModalComponent coin={selectedCoin} onClose={handleCloseModal} />}
       </div>
     </div>
   );

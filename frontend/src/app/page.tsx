@@ -1,11 +1,11 @@
 "use client"
 import Image from "next/image";
-import background from "@/assets/background.png"
 import Navbar from "@/components/Navbar"
 import Carousal from "@/components/GlobalCyrpto/Carousal"
 import CoinTable from "@/components/GlobalCyrpto/CoinTable"
 import Filters from "@/components/GlobalCyrpto/Filters"
 import { CryptoProvider } from "@/Context/Cyrpto"
+import Pagination from "@/components/GlobalCyrpto/Pagination"
 const Home=()=>{
   return (
     <CryptoProvider>
@@ -16,6 +16,7 @@ const Home=()=>{
         <Carousal /> 
         <Filters/>
         <CoinTable />
+        <Pagination/>
       </div>
 
     </div>

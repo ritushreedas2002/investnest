@@ -40,7 +40,7 @@ const SearchInput = ({ handleSearch }) => {
           onChange={handleInput}
           value={searchText}
           className="w-full rounded bg-gray-200
-        placeholder:text-gray-100 pl-2
+        placeholder:text-black pl-2
         required outline-0 border border-transparent 
         focus:border-cyan
          "
@@ -81,7 +81,7 @@ backdrop-blur-md scrollbar-thin scrollbar-thumb-gray-100 scrollbar-track-gray-20
              "
             >
               <div
-                className="w-8 h-8 border-4 border-cyan rounded-full
+                className="w-8 h-8 border-4 border-cyan-700 rounded-full
              border-b-gray-200 animate-spin
              "
                 role="status"

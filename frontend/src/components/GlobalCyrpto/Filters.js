@@ -9,11 +9,10 @@ const Filters = () => {
   let { setCurrency, setSortBy, resetFunction } = useContext(CryptoContext);
   const currencyRef = useRef(null);
 
-  const handleCurrencySubmit = (e) => {
+  const handleCurrencyChange = (e) => {
     e.preventDefault();
-    let val = currencyRef.current.value;
-    setCurrency(val);
-    currencyRef.current.value = "";
+    const newCurrency = e.target.value;
+    setCurrency(newCurrency);
   };
 
   const handleSort = (e) => {
@@ -30,37 +29,28 @@ const Filters = () => {
     >
       <Search />
       <div className="flex mr-7">
-        <form
-          className="relative flex items-center font-nunito
-          mr-12
-          "
-          onSubmit={handleCurrencySubmit}
-        >
-          <label
-            htmlFor="currency"
-            className="relative flex justify-center items-center
-          mr-2 font-bold
-          "
-          >
-            currency:{" "}
+      <div className="relative flex items-center font-nunito mr-12">
+          <label htmlFor="currency" className="flex justify-center items-center mr-2 font-bold text-white">
+            Currency:
           </label>
-          <input
-            type="text"
+          <select
             name="currency"
-            ref={currencyRef}
-            placeholder="usd"
-            className="w-16 rounded bg-gray-200 placeholder:text-gray-100
-     pl-2 required outline-0 border border-transparent 
-     focus:border-cyan leading-4
-     "
-          />
-          <button type="submit" className="ml-1 cursor-pointer">
-            <img src={submitIcon} alt="submit" className="w-full h-auto" />
-          </button>
-        </form>
+            onChange={handleCurrencyChange}
+            className="w-24 rounded bg-gray-200 placeholder:text-gray-100
+            pl-2 required outline-0 border border-transparent 
+            focus:border-cyan leading-4"
+            defaultValue="usd" // Set default value
+          >
+            <option value="usd">USD</option>
+            <option value="inr">INR</option>
+            <option value="eur">EUR</option>
+            <option value="jpy">JPY</option>
+          </select>
+          <img src={selectIcon} alt="Select" className="absolute right-1 top-2 pointer-events-none w-[1rem] h-auto" />
+        </div>
 
         <label className="relative flex justify-center items-center">
-          <span className="font-bold mr-2">sort by: </span>
+          <span className="font-bold mr-2  text-white">sort by: </span>
           <select
             name="sortby"
             className="rounded bg-gray-200 text-base 

@@ -29,7 +29,7 @@ export const CryptoProvider = ({ children }) => {
     //here we will set an empty string for the data error
     setError({ ...error, data: "" });
     setCryptoData();
-    setTotalPages(5);
+    setTotalPages(13220);
     
     try {
       const data = await fetch(
@@ -58,8 +58,8 @@ export const CryptoProvider = ({ children }) => {
   const getCarouselData = async () => {
     //here we will set an empty string for the data error
     setError({ ...error, data: "" });
-    setCryptoData();
-    setTotalPages(5);
+    setCarouselData([]);
+    
     
     try {
       const data = await fetch(
@@ -85,11 +85,14 @@ export const CryptoProvider = ({ children }) => {
     }
   };
 
-  const getCoinData = async (coinid) => {
+  const getCoinData = async (name) => {
     setCoinData();
     try {
       const data = await fetch(
-        `https://api.coingecko.com/api/v3/coins/${coinid}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=true&sparkline=false`
+        `https://api.coingecko.com/api/v3/coins/${name}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=true&sparkline=false`,
+        {headers:{
+            "x-cg-demo-api-key": "CG-YkDCZeia3Rt81Xesk36q17Mq",
+        }}
       )
         .then((res) => res.json())
         .then((json) => json);
@@ -105,7 +108,10 @@ export const CryptoProvider = ({ children }) => {
   const getSearchResult = async (query) => {
     try {
       const data = await fetch(
-        `https://api.coingecko.com/api/v3/search?query=${query}`
+        `https://api.coingecko.com/api/v3/search?query=${query}`,
+        {headers:{
+            "x-cg-demo-api-key": "CG-YkDCZeia3Rt81Xesk36q17Mq",
+        }}
       )
         .then((res) => res.json())
         .then((json) => json);
