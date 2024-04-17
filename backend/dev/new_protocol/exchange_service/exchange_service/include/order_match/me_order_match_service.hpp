@@ -141,6 +141,8 @@ namespace exchange_protocol
             std::mutex mux{};
             std::condition_variable cv{};
             std::vector<TradeInfo> trades_happened{};
+            int match_count{};
+            //std::unordered_map<int, int> unmatched_orders;
 
             double stock_price{};
 
@@ -164,12 +166,20 @@ namespace exchange_protocol
             }
 
         public:
-            OrderMatchService()
-            {
-                orderbook = std::make_unique<OrderBook>();
-            }
+            //OrderMatchService()
+            //{
+            //    orderbook = std::make_unique<OrderBook>();
+            //}
+
+            OrderMatchService(): orderbook(std::make_unique<OrderBook>()), match_count(0) {}
 
             OrderMatchService(const OrderMatchService&) = delete;
+
+            int get_number_of_matches()
+    {
+        std::scoped_lock lock(mux);
+        return match_count;
+    }
 
             double get_stock_price()
             {
@@ -187,15 +197,15 @@ namespace exchange_protocol
 
             void process()
             {
-                while(true)
-                {
-                    this->pop_from_incoming_order();
-                }
+                //while(true)
+                //{
+                //    this->pop_from_incoming_order();
+                //}
 
-                // while(!incoming_orders.empty())
-                // {
-                //     this->pop_from_incoming_order();
-                // }
+                 while(!incoming_orders.empty())
+                 {
+                     this->pop_from_incoming_order();
+                 }
             }
 
         private:
@@ -234,7 +244,13 @@ namespace exchange_protocol
                         order_info.quantity -= fill_quantity;
                         ask_order.quantity -= fill_quantity;
                         /* seller , buyer */
-                        trades_happened.emplace_back(TradeInfo{ask_order.user_ID, order_info.user_ID, order_info.price, fill_quantity});
+                        //trades_happened.emplace_back(TradeInfo{ask_order.user_ID, order_info.user_ID, order_info.price, fill_quantity});
+                        if(fill_quantity > 0)
+            {
+                trades_happened.emplace_back(TradeInfo{ask_order.user_ID, order_info.user_ID, order_info.price, fill_quantity});
+                match_count++; // Increment match count for each successful trade
+            }
+                        
                         stock_price = order_info.price;
                         if(ask_order.quantity == 0)
                         {
@@ -263,7 +279,13 @@ namespace exchange_protocol
                         order_info.quantity -= fill_quantity;
                         bid_order.quantity -= fill_quantity;
                         /* seller , buyer */
-                        trades_happened.emplace_back(TradeInfo{order_info.user_ID, bid_order.user_ID, order_info.price, fill_quantity});
+                        //trades_happened.emplace_back(TradeInfo{order_info.user_ID, bid_order.user_ID, order_info.price, fill_quantity});
+                        if(fill_quantity > 0)
+            {
+                trades_happened.emplace_back(TradeInfo{order_info.user_ID, bid_order.user_ID, order_info.price, fill_quantity});
+                match_count++; // Increment match count for each successful trade
+            }
+                        
                         stock_price = order_info.price;
                         if(bid_order.quantity == 0)
                         {
