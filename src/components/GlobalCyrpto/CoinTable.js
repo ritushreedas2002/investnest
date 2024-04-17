@@ -100,12 +100,12 @@ const CoinTable = ({ currency = "inr" }) => {
     };
 
     fetchCoins();
-    const intervalId = setInterval(() => {
-      fetchCoins();
-    }, 60000); // 60000 ms = 1 minute
+    // const intervalId = setInterval(() => {
+    //   fetchCoins();
+    // }, 60000); // 60000 ms = 1 minute
 
     // Cleanup on component unmount
-    return () => clearInterval(intervalId);
+    // return () => clearInterval(intervalId);
 }, [currency, currentPage]); // Dependency array includes currency and currentPage to refetch when they change
 
 

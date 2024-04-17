@@ -6,7 +6,7 @@ export const getCoinTableData = async (currency,currentPage) => {
       url: `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=100&page=${currentPage}&sparkline=true&price_change_percentage=1h%2C24h%2C7d`,
       headers: {
         // Example header, replace or remove as needed
-        "x-cg-demo-api-key": "CG-5VXoHhbKyGG1GHXDjQLDa13p",
+        "x-cg-demo-api-key": "CG-YkDCZeia3Rt81Xesk36q17Mq",
       },
     };
   

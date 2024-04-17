@@ -41,12 +41,12 @@ const Carousal = ({ currency = "inr" }) => {
     };
 
     fetchData();
-    const intervalId = setInterval(() => {
-      fetchData();
-    }, 60000); // 60000 ms = 1 minute
+    // const intervalId = setInterval(() => {
+    //   fetchData();
+    // }, 60000); // 60000 ms = 1 minute
 
     // Cleanup on component unmount
-    return () => clearInterval(intervalId);
+    // return () => clearInterval(/*intervalId*/);
   }, [currency]);
 
   // Smooth continuous scroll effect

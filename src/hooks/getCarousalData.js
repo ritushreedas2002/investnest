@@ -6,7 +6,7 @@ export const getCarousalData = async (currency) => {
       url: `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=10&page=1&sparkline=false&price_change_percentage=24h`,
       headers: {
         // Example header, replace or remove as needed
-        "x-cg-demo-api-key": "CG-5VXoHhbKyGG1GHXDjQLDa13p",
+        "x-cg-demo-api-key": "CG-YkDCZeia3Rt81Xesk36q17Mq",
       },
     };
   
