@@ -31,8 +31,9 @@ const HighLowIndicator = ({ currentPrice, high, low }) => {
   };
   
 const ModalComponent = ({ coin, onClose }) => {
-  if (!coin) return null; // If no coin data, don't render the modal
+  
   let { getCoinData, coinData: data, currency } = useContext(CryptoContext);
+  if (!coin) return null; // If no coin data, don't render the modal
 
   useLayoutEffect(() => {
     getCoinData(coin);

@@ -83,7 +83,7 @@ const ChartComponent = ({ data, currency, type }) => {
             }
         },
         title: {
-            text: 'Market Price',
+            text: type,
             align: 'left',
             style: {
                 color: '#ffffff',
