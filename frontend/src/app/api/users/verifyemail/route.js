@@ -36,7 +36,7 @@ export async function POST(request) {
         forgotPasswordTokenExpiry: { $gt: Date.now() },
       });
       if (!user) {
-        return NextResponse.json({ error: "Invalid token" }, { status: 400 });
+        return NextResponse.json({ error: "User not Found" }, { status: 400 });
       }
       const salt = await bcryptjs.genSalt(10);
       const hashPassword = await bcryptjs.hash(newPassword, salt);

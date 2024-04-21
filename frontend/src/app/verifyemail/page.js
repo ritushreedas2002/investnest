@@ -99,7 +99,7 @@ export default function VerifyEmailPage() {
             setVerified(true);
             console.log(response.data.message);
         } catch (error) {
-            setError(error.response?.data?.error || "An error occurred");
+            setError(error.response?.error || "An error occurred");
             console.log(error);
         }
     };
