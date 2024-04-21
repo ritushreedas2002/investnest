@@ -95,7 +95,7 @@ const Login = () => {
             const response = await axios.post("/api/users/login", user);
             console.log("Login success", response.data);
             toast.success("Login success");
-            router.push("/profile");
+            router.push("/");
         } catch (error) {
             console.log("Login failed", error.message);
             toast.error("Login failed: " + error.response?.data?.error || error.message);
