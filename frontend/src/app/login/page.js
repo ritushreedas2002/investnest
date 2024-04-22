@@ -111,12 +111,13 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
+
 
 const Login = () => {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
     const [showResetForm, setShowResetForm] = useState(false);
-    const[error,seterror]=useState("");
     // Dynamically adjust the validation schema
     const validationSchema = showResetForm
         ? Yup.object({
@@ -146,10 +147,10 @@ const Login = () => {
         try {
             setLoading(true);
             const response = await axios.post("/api/users/login", values);
-            seterror("Login success");
+            toast.success("Login successfully");
             router.push("/");
         } catch (error) {
-            seterror("Login failed: " + (error.response?.data?.error || error.message));
+            toast.error("Login failed: " + (error.response?.data?.error || error.message));
         } finally {
             setLoading(false);
         }
@@ -181,6 +182,7 @@ const Login = () => {
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen py-2">
+            <Toaster/>
             <h1>{loading ? "Processing" : (showResetForm ? "Reset Password" : "Login")}</h1>
             <form onSubmit={formik.handleSubmit} className="flex flex-col">
                 <label htmlFor="email">Email</label>
@@ -217,7 +219,7 @@ const Login = () => {
                     {showResetForm ? "Send Reset Link" : "Login Here"}
                 </button>
             </form>
-            <p className="text-red-500 text-sm">{error}</p>
+            
             <button onClick={toggleForgotPassword} className="p-2 border border-gray-300 rounded-lg mb-2 text-blue-700">
                 {showResetForm ? "Back to Login" : "Forgot Password?"}
             </button>

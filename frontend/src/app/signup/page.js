@@ -89,6 +89,7 @@ import Link from 'next/link';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { Toaster } from 'react-hot-toast';
 
 const signup = () => {
     const router = useRouter();
@@ -116,12 +117,11 @@ const signup = () => {
             try {
                 setLoading(true);
                 const response = await axios.post("/api/users/signup", values);
-                console.log("Signup success", response.data);
-                seterror('Signup successful!');
+                toast.success("Signup success")
                 router.push("/login");
             } catch (error) {
                 console.error("Signup failed", error);
-                seterror(error.response?.data?.error || "Signup failed. Please try again.");
+                toast.error("Signup failed. Please try again.");
             }finally{
                 setLoading(false);
             }
@@ -130,6 +130,7 @@ const signup = () => {
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen py-2">
+            <Toaster/>
             <h1>{loading?"Processing...":"Signup"}</h1>
 
             <form onSubmit={formik.handleSubmit} className="flex flex-col">

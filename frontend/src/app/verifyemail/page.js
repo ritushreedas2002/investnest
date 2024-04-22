@@ -98,6 +98,8 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import Link from 'next/link';
 import { toast } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
+
 
 export default function VerifyEmailPage() {
     const [token, setToken] = useState("");
@@ -159,6 +161,7 @@ export default function VerifyEmailPage() {
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-4">
+            <Toaster />
             <h1 className="text-4xl font-bold mb-6">{verified ? "Success" : "Verify Email"}</h1>
             {emailType === "RESET" && !verified && (
                 <form onSubmit={formik.handleSubmit} className="space-y-6 w-full max-w-xs">
