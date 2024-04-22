@@ -116,7 +116,7 @@ const Login = () => {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
     const [showResetForm, setShowResetForm] = useState(false);
-
+    const[error,seterror]=useState("");
     // Dynamically adjust the validation schema
     const validationSchema = showResetForm
         ? Yup.object({
@@ -146,10 +146,10 @@ const Login = () => {
         try {
             setLoading(true);
             const response = await axios.post("/api/users/login", values);
-            toast.success("Login success");
+            seterror("Login success");
             router.push("/");
         } catch (error) {
-            toast.error("Login failed: " + (error.response?.data?.error || error.message));
+            seterror("Login failed: " + (error.response?.data?.error || error.message));
         } finally {
             setLoading(false);
         }
@@ -217,9 +217,11 @@ const Login = () => {
                     {showResetForm ? "Send Reset Link" : "Login Here"}
                 </button>
             </form>
+            <p className="text-red-500 text-sm">{error}</p>
             <button onClick={toggleForgotPassword} className="p-2 border border-gray-300 rounded-lg mb-2 text-blue-700">
                 {showResetForm ? "Back to Login" : "Forgot Password?"}
             </button>
+            
             {!showResetForm && (
                 <Link href="/signup" passHref className="text-blue-500 hover:underline">Visit Signup Page
                 </Link>

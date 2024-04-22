@@ -82,17 +82,18 @@
 
 
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Link from 'next/link';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 const signup = () => {
     const router = useRouter();
     const [loading, setLoading] = React.useState(false);
+    const[error,seterror]=useState("");
     // Formik setup with Yup validation
     const formik = useFormik({
         initialValues: {
@@ -116,11 +117,11 @@ const signup = () => {
                 setLoading(true);
                 const response = await axios.post("/api/users/signup", values);
                 console.log("Signup success", response.data);
-                toast.success('Signup successful!');
+                seterror('Signup successful!');
                 router.push("/login");
             } catch (error) {
                 console.error("Signup failed", error);
-                toast.error(error.response?.data?.error || "Signup failed. Please try again.");
+                seterror(error.response?.data?.error || "Signup failed. Please try again.");
             }finally{
                 setLoading(false);
             }
@@ -170,6 +171,7 @@ const signup = () => {
                     Signup
                 </button>
             </form>
+            <p className="text-red-500 text-xs">{error}</p>
             <Link href="/login" passHref className="text-blue-500 hover:underline">
                Visit login page
             </Link>
