@@ -147,13 +147,13 @@ const ChartDetails=({id})=>{
     const [chartData, setChartData] = useState();
     let { currency } = useContext(CryptoContext);
     const [type, setType] = useState("prices");
-    const [days, setDays] = useState(7);
+    const [days, setDays] = useState(1);
   
     useLayoutEffect(() => {
       const getChartData = async (id) => {
         try {
           const data = await fetch(
-            `https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=${currency}&days=${days}&interval=daily`,
+            `https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=${currency}&days=${days}`,
             {headers:{
                 "x-cg-demo-api-key": "CG-YkDCZeia3Rt81Xesk36q17Mq",
             }}
@@ -212,20 +212,13 @@ const ChartDetails=({id})=>{
   
           <button
             className={`text-sm py-0.5 px-1.5 ml-2 bg-opacity-25 rounded capitalize ${
-              days === 7 ? "bg-cyan text-cyan" : "bg-gray-200 text-gray-100"
+              days === 1 ? "bg-cyan text-cyan" : "bg-gray-200 text-gray-100"
             }`}
-            onClick={() => setDays(7)}
+            onClick={() => setDays(1)}
           >
-            7d
+            1d
           </button>
-          <button
-            className={`text-sm py-0.5 px-1.5 ml-2 bg-opacity-25 rounded capitalize ${
-              days === 14? "bg-cyan text-cyan" : "bg-gray-200 text-gray-100"
-            }`}
-            onClick={() => setDays(14)}
-          >
-            14d
-          </button>
+          
           <button
             className={`text-sm py-0.5 px-1.5 ml-2 bg-opacity-25 rounded capitalize ${
               days === 30? "bg-cyan text-cyan" : "bg-gray-200 text-gray-100"
