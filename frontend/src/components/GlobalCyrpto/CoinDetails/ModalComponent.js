@@ -291,7 +291,7 @@ const ModalComponent = ({ coin, onClose }) => {
               </div>
             </div>
             <div className="flex flex-col w-[60%] h-full pl-3 ">
-               <ChartDetails id={data.id} /> 
+               {data.id && <ChartDetails id={data.id} /> }
 
               <div className="flex flex-col mt-4">
                 <h3 className="text-white py-1">
