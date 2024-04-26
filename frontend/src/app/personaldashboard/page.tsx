@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
-import StatisticsChart from "@/app/personaldashboard/ChartDashboard";
-import WeeklySpendingPieChart from "@/app/personaldashboard/WeeklySpendingPieChart";
-import DashboardBox from "@/app/personaldashboard/DashboardBox";
-import Sidebar from "@/app/personaldashboard/Sidebar";
+import StatisticsChart from "@/components/PersonalDashboard/ChartDashboard";
+import PieChart from "@/components/PersonalDashboard/WeeklySpendingPieChart";
+import DashboardBox from "@/components/PersonalDashboard/DashboardBox";
+import Sidebar from "@/components/PersonalDashboard/Sidebar";
 
 const PerformanceCard = () => {
   return (
@@ -67,10 +67,10 @@ const Dashboard = () => {
             <StatisticsChart />
           </div>
         </div>
-        <div className="flex-col w-1/4 mr-20 mt-10 ml-6">
-          <div className="w-80 h-[289px] rounded-lg bg-orange-800 mb-7">
+        <div className="flex-col w-1/4 mr-20 mt-10 ml-20">
+          <div className="w-[400px] h-[300px] rounded-lg bg-orange-800 mb-7">
             <p className="text-white p-4 text-center">Weekly Basis Analysis </p>
-            <WeeklySpendingPieChart />
+            <PieChart />
           </div>
           <div className="mb-7">
             <IncomeGoalTracker />
