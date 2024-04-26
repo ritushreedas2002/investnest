@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import StatisticsChart from "@/components/PersonalDashboard/ChartDashboard";
+import BarGraphComponent from "@/components/PersonalDashboard/ChartDashboard";
 import PieChart from "@/components/PersonalDashboard/WeeklySpendingPieChart";
 import DashboardBox from "@/components/PersonalDashboard/DashboardBox";
 import Sidebar from "@/components/PersonalDashboard/Sidebar";
@@ -64,7 +64,7 @@ const Dashboard = () => {
             <DashboardBox />
           </div>
           <div className="">
-            <StatisticsChart />
+            <BarGraphComponent />
           </div>
         </div>
         <div className="flex-col w-1/4 mr-20 mt-10 ml-20">
