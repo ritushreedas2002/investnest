@@ -162,6 +162,7 @@ const Carousal = () => {
   const carouselRef = useRef(null);
   const requestAnimationRef = useRef();
 
+  const doubledCarouselData = [...carouselData, ...carouselData];
   // Smooth continuous scroll effect
   useEffect(() => {
     const speed = 1; // Adjust speed as necessary
@@ -213,7 +214,7 @@ const Carousal = () => {
         className="flex gap-4 overflow-x-auto scrollbar-hide no-scrollbar p-4 mt-48 scroll-smooth"
         style={{ scrollBehavior: "auto" }} // Disable smooth scroll CSS to avoid jittering on reset
       >
-        {carouselData.map((coin, index) => (
+        {doubledCarouselData.map((coin, index) => (
           <div
             key={index} // Index as key due to duplicated items; ensure uniqueness if possible
             className="min-w-max h-full rounded-lg shadow-lg flex flex-col items-center justify-around p-4 backdrop-blur-lg bg-white/20 m-7"
