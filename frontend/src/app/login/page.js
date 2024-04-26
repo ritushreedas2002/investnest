@@ -148,9 +148,11 @@ const Login = () => {
             setLoading(true);
             const response = await axios.post("/api/users/login", values);
             toast.success("Login successfully");
+            localStorage.setItem("email",values.email);
             router.push("/");
         } catch (error) {
             toast.error("Login failed: " + (error.response?.data?.error || error.message));
+            formik.resetForm();
         } finally {
             setLoading(false);
         }

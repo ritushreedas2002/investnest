@@ -44,6 +44,7 @@ const Home = () => {
       await axios.get('/api/users/logout');
 
       // Redirect to the login page after logout
+      localStorage.removeItem("email");
       router.push('/login');
     } catch (error) {
       console.error('Logout failed:', error);

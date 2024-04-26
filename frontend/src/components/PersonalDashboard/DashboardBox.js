@@ -1,8 +1,8 @@
 // import { useState } from "react";
-import { Fragment, useState } from 'react'
-import { Listbox, Transition } from '@headlessui/react'
-import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
-
+import { Fragment, useState } from "react";
+import { Listbox, Transition } from "@headlessui/react";
+import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
+import axios from "axios";
 
 const DashboardCard = ({
   title,
@@ -36,72 +36,95 @@ const DashboardCard = ({
 const people = [
   {
     id: 1,
-    name: 'Wade Cooper',
+    name: "Wade Cooper",
     avatar:
-      'https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+      "https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
   },
   {
     id: 2,
-    name: 'Arlene Mccoy',
+    name: "Arlene Mccoy",
     avatar:
-      'https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+      "https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
   },
   {
     id: 3,
-    name: 'Devon Webb',
+    name: "Devon Webb",
     avatar:
-      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80',
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80",
   },
   {
     id: 4,
-    name: 'Tom Cook',
+    name: "Tom Cook",
     avatar:
-      'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
   },
   {
     id: 5,
-    name: 'Tanya Fox',
+    name: "Tanya Fox",
     avatar:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
   },
   {
     id: 6,
-    name: 'Hellen Schmidt',
+    name: "Hellen Schmidt",
     avatar:
-      'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+      "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
   },
   {
     id: 7,
-    name: 'Caroline Schultz',
+    name: "Caroline Schultz",
     avatar:
-      'https://images.unsplash.com/photo-1568409938619-12e139227838?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+      "https://images.unsplash.com/photo-1568409938619-12e139227838?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
   },
   {
     id: 8,
-    name: 'Mason Heaney',
+    name: "Mason Heaney",
     avatar:
-      'https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+      "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
   },
   {
     id: 9,
-    name: 'Claudie Smitham',
+    name: "Claudie Smitham",
     avatar:
-      'https://images.unsplash.com/photo-1584486520270-19eca1efcce5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+      "https://images.unsplash.com/photo-1584486520270-19eca1efcce5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
   },
   {
     id: 10,
-    name: 'Emil Schaefer',
+    name: "Emil Schaefer",
     avatar:
-      'https://images.unsplash.com/photo-1561505457-3bcad021f8ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+      "https://images.unsplash.com/photo-1561505457-3bcad021f8ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
   },
-]
+];
 
 function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
+  return classes.filter(Boolean).join(" ");
 }
 
 const DashboardBox = () => {
   const [showModal, setShowModal] = useState(false);
+  const [title, setTitle] = useState("");
+  const [amount, setAmount] = useState("");
+  const [date, setDate] = useState("");
+  const [selected, setSelected] = useState(people[0]);
+  const [errors, setErrors] = useState({});
+  const [touched, setTouched] = useState({
+    title: false,
+    amount: false,
+    date: false,
+    category: false,
+  });
+  const email = localStorage.getItem("email");
+
+  const validate = () => {
+    let tempErrors = {};
+    if (!title) tempErrors.title = "Title is required.";
+    if (!amount) tempErrors.amount = "Amount is required.";
+    if (!date) tempErrors.date = "Date is required.";
+    if (!selected.name) tempErrors.category = "Category is required.";
+
+    setErrors(tempErrors);
+    return Object.keys(tempErrors).length === 0;
+  };
 
   const openModal = () => {
     setShowModal(true);
@@ -110,10 +133,54 @@ const DashboardBox = () => {
   const closeModal = () => {
     setShowModal(false);
   };
-  
-  
-  
-  const [selected, setSelected] = useState(people[3]);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault(); // Prevent default form submission behavior
+    if (!validate()) return;
+    const dateObj = new Date(date);
+
+    // Extract year and month, ensuring the month is formatted as two digits
+    const year = dateObj.getFullYear().toString(); // Get year as string
+    const month = (dateObj.getMonth() + 1).toString().padStart(2, "0");
+
+    const formData = {
+      title,
+      amount: Number(amount),
+      date,
+      category: selected.name,
+      year,
+      month,
+      email,
+    };
+
+    console.log(formData);
+    try {
+      // Use Axios to post the data
+      const response = await axios.post("/api/transaction/expense", formData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      console.log(response.data); // Process or log the result from the server
+      setTitle("");
+      setAmount("");
+      setDate("");
+      setSelected(people[0]);
+      closeModal(); // Close the modal on successful submission
+    } catch (error) {
+      console.error(
+        "Error submitting form:",
+        error.response?.data || error.message
+      );
+    }
+  };
+
+  const handleBlur = (field) => {
+    setTouched({ ...touched, [field]: true });
+    validate();
+  };
+
   return (
     <div className="p-6 space-y-4">
       <h1 className="text-2xl font-bold">Dashboard</h1>
@@ -164,7 +231,7 @@ const DashboardBox = () => {
                 Add your income details to keep track of your finances.
               </p>
             </div>
-            <form className="space-y-4">
+            <form className="space-y-4" onSubmit={(e) => preventDefault()}>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <label
@@ -176,11 +243,16 @@ const DashboardBox = () => {
                   <input
                     type="text"
                     id="title"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    onBlur={() => handleBlur("title")}
                     placeholder="Enter the income title"
                     required
                     className="mt-1 block w-full p-2 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                   />
-                  <p className="text-sm text-red-500">Please enter a title.</p>
+                  {touched.title && errors.title && (
+                    <div style={{ color: "red" }}>{errors.title}</div>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <label
@@ -192,13 +264,16 @@ const DashboardBox = () => {
                   <input
                     type="number"
                     id="amount"
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
+                    onBlur={() => handleBlur("amount")}
                     placeholder="Enter the income amount"
                     required
                     className="mt-1 block p-2 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                   />
-                  <p className="text-sm text-red-500">
-                    Please enter a valid amount.
-                  </p>
+                  {touched.amount && errors.amount && (
+                    <div style={{ color: "red" }}>{errors.amount}</div>
+                  )}
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
@@ -212,10 +287,15 @@ const DashboardBox = () => {
                   <input
                     type="date"
                     id="date"
+                    value={date}
+                    onChange={(e) => setDate(e.target.value)}
+                    onBlur={() => handleBlur("date")}
                     required
                     className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                   />
-                  <p className="text-sm text-red-500">Please enter a date.</p>
+                  {touched.date && errors.date && (
+                    <div style={{ color: "red" }}>{errors.date}</div>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <label
@@ -235,7 +315,11 @@ const DashboardBox = () => {
                     <option value="investment">Investment</option>
                     <option value="other">Other</option>
                   </select> */}
-                  <Listbox value={selected} onChange={setSelected}>
+                  <Listbox
+                    value={selected}
+                    onChange={setSelected}
+                    onBlur={() => handleBlur("selected")}
+                  >
                     {({ open }) => (
                       <>
                         {/* <Listbox.Label className="block text-sm font-medium leading-6 text-gray-900">
@@ -327,9 +411,9 @@ const DashboardBox = () => {
                       </>
                     )}
                   </Listbox>
-                  <p className="text-sm text-red-500">
-                    Please select a category.
-                  </p>
+                  {touched.category && errors.category && (
+                    <div style={{ color: "red" }}>{errors.category}</div>
+                  )}
                 </div>
               </div>
               <div className="flex justify-end gap-2">
@@ -343,6 +427,7 @@ const DashboardBox = () => {
                 <button
                   type="submit"
                   className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  onClick={handleSubmit}
                 >
                   Save
                 </button>
