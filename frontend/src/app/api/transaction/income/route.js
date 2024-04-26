@@ -20,7 +20,8 @@ export async function POST(request) {
             const updatePath = `years.${year}.months.${month}.INCOME`;
             await TransactionData.updateOne(
                 { userId: email },
-                { $push: { [updatePath]: newIncomeEntry } }
+                { $push: { [updatePath]: newIncomeEntry } },
+                { upsert: true }
             );
             return NextResponse.json({ message: "Income added successfully" }, { status: 200 });
         } else {

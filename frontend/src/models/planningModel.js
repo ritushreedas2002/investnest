@@ -4,17 +4,19 @@ const Schema = mongoose.Schema;
 const planSchema = new Schema({
     Title: {
         type: String,
-        required: true
+        required: true,
     },
     GoalTarget: {
         type: Number,
+        required: true,
+        default:0
     },
     CurrentAmount: {
         type: Number,
         default: 0
     },
     Achieved: {
-        type: Boolean,
+        type: Number,
         default: 0
     },
     Date: {
