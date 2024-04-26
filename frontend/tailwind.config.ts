@@ -22,7 +22,9 @@ const config: Config = {
       animation: {
         wiggle: 'wiggle 1s ease-in-out infinite',
       },
-      
+      translate: {
+        '1/2': '50%',
+      },
     },
     
   },

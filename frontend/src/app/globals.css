@@ -11,6 +11,15 @@
   scrollbar-width: none;
 }
 
+[data-collapse="true"] {
+  width: 5.3rem;
+}
+
+[data-collapse="true"] .sidebar__name,
+[data-collapse="true"] .sidebar__logo-name {
+  display: none;
+}
+
 /* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;

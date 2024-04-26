@@ -1,10 +1,10 @@
 "use client";
 import React from "react";
-
 import StatisticsChart from "@/app/personaldashboard/ChartDashboard";
 import WeeklySpendingPieChart from "@/app/personaldashboard/WeeklySpendingPieChart";
+import DashboardBox from "@/app/personaldashboard/DashboardBox";
+import Sidebar from "@/app/personaldashboard/Sidebar";
 
-import DashboardBox from "@/app/personaldashboard/DashboardBox"
 const PerformanceCard = () => {
   return (
     <div className="bg-yellow-300 p-4 rounded-lg shadow-lg w-64 h-44">
@@ -26,6 +26,7 @@ const PerformanceCard = () => {
     </div>
   );
 };
+
 const IncomeGoalTracker = () => {
   const goalAmount = 26344; // Total goal amount
   const currentAmount = 18850; // Current progress amount
@@ -55,10 +56,12 @@ const IncomeGoalTracker = () => {
 const Dashboard = () => {
   return (
     <div className="bg-black w-full min-h-screen">
+      
       <div className="flex bg-black">
+      <Sidebar />
         <div className="flex-col w-5/6 ml-40 mt-10">
           <div className="w-96 h-96 bg-yellow-700">
-            <DashboardBox/>
+            <DashboardBox />
           </div>
           <div className="">
             <StatisticsChart />
