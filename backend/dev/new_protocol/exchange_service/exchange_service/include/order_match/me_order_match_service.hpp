@@ -53,6 +53,7 @@ namespace exchange_protocol
             double price{};
             uint16_t quantity{};
             uint16_t user_ID{};
+            std::chrono::high_resolution_clock::time_point timestamp;  // High-resolution timestamp
 
             OrderBookItem(const OrderBookItem& other)
             {
@@ -76,8 +77,8 @@ namespace exchange_protocol
                 return *this;
             }
 
-            OrderBookItem(double price, uint16_t quantity, uint16_t user_ID)
-                : price(price), quantity(quantity), user_ID(user_ID)
+            OrderBookItem(double price, uint16_t quantity, uint16_t user_ID, const std::chrono::high_resolution_clock::time_point& time_point)
+                : price(price), quantity(quantity), user_ID(user_ID), timestamp(time_point)
             {
                 unique_ID++;
             }
@@ -95,38 +96,12 @@ namespace exchange_protocol
                 std::deque<OrderBookItem> bids{};
                 std::deque<OrderBookItem> asks{};
 
-            public:
-                void add_order(const OrderInfo& order_info)
-                {
-                    if(order_info.type == OrderType::BUY)
-                    {
-                        bids.emplace_back(OrderBookItem{order_info.price, order_info.quantity, order_info.user_ID});
-                        /* Sort bids in descending order_info */
-                        std::sort(bids.begin(), bids.end(),[](const OrderBookItem& item1, const OrderBookItem& item2){
-                            return item1.price > item2.price;
-                        });
-                    }
-                    else
-                    {
-                        asks.emplace_back(OrderBookItem{order_info.price, order_info.quantity, order_info.user_ID});
-                        /* Sorts asks in ascending order */
-                        std::sort(asks.begin(), asks.end(),[](const OrderBookItem& item1, const OrderBookItem& item2){
-                            return item1.price < item2.price;
-                        });
-                    }
-                }
+                std::chrono::time_point<std::chrono::high_resolution_clock> base_time = std::chrono::high_resolution_clock::now();
 
-                void remove_order(OrderType order_type, const OrderBookItem& order_book_item)
-                {
-                    if(order_type == OrderType::BUY)
-                    {
-                        bids.erase(std::remove(bids.begin(), bids.end(), order_book_item), bids.end());/* It does not changes the order */
-                    }
-                    else
-                    {
-                        asks.erase(std::remove(asks.begin(), asks.end(), order_book_item), asks.end());/* It does not changes the order */
-                    }
-                }    
+            public:
+                void add_order(const OrderInfo& order_info);
+
+                void remove_order(OrderType order_type, const OrderBookItem& order_book_item);   
 
             friend class OrderMatchService;  
         };
@@ -142,164 +117,27 @@ namespace exchange_protocol
             std::condition_variable cv{};
             std::vector<TradeInfo> trades_happened{};
             int match_count{};
-            //std::unordered_map<int, int> unmatched_orders;
-
             double stock_price{};
 
-            const double EPSILON = 0.0000001;
-
-        private:
-
-            bool isEqual(double a, double b)
-            {
-                return std::abs(a - b) < EPSILON;
-            }
-
-            bool isLessThanOrEqual(double a, double b)
-            {
-                return a < b || isEqual(a, b);
-            }
-
-            bool isMoreThanOrEqual(double a, double b)
-            {
-                return a > b || isEqual(a, b);
-            }
-
         public:
-            //OrderMatchService()
-            //{
-            //    orderbook = std::make_unique<OrderBook>();
-            //}
 
             OrderMatchService(): orderbook(std::make_unique<OrderBook>()), match_count(0) {}
 
             OrderMatchService(const OrderMatchService&) = delete;
 
-            int get_number_of_matches()
-    {
-        std::scoped_lock lock(mux);
-        return match_count;
-    }
+            int get_number_of_matches();
 
-            double get_stock_price()
-            {
-                std::scoped_lock ul(mux);
+            double get_stock_price();
 
-                return stock_price;
-            }
+            void add_to_incoming_order(const OrderInfo& order_info);
 
-            void add_to_incoming_order(const OrderInfo& order_info)
-            {
-                std::scoped_lock ul(mux);
-
-                incoming_orders.push(order_info);
-            }
-
-            void process()
-            {
-                //while(true)
-                //{
-                //    this->pop_from_incoming_order();
-                //}
-
-                 while(!incoming_orders.empty())
-                 {
-                     this->pop_from_incoming_order();
-                 }
-            }
+            void process();
 
         private:
 
-            void pop_from_incoming_order()
-            {
-                std::unique_lock<std::mutex> gaurd{mux};
+            void pop_from_incoming_order();
 
-                cv.wait(gaurd, [&]()
-                {
-                    return !incoming_orders.empty();
-                }); /* wait till incoming_orders is not empty */
-
-                // Mutex lock acquired here, just before accessing the deque
-                auto t = std::move(incoming_orders.front());
-                incoming_orders.pop();
-
-                this->match(std::move(t));
-                
-            }// mutex will be unlocked
-
-            void match(OrderInfo&& order_info)
-            {
-                if(order_info.type == OrderType::BUY)
-                {
-                    if(orderbook->asks.empty())
-                    {
-                        orderbook->add_order(order_info);
-                        return;
-                    }
-                    while(order_info.quantity > 0 && this->isLessThanOrEqual(orderbook->asks.front().price, order_info.price))
-                    {
-                        OrderBookItem ask_order = orderbook->asks.front();
-                        orderbook->asks.pop_front();
-                        auto fill_quantity = std::min(order_info.quantity, ask_order.quantity);
-                        order_info.quantity -= fill_quantity;
-                        ask_order.quantity -= fill_quantity;
-                        /* seller , buyer */
-                        //trades_happened.emplace_back(TradeInfo{ask_order.user_ID, order_info.user_ID, order_info.price, fill_quantity});
-                        if(fill_quantity > 0)
-            {
-                trades_happened.emplace_back(TradeInfo{ask_order.user_ID, order_info.user_ID, order_info.price, fill_quantity});
-                match_count++; // Increment match count for each successful trade
-            }
-                        
-                        stock_price = order_info.price;
-                        if(ask_order.quantity == 0)
-                        {
-                            orderbook->remove_order(OrderType::SELL, ask_order); /* ask_order is of type OrderBookItem */
-                            /** Send HTTP call */
-                        }
-                    }
-                    if(order_info.quantity > 0)
-                    {
-                        orderbook->add_order(order_info);
-                        /* Send HTTP call */
-                    }
-                }
-                else
-                {
-                    if(orderbook->bids.empty())
-                    {
-                        orderbook->add_order(order_info);
-                        return;
-                    }
-                    while(order_info.quantity > 0 && this->isMoreThanOrEqual(orderbook->bids.front().price, order_info.price))
-                    {
-                        OrderBookItem bid_order = orderbook->bids.front();
-                        orderbook->bids.pop_front();
-                        auto fill_quantity = std::min(order_info.quantity, bid_order.quantity);
-                        order_info.quantity -= fill_quantity;
-                        bid_order.quantity -= fill_quantity;
-                        /* seller , buyer */
-                        //trades_happened.emplace_back(TradeInfo{order_info.user_ID, bid_order.user_ID, order_info.price, fill_quantity});
-                        if(fill_quantity > 0)
-            {
-                trades_happened.emplace_back(TradeInfo{order_info.user_ID, bid_order.user_ID, order_info.price, fill_quantity});
-                match_count++; // Increment match count for each successful trade
-            }
-                        
-                        stock_price = order_info.price;
-                        if(bid_order.quantity == 0)
-                        {
-                            orderbook->remove_order(OrderType::BUY, bid_order);/* bid_order is of type OrderBookItem */
-                            /** Send HTTP call */
-                        }
-                    }
-                    if(order_info.quantity > 0)
-                    {
-                        orderbook->add_order(order_info);
-                        /** Send HTTP call */
-                    }
-                }
-            }
+            void match(OrderInfo&& order_info);
         };
     }
 }
