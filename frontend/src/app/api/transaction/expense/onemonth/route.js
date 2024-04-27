@@ -39,6 +39,7 @@ export async function GET(request) {
             const expenseDate = expense.date.toISOString().split('T')[0];
             if (expenseDate >= last30Days && expenseDate <= today) {
               results.push({
+                id: expense._id.toString(), 
                 title: expense.title,
                 amount: expense.amount,
                 date: expenseDate,

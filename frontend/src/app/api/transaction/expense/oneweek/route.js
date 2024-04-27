@@ -42,6 +42,7 @@ export async function GET(request) {
         // Check if the expense date is within the last week
         if (expenseDate >= weekAgo && expenseDate <= today) {
           results.push({
+            id: expense._id.toString(), 
             title: expense.title,
             amount: expense.amount,
             date: expenseDate,

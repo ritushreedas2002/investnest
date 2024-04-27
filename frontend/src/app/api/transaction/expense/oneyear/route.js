@@ -35,6 +35,7 @@ export async function GET(request) {
                   //console.log(`Checking Expense: ${expense.title}, Date: ${expenseDate}`);  // Detailed expense log
                   if (expenseDate >= last365Days && expenseDate <= today) {
                     results.push({
+                      id: expense._id.toString(), 
                       title: expense.title,
                       amount: expense.amount,
                       date: expenseDate,

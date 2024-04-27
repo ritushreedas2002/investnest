@@ -34,6 +34,7 @@ export async function GET(request) {
                             const incomeDate = new Date(income.date).toISOString().split('T')[0];
                             if (incomeDate >= startDate && incomeDate <= endDate) {
                                 results.push({
+                                    id: income._id.toString(), 
                                     source: income.source,
                                     amount: income.amount,
                                     date: incomeDate
