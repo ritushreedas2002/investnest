@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/GlobalCyrpto/CoinTable.js", "src/app/coin/[name]/page.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/GlobalCyrpto/CoinTable.js", "src/app/coin/[name]/page.js", "src/components/PersonalDashboard/DashboardBox.js"],
   "exclude": ["node_modules"]
 }
