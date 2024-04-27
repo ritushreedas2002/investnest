@@ -72,15 +72,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const options = {
-  inputDateFormatProp: {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  },
-};
-
-const ExpenseForm = ({close}) => {
+const ExpenseForm = ({ close }) => {
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
   const [date1, setDate] = useState('');
@@ -108,16 +100,17 @@ const ExpenseForm = ({close}) => {
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent default form submission behavior
     if (!validate()) return;
-    const dateObj = new Date(date1);
+    const dateObj = new Date(date);
+      const timeZoneOffset = dateObj.getTimezoneOffset() * 60000; // convert offset to milliseconds
+      const localDate = new Date(dateObj.getTime() - timeZoneOffset);
     console.log(dateObj);
     // Extract year and month, ensuring the month is formatted as two digits
-    //const year = dateObj.getFullYear().toString(); // Get year as string
-    //const month = (dateObj.getMonth() + 1).toString().padStart(2, "0");
-
+    const year = localDate.getFullYear().toString(); // Get year as string
+    const month = (localDate.getMonth() + 1).toString().padStart(2, "0");
     const formData = {
       title,
       amount: Number(amount),
-      date1,
+      date:localDate.toISOString().split('T')[0],
       category: selected.name,
       //year,
       //month,
@@ -138,7 +131,7 @@ const ExpenseForm = ({close}) => {
       setAmount("");
       setDate('');
       setSelected(people[0]);
-      closeModal(); // Close the modal on successful submission
+      close(); // Close the modal on successful submission
     } catch (error) {
       console.error(
         "Error submitting form:",
@@ -153,104 +146,110 @@ const ExpenseForm = ({close}) => {
   };
 
   const [show, setShow] = useState(false);
-	const handleChange = (selectedDate) => {
-    const dateObject = new Date(selectedDate);
-    setDate(selectedDate);
-    const timeZoneOffset = dateObject.getTimezoneOffset() * 60000;
-    const localDate = new Date(dateObject.getTime() - timeZoneOffset);
-    const d=new Date(localDate.toISOString().split('T')[0]);
-    // setDate(localDate.toISOString().split('T')[0]);
-    console.log(localDate.toISOString().split('T')[0]); // Check the adjusted date
-		console.log(d);
-		console.log(selectedDate);
-	}
-	const handleClose = (state) => {
-		setShow(state)
-	}
+  const handleChange = (selectedDate) => {
+    if (selectedDate) {
+      // Ensure the date from the datepicker is a valid Date object
+      setDate(selectedDate);
+    } else {
+      console.error("Selected date is invalid:", selectedDate);
+      setDate(new Date().toISOString().split("T")[0]); // Fallback to today's date if error
+    }
+  };
 
-  return <div> 
-     <div className="fixed -top-14 inset-10  flex items-center justify-center z-50">
-          <div className="mx-auto w-[40%] space-y-6 bg-white p-8 rounded-3xl">
-            <div className="space-y-2 text-center">
-              <h1 className="text-3xl font-bold">Expense Tracker</h1>
-              <p className="text-gray-500 dark:text-gray-400">
-                Add your expense details to keep track of your finances.
-              </p>
-            </div>
-            <form className="space-y-4" onSubmit={(e) => preventDefault()}>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <label
-                    htmlFor="title"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Title
-                  </label>
-                  <input
-                    type="text"
-                    id="title"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    onBlur={() => handleBlur("title")}
-                    placeholder="Enter the income title"
-                    required
-                    className="mt-1 block w-full p-2 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                  />
-                  {touched.title && errors.title && (
-                    <div style={{ color: "red" }}>{errors.title}</div>
-                  )}
-                </div>
-                <div className="space-y-2">
-                  <label
-                    htmlFor="date"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Date
-                  </label>
-                  <Datepicker 
-                value={date1}
-                // onSelectedDateChanged={(date) => setDate(date)}
-                //format="DD MMM YYYY"
-                options={options}
-                onChange={handleChange} show={show} setShow={handleClose} 
-                //datepicker-format="mm/dd/YYYY"
-              />
-                  {touched.date && errors.date && (
-                    <div style={{ color: "red" }}>{errors.date}</div>
-                  )}
-                </div>
-                
-              </div>
-              <div className="grid grid-cols-2 gap-4">
+  const handleClose = (state) => {
+    setShow(state);
+  };
+
+  const options = {
+    inputDateFormatProp: {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    },
+  };
+  return (
+    <div>
+      <div className="fixed -top-14 inset-10  flex items-center justify-center z-50">
+        <div className="mx-auto w-[40%] space-y-6 bg-white p-8 rounded-3xl">
+          <div className="space-y-2 text-center">
+            <h1 className="text-3xl font-bold">Expense Tracker</h1>
+            <p className="text-gray-500 dark:text-gray-400">
+              Add your expense details to keep track of your finances.
+            </p>
+          </div>
+          <form className="space-y-4" onSubmit={(e) => preventDefault()}>
+            <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                  <label
-                    htmlFor="amount"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Amount
-                  </label>
-                  <input
-                    type="number"
-                    id="amount"
-                    value={amount}
-                    onChange={(e) => setAmount(e.target.value)}
-                    onBlur={() => handleBlur("amount")}
-                    placeholder="Enter the income amount"
-                    required
-                    className="mt-1 block p-2 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                  />
-                  {touched.amount && errors.amount && (
-                    <div style={{ color: "red" }}>{errors.amount}</div>
-                  )}
-                </div>
-                <div className="space-y-2">
-                  <label
-                    htmlFor="category"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Category
-                  </label>
-                  {/* <select
+                <label
+                  htmlFor="title"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Title
+                </label>
+                <input
+                  type="text"
+                  id="title"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  onBlur={() => handleBlur("title")}
+                  placeholder="Enter the income title"
+                  required
+                  className="mt-1 block w-full p-2 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                />
+                {touched.title && errors.title && (
+                  <div style={{ color: "red" }}>{errors.title}</div>
+                )}
+              </div>
+              <div className="space-y-2">
+                <label
+                  htmlFor="date"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Date
+                </label>
+                <Datepicker
+                  value={date}
+                  onSelectedDateChanged={(date) => setDate(date)}
+                  options={options}
+                  onChange={handleChange}
+                  show={show}
+                  setShow={handleClose}
+                />
+                {touched.date && errors.date && (
+                  <div style={{ color: "red" }}>{errors.date}</div>
+                )}
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label
+                  htmlFor="amount"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Amount
+                </label>
+                <input
+                  type="number"
+                  id="amount"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                  onBlur={() => handleBlur("amount")}
+                  placeholder="Enter the income amount"
+                  required
+                  className="mt-1 block p-2 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                />
+                {touched.amount && errors.amount && (
+                  <div style={{ color: "red" }}>{errors.amount}</div>
+                )}
+              </div>
+              <div className="space-y-2">
+                <label
+                  htmlFor="category"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Category
+                </label>
+                {/* <select
                     id="category"
                     required
                     className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
@@ -261,126 +260,128 @@ const ExpenseForm = ({close}) => {
                     <option value="investment">Investment</option>
                     <option value="other">Other</option>
                   </select> */}
-                  <Listbox
-                    value={selected}
-                    onChange={setSelected}
-                    onBlur={() => handleBlur("selected")}
-                  >
-                    {({ open }) => (
-                      <>
-                        {/* <Listbox.Label className="block text-sm font-medium leading-6 text-gray-900">
+                <Listbox
+                  value={selected}
+                  onChange={setSelected}
+                  onBlur={() => handleBlur("selected")}
+                >
+                  {({ open }) => (
+                    <>
+                      {/* <Listbox.Label className="block text-sm font-medium leading-6 text-gray-900">
                           Assigned to
                         </Listbox.Label> */}
-                        <div className="relative mt-2">
-                          <Listbox.Button className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6">
-                            <span className="flex items-center">
-                              <img
-                                src={selected.avatar}
-                                alt=""
-                                className="h-5 w-5 flex-shrink-0 rounded-full"
-                              />
-                              <span className="ml-3 block truncate">
-                                {selected.name}
-                              </span>
+                      <div className="relative mt-2">
+                        <Listbox.Button className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6">
+                          <span className="flex items-center">
+                            <img
+                              src={selected.avatar}
+                              alt=""
+                              className="h-5 w-5 flex-shrink-0 rounded-full"
+                            />
+                            <span className="ml-3 block truncate">
+                              {selected.name}
                             </span>
-                            <span className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
-                              <ChevronUpDownIcon
-                                className="h-5 w-5 text-gray-400"
-                                aria-hidden="true"
-                              />
-                            </span>
-                          </Listbox.Button>
+                          </span>
+                          <span className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
+                            <ChevronUpDownIcon
+                              className="h-5 w-5 text-gray-400"
+                              aria-hidden="true"
+                            />
+                          </span>
+                        </Listbox.Button>
 
-                          <Transition
-                            show={open}
-                            as={Fragment}
-                            leave="transition ease-in duration-100"
-                            leaveFrom="opacity-100"
-                            leaveTo="opacity-0"
-                          >
-                            <Listbox.Options className="absolute z-10 mt-1 max-h-56 w-full overflow-auto no-scrollbar rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                              {people.map((person) => (
-                                <Listbox.Option
-                                  key={person.id}
-                                  className={({ active }) =>
-                                    classNames(
-                                      active
-                                        ? "bg-indigo-600 text-white"
-                                        : "text-gray-900",
-                                      "relative cursor-default select-none py-2 pl-3 pr-9"
-                                    )
-                                  }
-                                  value={person}
-                                >
-                                  {({ selected, active }) => (
-                                    <>
-                                      <div className="flex items-center">
-                                        <img
-                                          src={person.avatar}
-                                          alt=""
-                                          className="h-5 w-5 flex-shrink-0 rounded-full"
+                        <Transition
+                          show={open}
+                          as={Fragment}
+                          leave="transition ease-in duration-100"
+                          leaveFrom="opacity-100"
+                          leaveTo="opacity-0"
+                        >
+                          <Listbox.Options className="absolute z-10 mt-1 max-h-56 w-full overflow-auto no-scrollbar rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                            {people.map((person) => (
+                              <Listbox.Option
+                                key={person.id}
+                                className={({ active }) =>
+                                  classNames(
+                                    active
+                                      ? "bg-indigo-600 text-white"
+                                      : "text-gray-900",
+                                    "relative cursor-default select-none py-2 pl-3 pr-9"
+                                  )
+                                }
+                                value={person}
+                              >
+                                {({ selected, active }) => (
+                                  <>
+                                    <div className="flex items-center">
+                                      <img
+                                        src={person.avatar}
+                                        alt=""
+                                        className="h-5 w-5 flex-shrink-0 rounded-full"
+                                      />
+                                      <span
+                                        className={classNames(
+                                          selected
+                                            ? "font-semibold"
+                                            : "font-normal",
+                                          "ml-3 block truncate"
+                                        )}
+                                      >
+                                        {person.name}
+                                      </span>
+                                    </div>
+
+                                    {selected ? (
+                                      <span
+                                        className={classNames(
+                                          active
+                                            ? "text-white"
+                                            : "text-indigo-600",
+                                          "absolute inset-y-0 right-0 flex items-center pr-4"
+                                        )}
+                                      >
+                                        <CheckIcon
+                                          className="h-5 w-5"
+                                          aria-hidden="true"
                                         />
-                                        <span
-                                          className={classNames(
-                                            selected
-                                              ? "font-semibold"
-                                              : "font-normal",
-                                            "ml-3 block truncate"
-                                          )}
-                                        >
-                                          {person.name}
-                                        </span>
-                                      </div>
-
-                                      {selected ? (
-                                        <span
-                                          className={classNames(
-                                            active
-                                              ? "text-white"
-                                              : "text-indigo-600",
-                                            "absolute inset-y-0 right-0 flex items-center pr-4"
-                                          )}
-                                        >
-                                          <CheckIcon
-                                            className="h-5 w-5"
-                                            aria-hidden="true"
-                                          />
-                                        </span>
-                                      ) : null}
-                                    </>
-                                  )}
-                                </Listbox.Option>
-                              ))}
-                            </Listbox.Options>
-                          </Transition>
-                        </div>
-                      </>
-                    )}
-                  </Listbox>
-                  {touched.category && errors.category && (
-                    <div style={{ color: "red" }}>{errors.category}</div>
+                                      </span>
+                                    ) : null}
+                                  </>
+                                )}
+                              </Listbox.Option>
+                            ))}
+                          </Listbox.Options>
+                        </Transition>
+                      </div>
+                    </>
                   )}
-                </div>
+                </Listbox>
+                {touched.category && errors.category && (
+                  <div style={{ color: "red" }}>{errors.category}</div>
+                )}
               </div>
-              <div className="flex justify-end gap-2">
-                <button
-                  type="button"
-                  className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                  onClick={close}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                  onClick={handleSubmit}
-                >
-                  Save
-                </button>
-              </div>
-            </form>
-          </div>
-        </div></div>;
+            </div>
+            <div className="flex justify-end gap-2">
+              <button
+                type="button"
+                className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                onClick={close}
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                onClick={handleSubmit}
+              >
+                Save
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default ExpenseForm;
