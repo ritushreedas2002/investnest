@@ -83,13 +83,13 @@ const options = {
 const ExpenseForm = ({close}) => {
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
-  const [date, setDate] = useState("");
+  const [date1, setDate] = useState('');
   const [selected, setSelected] = useState(people[0]);
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({
     title: false,
     amount: false,
-    date: false,
+    // date: false,
     category: false,
   });
   const email = localStorage.getItem("email");
@@ -98,7 +98,7 @@ const ExpenseForm = ({close}) => {
     let tempErrors = {};
     if (!title) tempErrors.title = "Title is required.";
     if (!amount) tempErrors.amount = "Amount is required.";
-    if (!date) tempErrors.date = "Date is required.";
+    // if (!date) tempErrors.date = "Date is required.";
     if (!selected.name) tempErrors.category = "Category is required.";
 
     setErrors(tempErrors);
@@ -108,19 +108,19 @@ const ExpenseForm = ({close}) => {
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent default form submission behavior
     if (!validate()) return;
-    const dateObj = new Date(date);
+    const dateObj = new Date(date1);
     console.log(dateObj);
     // Extract year and month, ensuring the month is formatted as two digits
-    const year = dateObj.getFullYear().toString(); // Get year as string
-    const month = (dateObj.getMonth() + 1).toString().padStart(2, "0");
+    //const year = dateObj.getFullYear().toString(); // Get year as string
+    //const month = (dateObj.getMonth() + 1).toString().padStart(2, "0");
 
     const formData = {
       title,
       amount: Number(amount),
-      date,
+      date1,
       category: selected.name,
-      year,
-      month,
+      //year,
+      //month,
       email,
     };
 
@@ -136,7 +136,7 @@ const ExpenseForm = ({close}) => {
       console.log(response.data); // Process or log the result from the server
       setTitle("");
       setAmount("");
-      setDate("");
+      setDate('');
       setSelected(people[0]);
       closeModal(); // Close the modal on successful submission
     } catch (error) {
@@ -155,10 +155,14 @@ const ExpenseForm = ({close}) => {
   const [show, setShow] = useState(false);
 	const handleChange = (selectedDate) => {
     const dateObject = new Date(selectedDate);
-    const timeZoneOffset = dateObject.getTimezoneOffset() * 60000; // convert offset to milliseconds
+    setDate(selectedDate);
+    const timeZoneOffset = dateObject.getTimezoneOffset() * 60000;
     const localDate = new Date(dateObject.getTime() - timeZoneOffset);
-    setDate(localDate.toISOString().split('T')[0]);
-		console.log(dateObject)
+    const d=new Date(localDate.toISOString().split('T')[0]);
+    // setDate(localDate.toISOString().split('T')[0]);
+    console.log(localDate.toISOString().split('T')[0]); // Check the adjusted date
+		console.log(d);
+		console.log(selectedDate);
 	}
 	const handleClose = (state) => {
 		setShow(state)
@@ -204,8 +208,8 @@ const ExpenseForm = ({close}) => {
                     Date
                   </label>
                   <Datepicker 
-                value={date}
-                onSelectedDateChanged={(date) => setDate(date)}
+                value={date1}
+                // onSelectedDateChanged={(date) => setDate(date)}
                 //format="DD MMM YYYY"
                 options={options}
                 onChange={handleChange} show={show} setShow={handleClose} 
