@@ -32,14 +32,14 @@ const sidebarItems = [
 ];
 
 const Sidebar = () => {
-  const [isCollapsed, settoggleSidebarcollapse] = useState(false);
+  const [isCollapsed, settoggleSidebarcollapse] = useState(true);
 
   const toggleSidebarcollapse = () => {
     settoggleSidebarcollapse((prevState) => !prevState);
   };
 
   return (
-    <div className="sidebar__wrapper fixed bg-white h-full">
+    <div className="sidebar__wrapper fixed z-50 bg-white h-full">
       <button className="btn absolute right-0 top-20 translate-x-1/2 bg-white border-0 z-50 w-6 h-6 rounded-full flex justify-center items-center cursor-pointer text-lg" onClick={toggleSidebarcollapse}>
         {isCollapsed ? <MdKeyboardArrowRight /> : <MdKeyboardArrowLeft />}
         {console.log(isCollapsed)}

@@ -277,3 +277,34 @@ expense form
         //     </form>
         //   </div>
         // </div>
+
+
+
+
+        performance card
+
+        const IncomeGoalTracker = () => {
+  const goalAmount = 26344; // Total goal amount
+  const currentAmount = 18850; // Current progress amount
+  const progressPercentage = Math.round((currentAmount / goalAmount) * 100);
+
+  return (
+    <div className="bg-indigo-900 text-white p-4 rounded-lg shadow-lg max-w-xs mx-auto">
+      <div className="flex justify-between mb-2">
+        <span className="text-lg font-bold">{progressPercentage}%</span>
+        <span>Income Goal</span>
+      </div>
+      <div className="text-xs">Progress to month</div>
+      <div className="w-full bg-indigo-800 rounded-full h-2.5 dark:bg-gray-700 mt-2">
+        <div
+          className="bg-purple-600 h-2.5 rounded-full"
+          style={{ width: `${progressPercentage}%` }}
+        ></div>
+      </div>
+      <div className="mt-2 text-sm">
+        <span>${currentAmount.toLocaleString()}</span> / $
+        {goalAmount.toLocaleString()}
+      </div>
+    </div>
+  );
+};

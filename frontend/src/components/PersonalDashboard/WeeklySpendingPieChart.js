@@ -90,8 +90,8 @@ const PieChart = () => {
                     {
                       plotOptions: {
                         pie: {
-                          innerSize: "50%", // Creates a donut effect
-                          borderRadius: 6,
+                          innerSize: "70%", // Creates a donut effect
+                          borderRadius: 10,
                         },
                       },
                     },
@@ -122,6 +122,9 @@ const PieChart = () => {
     tooltip: {
       pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
     },
+    credits: {
+      enabled: false
+    },
     accessibility: {
       point: {
         valueSuffix: "%",
@@ -130,6 +133,7 @@ const PieChart = () => {
     plotOptions: {
       pie: {
         allowPointSelect: true,
+        borderRadius: 30,
         borderWidth: 2,
         cursor: "pointer",
         showInLegend: true,
