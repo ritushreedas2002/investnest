@@ -72,16 +72,24 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
+const options = {
+  inputDateFormatProp: {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  },
+};
+
 const ExpenseForm = ({ close }) => {
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
-  const [date1, setDate] = useState('');
+  const [date, setDate] = useState('');
   const [selected, setSelected] = useState(people[0]);
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({
     title: false,
     amount: false,
-    // date: false,
+    date: false,
     category: false,
   });
   const email = localStorage.getItem("email");
@@ -90,7 +98,7 @@ const ExpenseForm = ({ close }) => {
     let tempErrors = {};
     if (!title) tempErrors.title = "Title is required.";
     if (!amount) tempErrors.amount = "Amount is required.";
-    // if (!date) tempErrors.date = "Date is required.";
+    if (!date) tempErrors.date = "Date is required.";
     if (!selected.name) tempErrors.category = "Category is required.";
 
     setErrors(tempErrors);
@@ -112,8 +120,8 @@ const ExpenseForm = ({ close }) => {
       amount: Number(amount),
       date:localDate.toISOString().split('T')[0],
       category: selected.name,
-      //year,
-      //month,
+      year,
+      month,
       email,
     };
 
@@ -155,18 +163,10 @@ const ExpenseForm = ({ close }) => {
       setDate(new Date().toISOString().split("T")[0]); // Fallback to today's date if error
     }
   };
-
   const handleClose = (state) => {
     setShow(state);
   };
-
-  const options = {
-    inputDateFormatProp: {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    },
-  };
+  
   return (
     <div>
       <div className="fixed -top-14 inset-10  flex items-center justify-center z-50">
@@ -209,7 +209,6 @@ const ExpenseForm = ({ close }) => {
                 </label>
                 <Datepicker
                   value={date}
-                  onSelectedDateChanged={(date) => setDate(date)}
                   options={options}
                   onChange={handleChange}
                   show={show}
@@ -249,17 +248,6 @@ const ExpenseForm = ({ close }) => {
                 >
                   Category
                 </label>
-                {/* <select
-                    id="category"
-                    required
-                    className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                  >
-                    <option value="">Select a category</option>
-                    <option value="salary">Salary</option>
-                    <option value="freelance">Freelance</option>
-                    <option value="investment">Investment</option>
-                    <option value="other">Other</option>
-                  </select> */}
                 <Listbox
                   value={selected}
                   onChange={setSelected}
@@ -267,9 +255,6 @@ const ExpenseForm = ({ close }) => {
                 >
                   {({ open }) => (
                     <>
-                      {/* <Listbox.Label className="block text-sm font-medium leading-6 text-gray-900">
-                          Assigned to
-                        </Listbox.Label> */}
                       <div className="relative mt-2">
                         <Listbox.Button className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6">
                           <span className="flex items-center">

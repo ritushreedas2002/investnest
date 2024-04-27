@@ -159,7 +159,7 @@ const DashboardBox = () => {
           </button>
         </div>
       </div>
-      {showModal && /*<IncomeForm close={closeModal}  />*/<ExpenseForm close={closeModal} />}
+      {showModal && <IncomeForm close={closeModal}  />/*<ExpenseForm close={closeModal} />*/}
     </div>
   );
 };
