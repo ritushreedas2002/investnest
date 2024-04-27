@@ -4,7 +4,7 @@ import BarGraphComponent from "@/components/PersonalDashboard/ChartDashboard";
 import PieChart from "@/components/PersonalDashboard/WeeklySpendingPieChart";
 import DashboardBox from "@/components/PersonalDashboard/DashboardBox";
 import Sidebar from "@/components/PersonalDashboard/Sidebar";
-
+import TransactionComponent from "@/components/PersonalDashboard/TransactionComponent"
 
 
 
@@ -23,11 +23,11 @@ const Dashboard = () => {
           </div>
         </div>
         <div className="flex-col w-1/4 mr-20 mt-10 ml-20">
-          
+          <TransactionComponent/>
           <div className="mb-7">
             
           </div>
-          <div className="w-[400px] mt-96 h-[300px] rounded-lg  mb-7">
+          <div className="w-[400px]  h-[300px] rounded-lg  mb-7">
             {/* <p className="text-white p-4 text-center">Weekly Basis Analysis </p> */}
             <PieChart />
           </div>
