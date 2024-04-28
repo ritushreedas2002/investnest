@@ -5,7 +5,7 @@ import HC_exporting from "highcharts/modules/exporting";
 import HC_exportData from "highcharts/modules/export-data";
 import HC_accessibility from "highcharts/modules/accessibility";
 import axios from "axios";
-
+import PieShimmerChart from "../Shimmer/ShimmerMonthChart"
 // Load modules
 HC_exporting(Highcharts);
 HC_exportData(Highcharts);
@@ -199,6 +199,7 @@ const PieChart = () => {
 
   return (
     <div>
+      {chartData && chartData.length>0 ? (
       <HighchartsReact
         highcharts={Highcharts}
         options={options}
@@ -206,6 +207,10 @@ const PieChart = () => {
           style: { height: "450px", maxWidth: "600px", margin: "0 auto" },
         }}
       />
+      ):(
+        // <p>Loading</p>
+        <PieShimmerChart/>
+      )}
     </div>
   );
 };

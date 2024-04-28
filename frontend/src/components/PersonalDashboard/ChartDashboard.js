@@ -1,4 +1,4 @@
-// import React from "react";
+// import React, { useEffect, useState } from "react";
 // import Highcharts from "highcharts";
 // import HighchartsReact from "highcharts-react-official";
 // import HC_exporting from "highcharts/modules/exporting";
@@ -42,6 +42,8 @@
 //     };
 //   };
   
+
+  
 //   const dynamicData = {
 //     yearly: [
 //       { Month: "01", Income: 30000, Expense: 20000 },
@@ -52,10 +54,10 @@
 //       { Month: "06", Income: 20000, Expense: 30000 },
 //       { Month: "07", Income: 10000, Expense: 20000 },
 //       { Month: "08", Income: 30000, Expense: 20000 },
-//       { Month: "09", Income: 30000, Expense: 20000 },
+//       { Month: "09", Income: 0, Expense: 20000 },
 //       { Month: "10", Income: 30000, Expense: 20000 },
 //       { Month: "11", Income: 22220, Expense: 33330 },
-//       { Month: "12", Income: 1110, Expense: 33330 },
+//       { Month: "12", Income: 1110, Expense: 0 },
 //     ],
 //   };
   
@@ -172,52 +174,37 @@
 // export default BarGraphComponent;
 
 
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official';
-import HC_exporting from 'highcharts/modules/exporting';
-import HC_exportData from 'highcharts/modules/export-data';
-import HC_accessibility from 'highcharts/modules/accessibility';
-import ShimmerBarChart from "@/components/Shimmer/ShimmerBarChart"
+import React, { useEffect, useState } from "react";
+import axios from "axios"; // Make sure axios is imported
+import Highcharts from "highcharts";
+import HighchartsReact from "highcharts-react-official";
+import HC_exporting from "highcharts/modules/exporting";
+import HC_exportData from "highcharts/modules/export-data";
+import HC_accessibility from "highcharts/modules/accessibility";
+import ShimmerBarComponent from "../Shimmer/ShimmerBarChart"
 
-// Initialize Highcharts modules
 HC_exporting(Highcharts);
 HC_exportData(Highcharts);
 HC_accessibility(Highcharts);
 
-
 const BarGraphComponent = () => {
-  const [chartData, setChartData] = useState(null);
-  const email=localStorage.getItem("email");
+  const email = localStorage.getItem("email");
 
-  useEffect(() => {
-    const fetchChartData = async () => {
-      try {
-        const response = await axios.get(`/api/analysis/yearly?email=${email}`);
-        const formattedData = processDataForChart(response.data);
-        setChartData(formattedData);
-        console.log(formattedData);
-      } catch (error) {
-        console.error('Failed to fetch chart data:', error);
-      }
-    };
-
-    fetchChartData();
-  }, []);
+  // Initialize chartData as an object with categories and series keys
+  const [chartData, setChartData] = useState({ categories: [], series: [] });
 
   const processDataForChart = (data) => {
     const incomeData = [];
     const expenseData = [];
     const categories = [];
-  
+
     data.yearly.forEach((item) => {
-      const month = new Date(0, parseInt(item.Month) - 1).toLocaleString('default', { month: 'short' });
+      const month = new Date(0, parseInt(item.Month, 10) - 1).toLocaleString('default', { month: 'short' });
       categories.push(month);
       incomeData.push(item.Income);
       expenseData.push(item.Expense);
     });
-  
+
     return {
       categories,
       series: [
@@ -235,50 +222,124 @@ const BarGraphComponent = () => {
     };
   };
 
-  const options = chartData ? {
+  useEffect(() => {
+    const fetchChartData = async () => {
+      try {
+        const response = await axios.get(`/api/analysis/yearly?email=${encodeURIComponent(email)}`);
+        const formattedData = processDataForChart(response.data);
+        setChartData(formattedData); // Update the chart data state
+        console.log(formattedData);
+      } catch (error) {
+        console.error('Failed to fetch chart data:', error);
+      }
+    };
+
+    if (email) {
+      fetchChartData();
+    }
+  }, [email]);
+  const maxIncome = Math.max(...chartData.series[0]?.data ?? [0]);
+  const maxExpense = Math.max(...chartData.series[1]?.data ?? [0]);
+  const yAxisMax = Math.max(maxIncome, maxExpense);
+
+  // The chartOptions should be a part of the state or at least derived state from chartData
+  // This is because we are fetching data asynchronously
+  const options = {
     chart: {
-      type: 'column',
+      type: "column",
     },
     title: {
-      text: 'Monthly Income and Expenses',
-      align: 'left',
+      text: "Monthly Income and Expenses",
+      align: "left",
     },
     xAxis: {
       categories: chartData.categories,
     },
     yAxis: {
-      min: 0,
-      title: {
-        text: 'Amount ($)'
-      },
+        min: 0,
+        // max: yAxisMax + (0.1 * yAxisMax),
+        title: {
+          text: 'Amount (₹)', // Use the symbol for Indian Rupee
+        },
+        labels: {
+          format: '₹{value}', // Format the y-axis labels to show currency
+        },
+        //tickInterval: Math.ceil(yAxisMax / 5),
     },
     tooltip: {
       shared: true,
-      valuePrefix: '$',
+      valuePrefix: "₹",
     },
     plotOptions: {
-      column: {
-        pointPadding: 0.2,
-        borderWidth: 0,
-      },
-    },
-    credits: {
-      enabled: false,
-    },
-    series: chartData.series,
-  } : {};
-
+            series: {
+              point: {
+                events: {
+                  mouseOver: function () {
+                    const chart = this.series.chart;
+                    const index = this.index;
+          
+                    // Loop over all series to apply the dimming
+                    chart.series.forEach((series) => {
+                      // Apply dimming only to non-hovered series points with the same index
+                      series.points.forEach((point) => {
+                        if (point.index !== index) {
+                          Highcharts.css(point.graphic.element, {
+                            opacity: 0.2,
+                          });
+                        }
+                      });
+                    });
+          
+                    // Highlight all points for the hovered index (month)
+                    chart.series.forEach((series) => {
+                      if (series.points[index]) {
+                        Highcharts.css(series.points[index].graphic.element, {
+                          opacity: 1,
+                        });
+                      }
+                    });
+                  },
+                  mouseOut: function () {
+                    const chart = this.series.chart;
+          
+                    // Restore the opacity for all points
+                    chart.series.forEach((series) => {
+                      series.points.forEach((point) => {
+                        Highcharts.css(point.graphic.element, {
+                          opacity: 1,
+                        });
+                      });
+                    });
+                  }
+                }
+              },
+              states: {
+                hover: {
+                  enabled: true, // Enable the hover state
+                  brightness: 0.1, // Slight brightness on hover
+                }
+              }
+            },
+            column: {
+              // Other column options here
+            }
+          },
+          credits: {
+            enabled: false,
+          },
+          series:  chartData.series
+         
+        };
   return (
     <div>
-      {chartData ? (
+      {chartData && chartData.categories.length > 0 ? (
         <HighchartsReact highcharts={Highcharts} options={options} />
-        
       ) : (
-        // <p>Loading chart data...</p>
-        <ShimmerBarChart/>
+        <ShimmerBarComponent/> // Display loading or some placeholder
       )}
     </div>
   );
 };
 
 export default BarGraphComponent;
+
