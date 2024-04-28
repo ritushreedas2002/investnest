@@ -37,7 +37,10 @@ const PieChart = () => {
       }
     };
 
-    fetchData();
+    const intervalId = setInterval(() => {
+      fetchData();  // Your function that fetches the latest chart data
+    }, 10000);
+    return () => clearInterval(intervalId); 
   }, []);
 
   useEffect(() => {

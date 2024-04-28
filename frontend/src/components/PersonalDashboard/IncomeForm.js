@@ -36,7 +36,6 @@ const IncomeForm = ({ close }) => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
     if (!validate()) return;
     console.log(`Title: ${source}, Date: ${date1}, Amount: ${amount1}`);
     const dateObject = new Date(date1);

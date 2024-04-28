@@ -104,7 +104,12 @@ const TransactionComponent = () => {
   };
 
   useEffect(() => {
-    fetchData(activeTab); // Fetch data on mount for the initial tab
+    fetchData(activeTab);
+    const intervalId = setInterval(() => {
+    fetchData(activeTab); 
+  }, 10000);  // Fetch every 10 seconds
+    
+  return () => clearInterval(intervalId);  // Fetch data on mount for the initial tab
   }, [activeTab]);
 
   const renderTransactions = (type) => {

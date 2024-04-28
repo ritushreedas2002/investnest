@@ -225,7 +225,7 @@ const BarGraphComponent = () => {
   useEffect(() => {
     const fetchChartData = async () => {
       try {
-        const response = await axios.get(`/api/analysis/yearly?email=${encodeURIComponent(email)}`);
+        const response = await axios.get(`/api/analysis/yearly?email=${email}`);
         const formattedData = processDataForChart(response.data);
         setChartData(formattedData); // Update the chart data state
         console.log(formattedData);
@@ -236,6 +236,12 @@ const BarGraphComponent = () => {
 
     if (email) {
       fetchChartData();
+      const intervalId = setInterval(() => {
+        fetchChartData();  // Your function that fetches the latest chart data
+      }, 10000);  // Fetch every 10 seconds
+    
+      return () => clearInterval(intervalId);   // Your function that fetches the latest chart data
+      
     }
   }, [email]);
   const maxIncome = Math.max(...chartData.series[0]?.data ?? [0]);
