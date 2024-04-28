@@ -308,3 +308,88 @@ expense form
     </div>
   );
 };
+
+
+
+Bar chart
+ // series: [
+    //   {
+    //     name: "Income",
+    //     data: [21000, 19000, 22000, 25000, 24000, 23000],
+    //     color: "rgba(54, 162, 235, 0.7)",
+    //   },
+    //   {
+    //     name: "Expense",
+    //     data: [18000, 17000, 19000, 22000, 20000, 21000],
+    //     color: "rgba(255, 99, 132, 0.7)",
+    //   },
+    // ],
+
+
+
+
+
+    // const options = {
+  //   chart: {
+  //     type: 'column',
+  //   },
+  //   title: {
+  //     text: 'My Cards'
+  //   },
+  //   xAxis: {
+  //     categories: ['Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov']
+  //   },
+  //   yAxis: {
+  //     min: 0,
+  //     title: {
+  //       text: 'Amount'
+  //     },
+  //     labels: {
+  //       overflow: 'justify'
+  //     }
+  //   },
+  //   tooltip: {
+  //     shared: true,
+  //     valuePrefix: '$'
+  //   },
+  //   plotOptions: {
+  //     column: {
+  //       //borderRadius: 10, // Increased borderRadius for more circular edges
+  //       //pointPadding: 0.1,
+  //  // borderWidth: 0,
+  //       dataLabels: {
+  //         enabled: false
+  //       },
+
+  //     },
+  //     bar: {
+  //       borderRadiusTopLeft: 10,
+  //       borderRadiusTopRight: 10,
+  //       borderRadiusBottomLeft: 10,
+  //       borderRadiusBottomRight: 10
+  //   }
+  //   },
+  //   series: [{
+  //     name: 'Income',
+  //     data: [21000, 19000, 22000, 25000, 24000, 23000],
+  //     color: 'rgba(54, 162, 235, 0.7)'
+  //   }, {
+  //     name: 'Expense',
+  //     data: [18000, 17000, 19000, 22000, 20000, 21000],
+  //     color: 'rgba(255, 99, 132, 0.7)'
+  //   }],
+  //   credits: {
+  //     enabled: false
+  //   },
+  //   legend: {
+  //     layout: 'horizontal', // Use 'horizontal' for bottom placement
+  //     align: 'center', // Aligns the legend box to the middle of the chart
+  //     verticalAlign: 'bottom', // Places the legend at the bottom
+  //     x: 0, // Centers it on the x-axis
+  //     y: 0, // Aligns it with the bottom of the chart
+  //     floating: false, // Should not float if it is at the bottom
+  //     borderWidth: 1,
+  //     backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
+  //     //shadow: true
+  //   }
+  // };

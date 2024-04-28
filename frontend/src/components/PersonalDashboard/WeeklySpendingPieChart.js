@@ -4,6 +4,7 @@ import HighchartsReact from "highcharts-react-official";
 import HC_exporting from "highcharts/modules/exporting";
 import HC_exportData from "highcharts/modules/export-data";
 import HC_accessibility from "highcharts/modules/accessibility";
+import axios from "axios";
 
 // Load modules
 HC_exporting(Highcharts);
@@ -13,26 +14,22 @@ HC_accessibility(Highcharts);
 const PieChart = () => {
   const [chartData, setChartData] = useState([]);
 
-  const data = {
-    "month": {
-      "Fees": 7000,
-      "Restaurant": 600,
-      "Groceries": 2000,
-      "Transportation": 1500,
-      "Entertainment": 800
-    }
-  };
-
+  const email=localStorage.getItem("email");
+ 
   useEffect(() => {
     // Function to fetch and transform data
     const fetchData = async () => {
       try {
 
+        const response = await axios.get(`/api/analysis/monthly?email=${email}`);  // Fetching data from backend
+        const monthlyData = response.data;  // Assuming the response has the data directly
+        console.log(monthlyData);
         // Transform the data into the format Highcharts expects
-        const transformedData = Object.entries(data.month).map(([key, value]) => ({
+        const transformedData = Object.entries(response.data.month).map(([key, value]) => ({
           name: key,
           y: value
         }));
+        console.log(transformedData);
 
         setChartData(transformedData);
       } catch (error) {
@@ -260,3 +257,102 @@ export default PieChart;
 // } else {
 //     fanAnimate(points[0], startAngleRad);
 // }
+
+
+
+
+
+// import React, { useEffect, useState } from "react";
+// import axios from "axios";
+// import Highcharts from "highcharts";
+// import HighchartsReact from "highcharts-react-official";
+// import HC_exporting from "highcharts/modules/exporting";
+// import HC_exportData from "highcharts/modules/export-data";
+// import HC_accessibility from "highcharts/modules/accessibility";
+
+// // Load modules
+// HC_exporting(Highcharts);
+// HC_exportData(Highcharts);
+// HC_accessibility(Highcharts);
+
+// const PieChart = () => {
+//   const [chartData, setChartData] = useState([]);
+//   const email=localStorage.getItem("email");
+//   useEffect(() => {
+//     // Function to fetch and transform data
+//     const fetchData = async () => {
+//       try {
+//         const response = await axios.get(`/api/analysis/monthly?email=${email}`);  // Fetching data from backend
+//         const monthlyData = response.data;  // Assuming the response has the data directly
+//         console.log(monthlyData);
+//         // Transform the data into the format Highcharts expects
+//         const transformedData = Object.entries(monthlyData.month).map(([key, value]) => ({
+//           name: key,
+//           y: value
+//         }));
+//         console.log(transformedData);
+
+//         setChartData(transformedData);
+//       } catch (error) {
+//         console.error('Error fetching data: ', error);
+//       }
+//     };
+
+//     fetchData();
+//   }, []);
+
+//   const options = {
+//     chart: {
+//       type: "pie",
+//     },
+//     title: {
+//       text: "Monthly Expenses",
+//     },
+//     tooltip: {
+//       pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
+//     },
+//     credits: {
+//       enabled: false
+//     },
+//     accessibility: {
+//       point: {
+//         valueSuffix: "%",
+//       },
+//     },
+//     plotOptions: {
+//       pie: {
+//         allowPointSelect: true,
+//         cursor: "pointer",
+//         showInLegend: true,
+//         dataLabels: {
+//           enabled: false,
+//         },
+//         animation: {
+//           duration: 2000,
+//         },
+//       },
+//     },
+//     legend: {
+//       layout: "horizontal",
+//       align: "center",
+//       verticalAlign: "bottom",
+//     },
+//     series: [{
+//       name: 'Expenses',
+//       colorByPoint: true,
+//       data: chartData,
+//     }],
+//   };
+
+//   return (
+//     <div>
+//       <HighchartsReact
+//         highcharts={Highcharts}
+//         options={options}
+//         containerProps={{ style: { height: "450px", maxWidth: "600px", margin: "0 auto" } }}
+//       />
+//     </div>
+//   );
+// };
+
+// export default PieChart;
