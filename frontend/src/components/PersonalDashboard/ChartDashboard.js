@@ -228,7 +228,7 @@ const BarGraphComponent = () => {
         const response = await axios.get(`/api/analysis/yearly?email=${email}`);
         const formattedData = processDataForChart(response.data);
         setChartData(formattedData); // Update the chart data state
-        console.log(formattedData);
+        // console.log(formattedData);
       } catch (error) {
         console.error('Failed to fetch chart data:', error);
       }
@@ -276,6 +276,11 @@ const BarGraphComponent = () => {
       shared: true,
       valuePrefix: "₹",
     },
+    navigation: {
+      buttonOptions: {
+        enabled: false
+        }
+       },
     plotOptions: {
             series: {
               point: {
@@ -327,7 +332,10 @@ const BarGraphComponent = () => {
               }
             },
             column: {
-              // Other column options here
+              borderRadius: 5,
+        pointWidth: 28,
+        pointPadding: 0.05,
+        groupPadding: 0.1,
             }
           },
           credits: {

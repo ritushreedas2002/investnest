@@ -37,10 +37,12 @@ const PieChart = () => {
       }
     };
 
-    const intervalId = setInterval(() => {
-      fetchData();  // Your function that fetches the latest chart data
-    }, 10000);
-    return () => clearInterval(intervalId); 
+    fetchData();
+
+    // const intervalId = setInterval(() => {
+    //   fetchData();  // Your function that fetches the latest chart data
+    // }, 10000);
+    // return () => clearInterval(intervalId); 
   }, []);
 
   useEffect(() => {
@@ -91,7 +93,7 @@ const PieChart = () => {
                       plotOptions: {
                         pie: {
                           innerSize: "70%", // Creates a donut effect
-                          borderRadius: 10,
+                          borderRadius: 15,
                         },
                       },
                     },
@@ -115,6 +117,7 @@ const PieChart = () => {
   const options = {
     chart: {
       type: "pie",
+      backgroundColor: '#FFD700'
     },
     title: {
       text: "",
@@ -130,6 +133,11 @@ const PieChart = () => {
         valueSuffix: "%",
       },
     },
+    navigation: {
+      buttonOptions: {
+        enabled: false
+        }
+       },
     plotOptions: {
       pie: {
         allowPointSelect: true,
@@ -145,6 +153,7 @@ const PieChart = () => {
       },
     },
     legend: {
+      //legendColor: 'white',
       layout: "horizontal", // Change layout to horizontal
       align: "center",
       verticalAlign: "bottom",
