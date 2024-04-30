@@ -158,8 +158,8 @@ const PieChart = () => {
       align: "center",
       verticalAlign: "bottom",
       useHTML: true,
-      width: 360, // Set a specific width to encourage a two-column layout
-      itemWidth: 180, // Approximate width of each column
+      width: 350, // Set a specific width to encourage a two-column layout
+      itemWidth: 150, // Approximate width of each column
       symbolRadius: 2, // Makes the legend symbol squares
       symbolHeight: 12,
       labelFormatter: function () {

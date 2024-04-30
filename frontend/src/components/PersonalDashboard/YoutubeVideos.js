@@ -3,8 +3,8 @@ import axios from 'axios';
 
 function YouTubeVideos() {
   const [videos, setVideos] = useState([]);
-  const apiKey = 'AIzaSyACxhfb9ar8WpOWlqiDR72Vo1_JQiaheng';  // Replace YOUR_API_KEY with your actual YouTube Data API key
-
+  //const apiKey = 'AIzaSyACxhfb9ar8WpOWlqiDR72Vo1_JQiaheng';  // Replace YOUR_API_KEY with your actual YouTube Data API key
+  const apiKey = 'AIzaSyDGoeZzoW1kgGU8aefldET2jYgZ43DvkRc';
   useEffect(() => {
     const fetchVideos = async () => {
       try {
@@ -33,9 +33,9 @@ function YouTubeVideos() {
   }, []);
 
   return (
-    <div style={{ display: 'flex', overflowX: 'scroll' }}>
+    <div style={{ display: 'flex', overflowX: 'scroll' }} className='w-28'>
       {videos.map(video => (
-        <div key={video.id.videoId} style={{ minWidth: '300px', margin: '10px' }}>
+        <div key={video.id.videoId} style={{ minWidth: '200px', margin: '10px' }}>
           {/* Embed YouTube video using iframe */}
           <iframe
             width="100%"

@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import YouTubeVideos from "./YoutubeVideos";
 import axios from "axios";
 import Image from "next/image";
 
@@ -90,15 +91,34 @@ const LearningDetails = () => {
   //if (error) return <p>Error: {error}</p>;
 
   return (
-    <div className=" p-2 bg-slate-500">
-      <h1>Personal Finance News</h1>
-      {loading && <p>Loading...</p>}
+    <div className="p-2 flex-col min-w-96">
       {error && <p>Error loading articles: {error}</p>}
-      <div className=" flex flex-wrap bg-gray-400">
+        
+       <div className=" flex-col overflow-y-auto no-scrollbar">
         {articles.map((article) => (
-          <div key={article.url} className=" p-2 m-2 w-full rounded-xl  bg-white">
+          <div
+            key={article.url}
+            className=" p-2 m-2 w-36 rounded-xl  bg-white max-h-24 overflow-y-auto no-scrollbar"
+          >
             <a href={article.url} target="_blank" rel="noopener noreferrer">
-              {/* {article.image?.thumbnail?.contentUrl && (
+              
+              <div className=" text-lg text-black font-semibold">
+                {article.title}
+              </div>
+              <p>{article.description}</p>
+            </a>
+          </div>
+        ))}
+       
+      </div> 
+    </div>
+  );
+};
+
+export default LearningDetails;
+
+
+{/* {article.image?.thumbnail?.contentUrl && (
                 <Image
                   src={article.image.thumbnail.contentUrl}
                   alt="Article image"
@@ -107,16 +127,3 @@ const LearningDetails = () => {
                   className="rounded"
                 />
               )} */}
-              <div className=" text-lg text-black font-semibold">
-                {article.title}
-              </div>
-              <p>{article.description}</p>
-            </a>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-export default LearningDetails;

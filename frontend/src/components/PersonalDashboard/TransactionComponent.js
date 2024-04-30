@@ -134,7 +134,7 @@ const TransactionComponent = () => {
   };
 
   return (
-    <div className="max-w-sm mx-auto bg-[#231818] bg-opacity-20 rounded-lg shadow-md overflow-hidden text-white">
+    <div className="min-w-[300px] mx-auto bg-[#231818] bg-opacity-20 rounded-lg shadow-md overflow-hidden text-white">
       <div className="p-4 flex justify-between items-center">
         <div className="text-lg font-semibold">Transactions</div>
         <div className="text-right text-blue-500 cursor-pointer"><Link href="/transactions">View all</Link></div>
