@@ -88,7 +88,7 @@
 //         </div>
 //     );
 // }
-"use client";
+'use client'
 import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -96,23 +96,25 @@ import axios from "axios";
 import Link from "next/link";
 import { toast } from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
+import {  useSearchParams } from 'next/navigation'
 
-export default function VerifyEmailPage() {
-  const [token, setToken] = useState("");
+export default function VerifyEmailPage({searchParams}) {
+  const {token,type}=searchParams;
+  console.log(token);
+  console.log(type);
   const [emailType, setEmailType] = useState("");
   const [verified, setVerified] = useState(false);
   const [error, setError] = useState("");
-  
+
+
   
 
   useEffect(() => {
-    
-    if (typeof window !== "undefined") {
-      const queryParams = new URLSearchParams(window?.location?.search);
-      setToken(queryParams.get("token") || "");
-      setEmailType(queryParams.get("type") || "");
-    }
-  }, []);
+   
+  //     setToken(queryParams.get("token") || "");
+       setEmailType(type);
+  
+   }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -132,7 +134,7 @@ export default function VerifyEmailPage() {
     },
   });
 
-  const verifyUserEmail = async ({token,type}) => {
+  const verifyUserEmail = async () => {
     try {
       const response = await axios.post("/api/users/verifyemail", {
         token,
