@@ -91,7 +91,7 @@ import { toast } from 'react-hot-toast';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Toaster } from 'react-hot-toast';
 
-const signup = () => {
+const Signup = () => {
     const router = useRouter();
     const [loading, setLoading] = React.useState(false);
     const[error,seterror]=useState("");
@@ -180,4 +180,4 @@ const signup = () => {
     );
 };
 
-export default signup;
+export default Signup;
