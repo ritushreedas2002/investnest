@@ -1,3 +1,4 @@
+"use client"
 import React, { useState } from "react";
 import Datepicker from "tailwind-datepicker-react";
 import axios from "axios";

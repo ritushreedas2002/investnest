@@ -1,3 +1,4 @@
+"use client"
 import React, { useContext, useRef } from "react";
 import Search from "@/components/GlobalCyrpto/Search";
 import submitIcon from "@/assests/submit-icon.svg";

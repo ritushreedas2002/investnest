@@ -1,3 +1,4 @@
+"use client"
 import React, { useContext, useRef } from "react";
 import paginationArrow from "@/assests/search-icon.svg";
 import { CryptoContext } from "@/Context/Cyrpto";

@@ -1,3 +1,4 @@
+"use client"
 import Image from "next/image";
 import { AiOutlineHome } from "react-icons/ai";
 import { BsPeople } from "react-icons/bs";

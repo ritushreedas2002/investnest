@@ -1,3 +1,4 @@
+"use client"
 import { useState } from "react";
 import IncomeForm from "./IncomeForm";
 import ExpenseForm from "./ExpenseForm";

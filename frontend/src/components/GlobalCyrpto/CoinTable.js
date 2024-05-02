@@ -1,3 +1,4 @@
+"use client"
 import React, { useContext, useState } from "react";
 import { CryptoContext } from "@/Context/Cyrpto"; // Check for correct import path
 import Link from "next/link";

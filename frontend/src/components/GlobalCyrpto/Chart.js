@@ -1,3 +1,4 @@
+"use client"
 import ReactApexChart from "react-apexcharts";
 import { useState } from "react";
 

@@ -1,5 +1,4 @@
-import React, { useContext, useState } from 'react';
-import { useLayoutEffect } from "react";
+import React, { useContext, useEffect, useState } from 'react';
 import { CryptoContext } from "@/Context/Cyrpto";
 import ReactApexChart from 'react-apexcharts';
 
@@ -149,7 +148,7 @@ const ChartDetails=({id})=>{
     const [type, setType] = useState("prices");
     const [days, setDays] = useState(1);
   
-    useLayoutEffect(() => {
+    useEffect(() => {
       const getChartData = async (id) => {
         try {
           const data = await fetch(

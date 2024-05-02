@@ -1,3 +1,4 @@
+"use client"
 import { debounce } from 'lodash';
 import React, { useContext, useState } from "react";
 import searchIcon from "@/assests/search-icon.svg";
