@@ -7,6 +7,7 @@ import ModalComponent from "@/components/GlobalCyrpto/CoinDetails/ModalComponent
 const CoinTable = () => {
   const { cryptoData,currency, error } = useContext(CryptoContext);
   const [selectedCoin, setSelectedCoin] = useState("");
+  console.log(cryptoData);
   // Handling errors or no data scenarios
   if (error && (error.data || error.coinData || error.search)) {
     const errorMessage = error.data || error.coinData || error.search;
