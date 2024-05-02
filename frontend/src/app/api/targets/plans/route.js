@@ -2,6 +2,7 @@ import { connect } from "@/dbConfig/dbConfig";
 import PlanningModel from "@/models/planningModel";
 import { NextRequest, NextResponse } from "next/server";
 import mongoose from "mongoose";
+export const dynamic = 'force-dynamic';
 connect(); // Ensure your MongoDB connection is handled appropriately.
 
 export async function GET(request) {

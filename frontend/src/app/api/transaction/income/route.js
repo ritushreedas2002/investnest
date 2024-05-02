@@ -2,6 +2,7 @@ import { connect } from "@/dbConfig/dbConfig";
 import TransactionData from "@/models/transactionModel";
 import { NextRequest, NextResponse } from "next/server";
 import mongoose from 'mongoose';
+export const dynamic = 'force-dynamic';
 
 connect();
 

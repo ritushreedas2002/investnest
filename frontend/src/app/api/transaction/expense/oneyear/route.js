@@ -1,6 +1,7 @@
 import { connect } from "@/dbConfig/dbConfig";
 import TransactionData from "@/models/transactionModel";
 import { NextResponse } from "next/server";
+export const dynamic = 'force-dynamic';
 
 connect();
 

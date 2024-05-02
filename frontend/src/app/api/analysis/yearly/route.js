@@ -93,7 +93,7 @@
 import { connect } from "@/dbConfig/dbConfig";
 import TransactionModel from "@/models/transactionModel";
 import { NextRequest, NextResponse } from "next/server";
-import {getDataFromCookie} from "@/helpers/getDataFromToken"
+export const dynamic = 'force-dynamic';
 
 connect(); // Ensure the database connection is established
 

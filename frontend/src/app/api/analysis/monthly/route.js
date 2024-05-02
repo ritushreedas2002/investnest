@@ -56,8 +56,7 @@
 import { connect } from "@/dbConfig/dbConfig";
 import TransactionModel from "@/models/transactionModel";
 import { NextRequest, NextResponse } from "next/server";
-import mongoose from "mongoose";
-import { cookies } from "next/headers";
+export const dynamic = 'force-dynamic';
 
 connect();
 
