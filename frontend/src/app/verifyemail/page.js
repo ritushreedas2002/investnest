@@ -98,11 +98,13 @@ import { toast } from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
 
 
+
 export default function VerifyEmailPage() {
   const [token, setToken] = useState("");
   const [emailType, setEmailType] = useState("");
   const [verified, setVerified] = useState(false);
   const [error, setError] = useState("");
+  
   
 
   useEffect(() => {
@@ -132,7 +134,7 @@ export default function VerifyEmailPage() {
     },
   });
 
-  const verifyUserEmail = async () => {
+  const verifyUserEmail = async ({token,type}) => {
     try {
       const response = await axios.post("/api/users/verifyemail", {
         token,
