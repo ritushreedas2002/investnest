@@ -97,15 +97,18 @@ import Link from "next/link";
 import { toast } from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
 
+
 export default function VerifyEmailPage() {
   const [token, setToken] = useState("");
   const [emailType, setEmailType] = useState("");
   const [verified, setVerified] = useState(false);
   const [error, setError] = useState("");
+  
 
   useEffect(() => {
+    
     if (typeof window !== "undefined") {
-      const queryParams = new URLSearchParams(window.location.search);
+      const queryParams = new URLSearchParams(window?.location?.search);
       setToken(queryParams.get("token") || "");
       setEmailType(queryParams.get("type") || "");
     }
