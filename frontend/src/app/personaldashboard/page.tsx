@@ -6,9 +6,8 @@ import DashboardBox from "@/components/PersonalDashboard/DashboardBox";
 import Sidebar from "@/components/PersonalDashboard/Sidebar";
 import TransactionComponent from "@/components/PersonalDashboard/TransactionComponent";
 import LearningDetails from "@/components/PersonalDashboard/LearningDetails";
-import YouTubeVideos from "@/components/PersonalDashboard/YouTubeVideos";
-import { Chart, registerables } from "chart.js";
-Chart.register(...registerables);
+// import { Chart, registerables } from "chart.js";
+// Chart.register(...registerables);
 
 const Dashboard = () => {
   return (
