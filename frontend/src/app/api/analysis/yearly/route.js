@@ -90,22 +90,24 @@
 //   }
 // }
 
-
-
-
-
 import { connect } from "@/dbConfig/dbConfig";
 import TransactionModel from "@/models/transactionModel";
 import { NextRequest, NextResponse } from "next/server";
-import mongoose from "mongoose";
+import {getDataFromCookie} from "@/helpers/getDataFromToken"
 
 connect(); // Ensure the database connection is established
 
 export async function GET(request) {
   try {
-    const email = request.nextUrl.searchParams.get("email");
+
+    const url=new URL(request.url);
+    const email=url.searchParams.get("email");
+
     if (!email) {
-      return new NextResponse(JSON.stringify({ message: "Email is required" }), { status: 400 });
+      return new NextResponse(
+        JSON.stringify({ message: "Email is required" }),
+        { status: 400 }
+      );
     }
 
     // Get current year
@@ -113,16 +115,25 @@ export async function GET(request) {
     const year = now.getFullYear().toString();
 
     // Query for user transaction data of the year
-    const userTransactions = await TransactionModel.findOne({ userId: email }, { [`years.${year}.months`]: 1 });
+    const userTransactions = await TransactionModel.findOne(
+      { userId: email },
+      { [`years.${year}.months`]: 1 }
+    );
 
-    if (!userTransactions || !userTransactions.years || !userTransactions.years.get(year)) {
+    if (
+      !userTransactions ||
+      !userTransactions.years ||
+      !userTransactions.years.get(year)
+    ) {
       // If there's no transaction data for the year, return all months with 0 values
       const allMonths = {};
       for (let i = 1; i <= 12; i++) {
         const month = i.toString().padStart(2, "0");
         allMonths[month] = { Income: 0, Expense: 0 };
       }
-      return new NextResponse(JSON.stringify({ yearly: allMonths }), { status: 200 });
+      return new NextResponse(JSON.stringify({ yearly: allMonths }), {
+        status: 200,
+      });
     }
 
     const yearData = userTransactions.years.get(year).months;
@@ -130,9 +141,14 @@ export async function GET(request) {
 
     for (let i = 1; i <= 12; i++) {
       const month = i.toString().padStart(2, "0");
-      const monthData = yearData.get(month) || { INCOME: [], EXPENSE: new Map() };
+      const monthData = yearData.get(month) || {
+        INCOME: [],
+        EXPENSE: new Map(),
+      };
 
-      let totalIncome = monthData.INCOME ? monthData.INCOME.reduce((sum, { amount }) => sum + amount, 0) : 0;
+      let totalIncome = monthData.INCOME
+        ? monthData.INCOME.reduce((sum, { amount }) => sum + amount, 0)
+        : 0;
       let totalExpense = 0;
       if (monthData.EXPENSE && typeof monthData.EXPENSE.values === "function") {
         for (const expenses of monthData.EXPENSE.values()) {
@@ -140,12 +156,20 @@ export async function GET(request) {
         }
       }
 
-      monthlyAnalysis.push({ Month: month, Income: totalIncome, Expense: totalExpense });
+      monthlyAnalysis.push({
+        Month: month,
+        Income: totalIncome,
+        Expense: totalExpense,
+      });
     }
 
-    return new NextResponse(JSON.stringify({ yearly: monthlyAnalysis }), { status: 200 });
+    return new NextResponse(JSON.stringify({ yearly: monthlyAnalysis }), {
+      status: 200,
+    });
   } catch (error) {
     console.error("Error processing GET request:", error);
-    return new NextResponse(JSON.stringify({ error: error.message }), { status: 500 });
+    return new NextResponse(JSON.stringify({ error: error.message }), {
+      status: 500,
+    });
   }
 }

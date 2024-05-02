@@ -7,7 +7,8 @@ connect();
 
 export async function GET(request) {
     try {
-      const email = request.nextUrl.searchParams.get("email");
+      const url=new URL(request.url);
+    const email=url.searchParams.get("email");
       if (!email) {
         return new NextResponse(JSON.stringify({ error: "Email is required" }), { status: 400 });
       }
