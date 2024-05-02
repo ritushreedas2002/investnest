@@ -36,7 +36,7 @@ import { CryptoProvider } from "@/Context/Cyrpto";
 import Pagination from "@/components/GlobalCyrpto/Pagination";
 
 const Home = () => {
-  const router=useRouter()
+  const router=useRouter();
 
   const handleLogout = async () => {
     try {

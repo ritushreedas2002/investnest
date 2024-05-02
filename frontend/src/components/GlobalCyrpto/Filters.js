@@ -2,8 +2,8 @@ import React, { useContext, useRef } from "react";
 import Search from "@/components/GlobalCyrpto/Search";
 import submitIcon from "@/assests/submit-icon.svg";
  import selectIcon from "@/assests/select-icon.svg";
-
 import { CryptoContext } from "@/Context/Cyrpto";
+import Image from "next/image";
 
 const Filters = () => {
   let { setCurrency, setSortBy, resetFunction } = useContext(CryptoContext);
@@ -46,7 +46,7 @@ const Filters = () => {
             <option value="eur">EUR</option>
             <option value="jpy">JPY</option>
           </select>
-          <img src={selectIcon} alt="Select" className="absolute right-1 top-2 pointer-events-none w-[1rem] h-auto" />
+          <Image src={selectIcon} alt="Select" className="" />
         </div>
 
         <label className="relative flex justify-center items-center">
@@ -65,12 +65,10 @@ const Filters = () => {
             <option value="id_desc">id desc</option>
             <option value="id_asc">id asc</option>
           </select>
-          <img
+          <Image
             src={selectIcon}
             alt="submit"
-            className="w-[1rem] h-auto
-         absolute right-1 top-2 pointer-events-none
-         "
+            className=""
           />
         </label>
         <button

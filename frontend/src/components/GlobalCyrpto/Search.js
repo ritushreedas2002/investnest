@@ -3,6 +3,7 @@ import React, { useContext, useState } from "react";
 import searchIcon from "@/assests/search-icon.svg";
 
 import { CryptoContext } from "@/Context/Cyrpto";
+import Image from 'next/image';
 
 const SearchInput = ({ handleSearch }) => {
   const [searchText, setSearchText] = useState("");
@@ -47,7 +48,7 @@ const SearchInput = ({ handleSearch }) => {
           placeholder="search here..."
         />
         <button type="submit" className="absolute right-1 cursor-pointer">
-          <img src={searchIcon} className="w-full h-auto" alt="search" />
+          <Image src={searchIcon} className="" alt="search" />
         </button>
       </form>
       {searchText.length > 0 ? (
