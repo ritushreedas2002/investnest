@@ -1,4 +1,4 @@
-"use client";
+
 
 // import axios from 'axios';
 // import Link from 'next/link';
@@ -88,7 +88,7 @@
 //         </div>
 //     );
 // }
-
+"use client";
 import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -96,8 +96,6 @@ import axios from "axios";
 import Link from "next/link";
 import { toast } from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
-
-
 
 export default function VerifyEmailPage() {
   const [token, setToken] = useState("");
