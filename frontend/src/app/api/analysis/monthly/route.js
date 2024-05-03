@@ -97,6 +97,7 @@ export async function GET(request) {
     const monthlyData = userTransactions.years
       .get(currentYear)
       .months.get(currentMonth);
+      
     if (!monthlyData) {
       return new NextResponse(
         JSON.stringify({ message: "No data for the month" }),

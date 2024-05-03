@@ -136,7 +136,7 @@ export async function GET(request) {
       });
     }
 
-    const yearData = userTransactions.years.get(year).months;
+    const yearData = userTransactions.years.get(year)?.months || {};
     const monthlyAnalysis = [];
 
     for (let i = 1; i <= 12; i++) {
