@@ -1,3 +1,4 @@
+"use client"
 import React, { useEffect, useState } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
@@ -5,7 +6,7 @@ import HC_exporting from "highcharts/modules/exporting";
 import HC_exportData from "highcharts/modules/export-data";
 import HC_accessibility from "highcharts/modules/accessibility";
 import axios from "axios";
-import PieShimmerChart from "../Shimmer/ShimmerMonthChart"
+import PieShimmerChart from "../Shimmer/ShimmerMonthChart";
 // Load modules
 HC_exporting(Highcharts);
 HC_exportData(Highcharts);
@@ -13,27 +14,29 @@ HC_accessibility(Highcharts);
 
 const PieChart = () => {
   const [chartData, setChartData] = useState([]);
+  const email = typeof window !== "undefined" ? localStorage.getItem("email") : null;
 
-  const email=localStorage.getItem("email");
- 
   useEffect(() => {
     // Function to fetch and transform data
     const fetchData = async () => {
       try {
-
-        const response = await axios.get(`/api/analysis/monthly?email=${email}`);  // Fetching data from backend
-        const monthlyData = response.data;  // Assuming the response has the data directly
+        const response = await axios.get(
+          `/api/analysis/monthly?email=${email}`
+        ); // Fetching data from backend
+        const monthlyData = response.data; // Assuming the response has the data directly
         console.log(monthlyData);
         // Transform the data into the format Highcharts expects
-        const transformedData = Object.entries(response.data.month).map(([key, value]) => ({
-          name: key,
-          y: value
-        }));
+        const transformedData = Object.entries(response.data.month).map(
+          ([key, value]) => ({
+            name: key,
+            y: value,
+          })
+        );
         console.log(transformedData);
 
         setChartData(transformedData);
       } catch (error) {
-        console.error('Error fetching data: ', error);
+        console.error("Error fetching data: ", error);
       }
     };
 
@@ -42,11 +45,10 @@ const PieChart = () => {
     // const intervalId = setInterval(() => {
     //   fetchData();  // Your function that fetches the latest chart data
     // }, 10000);
-    // return () => clearInterval(intervalId); 
+    // return () => clearInterval(intervalId);
   }, []);
 
   useEffect(() => {
-
     // Define custom animation for pie series
     Highcharts.seriesTypes.pie.prototype.animate = function (init) {
       const series = this,
@@ -65,7 +67,7 @@ const PieChart = () => {
 
       function fanAnimate(point, startAngleRad) {
         const graphic = point && point.graphic, // Check if point is defined first
-        args = point && point.shapeArgs; 
+          args = point && point.shapeArgs;
 
         if (graphic && args) {
           graphic
@@ -110,14 +112,13 @@ const PieChart = () => {
             );
         }
       }
-      
     };
   }, []);
 
   const options = {
     chart: {
       type: "pie",
-      backgroundColor: '#FFD700'
+      backgroundColor: "#FFD700",
     },
     title: {
       text: "",
@@ -126,7 +127,7 @@ const PieChart = () => {
       pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
     },
     credits: {
-      enabled: false
+      enabled: false,
     },
     accessibility: {
       point: {
@@ -135,9 +136,9 @@ const PieChart = () => {
     },
     navigation: {
       buttonOptions: {
-        enabled: false
-        }
-       },
+        enabled: false,
+      },
+    },
     plotOptions: {
       pie: {
         allowPointSelect: true,
@@ -165,7 +166,6 @@ const PieChart = () => {
       labelFormatter: function () {
         return `${this.name}: <b>${this.y}</b>`; // Custom format
       },
-      
     },
     colors: [
       // Custom colors for each slice
@@ -211,17 +211,17 @@ const PieChart = () => {
 
   return (
     <div>
-      {chartData && chartData.length>0 ? (
-      <HighchartsReact
-        highcharts={Highcharts}
-        options={options}
-        containerProps={{
-          style: { height: "450px", maxWidth: "600px", margin: "0 auto" },
-        }}
-      />
-      ):(
+      {chartData && chartData.length > 0 ? (
+        <HighchartsReact
+          highcharts={Highcharts}
+          options={options}
+          containerProps={{
+            style: { height: "450px", maxWidth: "600px", margin: "0 auto" },
+          }}
+        />
+      ) : (
         // <p>Loading</p>
-        <PieShimmerChart/>
+        <PieShimmerChart />
       )}
     </div>
   );
@@ -274,10 +274,6 @@ export default PieChart;
 // } else {
 //     fanAnimate(points[0], startAngleRad);
 // }
-
-
-
-
 
 // import React, { useEffect, useState } from "react";
 // import axios from "axios";

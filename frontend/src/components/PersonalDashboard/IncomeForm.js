@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState } from "react";
 import Datepicker from "tailwind-datepicker-react";
 import axios from "axios";
@@ -23,7 +23,7 @@ const IncomeForm = ({ close }) => {
     date: false,
     category: false,
   });
-  const email = localStorage.getItem("email");
+  const email = typeof window !== "undefined" ? localStorage.getItem("email") : null;
 
   const validate = () => {
     let tempErrors = {};
@@ -164,8 +164,8 @@ const IncomeForm = ({ close }) => {
                 className="mt-1 block w-full p-2 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               />
               {touched.amount && errors.amount && (
-                  <div style={{ color: "red" }}>{errors.amount}</div>
-                )}
+                <div style={{ color: "red" }}>{errors.amount}</div>
+              )}
             </div>
             <div className="flex justify-end gap-2">
               <button

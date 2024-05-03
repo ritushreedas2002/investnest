@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React from "react";
 import { Fragment, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
@@ -84,7 +84,7 @@ const options = {
 const ExpenseForm = ({ close }) => {
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
-  const [date, setDate] = useState('');
+  const [date, setDate] = useState("");
   const [selected, setSelected] = useState(people[0]);
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({
@@ -93,7 +93,7 @@ const ExpenseForm = ({ close }) => {
     date: false,
     category: false,
   });
-  const email = localStorage.getItem("email");
+  const email = typeof window !== "undefined" ? localStorage.getItem("email") : null;
 
   const validate = () => {
     let tempErrors = {};
@@ -110,8 +110,8 @@ const ExpenseForm = ({ close }) => {
     event.preventDefault(); // Prevent default form submission behavior
     if (!validate()) return;
     const dateObj = new Date(date);
-      const timeZoneOffset = dateObj.getTimezoneOffset() * 60000; // convert offset to milliseconds
-      const localDate = new Date(dateObj.getTime() - timeZoneOffset);
+    const timeZoneOffset = dateObj.getTimezoneOffset() * 60000; // convert offset to milliseconds
+    const localDate = new Date(dateObj.getTime() - timeZoneOffset);
     console.log(dateObj);
     // Extract year and month, ensuring the month is formatted as two digits
     const year = localDate.getFullYear().toString(); // Get year as string
@@ -119,7 +119,7 @@ const ExpenseForm = ({ close }) => {
     const formData = {
       title,
       amount: Number(amount),
-      date:localDate.toISOString().split('T')[0],
+      date: localDate.toISOString().split("T")[0],
       category: selected.name,
       year,
       month,
@@ -138,7 +138,7 @@ const ExpenseForm = ({ close }) => {
       console.log(response.data); // Process or log the result from the server
       setTitle("");
       setAmount("");
-      setDate('');
+      setDate("");
       setSelected(people[0]);
       close(); // Close the modal on successful submission
     } catch (error) {
@@ -167,7 +167,7 @@ const ExpenseForm = ({ close }) => {
   const handleClose = (state) => {
     setShow(state);
   };
-  
+
   return (
     <div>
       <div className="fixed -top-14 inset-10  flex items-center justify-center z-50">
