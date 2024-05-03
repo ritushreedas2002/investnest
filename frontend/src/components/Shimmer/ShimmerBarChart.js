@@ -2,13 +2,12 @@
 import React, { useEffect, useState } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import HC_exporting from "highcharts/modules/exporting";
-import HC_exportData from "highcharts/modules/export-data";
-import HC_accessibility from "highcharts/modules/accessibility";
 
-HC_exporting(Highcharts);
-HC_exportData(Highcharts);
-HC_accessibility(Highcharts);
+// import HC_exportData from "highcharts/modules/export-data";
+// import HC_accessibility from "highcharts/modules/accessibility";
+
+// HC_exportData(Highcharts);
+// HC_accessibility(Highcharts);
 
 
 
