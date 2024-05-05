@@ -7,19 +7,21 @@ connect(); // Ensure the database connection is established
 
 export async function POST(req) {
     try {
-        const { userId, coinId, coinName, purchaseDate, purchasePrice, quantity } = await req.json();
+        const { userId, coinId,coinSymbol, coinName, purchaseDate, purchasePrice, quantity } = await req.json();
 
         // Attempt to find the user by userId
         let user = await UserPortfolio.findOne({ userId: userId });
 
         const newTransaction = {
             coinId: coinId,
+            coinSymbol:coinSymbol,
             coinName: coinName,
             purchaseDate: purchaseDate ? new Date(purchaseDate) : new Date(),
             purchasePrice: purchasePrice,
             quantity: quantity
         };
-
+    
+        console.log(newTransaction);
         if (user) {
             // User exists, append the new transaction
             user.transactions.push(newTransaction);

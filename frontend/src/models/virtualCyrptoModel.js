@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 // Define the schema for each purchase of cryptocurrency
 const cryptoPurchaseSchema = new Schema({
   coinId: { type: String, required: true }, // e.g., 'BTC' for Bitcoin
+  coinSymbol: { type: String, required: true },
   coinName: { type: String, required: true }, // e.g., 'Bitcoin'
   purchaseDate: { type: Date, default: Date.now }, // Date of purchase
   purchasePrice: { type: Number, required: true }, // Price of crypto at time of purchase
@@ -17,6 +18,6 @@ const userPortfolioSchema = new Schema({
 });
 
 // Create the model from the schema
-const UserPortfolio = mongoose.model('VirtualUserPortfolio', userPortfolioSchema);
+const UserPortfolio = mongoose.models.VirtualUserPortfolio ||mongoose.model('VirtualUserPortfolio', userPortfolioSchema);
 
 module.exports = UserPortfolio;

@@ -5,9 +5,11 @@ import Link from "next/link";
 import Chart from "@/components/GlobalCyrpto/Chart"; // Check for correct import path
 import ModalComponent from "@/components/GlobalCyrpto/CoinDetails/ModalComponent"
 
+
 const CoinTable = () => {
   const { cryptoData,currency, error } = useContext(CryptoContext);
   const [selectedCoin, setSelectedCoin] = useState("");
+  
   console.log(cryptoData);
   // Handling errors or no data scenarios
   if (error && (error.data || error.coinData || error.search)) {
@@ -29,6 +31,9 @@ const CoinTable = () => {
     setSelectedCoin(null);  // Reset the selected coin when the modal is closed
   };
 
+
+  
+
   return (
     <div className="p-5 relative">
       <div className="overflow-x-auto">
@@ -48,7 +53,7 @@ const CoinTable = () => {
             <tbody>
               {cryptoData.map((coin, index) => (
                 <tr key={index}>
-                  <td className="px-4 py-2 w-12 text-center">{coin.rank}</td>
+                  <td className="px-4 py-2 w-12 text-center text-white cursor-pointer" >{index +1 }</td>
                   
                     <td className="px-4 py-2 flex items-center cursor-pointer" onClick={() => handleCoinClick(coin.id)} >
                       <img
@@ -121,6 +126,7 @@ const CoinTable = () => {
           </table>
         </div>
         {selectedCoin && <ModalComponent coin={selectedCoin} onClose={handleCloseModal} />}
+        
       </div>
     </div>
   );

@@ -1,46 +1,71 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from "react";
 import { useLayoutEffect } from "react";
 import { CryptoContext } from "@/Context/Cyrpto";
-import ChartDetails from "@/components/GlobalCyrpto/CoinDetails/ChartDetails"
+import ChartDetails from "@/components/GlobalCyrpto/CoinDetails/ChartDetails";
+import axios from "axios"
 
 const HighLowIndicator = ({ currentPrice, high, low }) => {
-    const [green, setGreen] = useState();
-  
-    useEffect(() => {
-      let total = high - low;
-      let greenZone = ((high - currentPrice) * 100) / total;
-      setGreen(Math.ceil(greenZone));
-    }, [currentPrice, high, low]);
-  
-    return (
-      <>
-        <span
-          className="bg-red-600 h-1.5 rounded-l-lg w-[50%]"
-          style={{ width: `${100 - green}%` }}
-        >
-          &nbsp;
-        </span>
-        <span
-          className="bg-green-600 h-1.5 rounded-r-lg w-[50%]"
-          style={{ width: `${green}%` }}
-        >
-          &nbsp;
-        </span>
-      </>
-    );
-  };
-  
-const ModalComponent = ({ coin, onClose }) => {
-  
-  let { getCoinData, coinData: data, currency } = useContext(CryptoContext);
+  const [green, setGreen] = useState();
 
+  useEffect(() => {
+    let total = high - low;
+    let greenZone = ((high - currentPrice) * 100) / total;
+    setGreen(Math.ceil(greenZone));
+  }, [currentPrice, high, low]);
+
+  return (
+    <>
+      <span
+        className="bg-red-600 h-1.5 rounded-l-lg w-[50%]"
+        style={{ width: `${100 - green}%` }}
+      >
+        &nbsp;
+      </span>
+      <span
+        className="bg-green-600 h-1.5 rounded-r-lg w-[50%]"
+        style={{ width: `${green}%` }}
+      >
+        &nbsp;
+      </span>
+    </>
+  );
+};
+
+const ModalComponent = ({ coin, onClose }) => {
+  let { getCoinData, coinData: data, currency } = useContext(CryptoContext);
+  const [units, setUnits] = useState(0);
+  const email=localStorage.getItem("email");
 
   useLayoutEffect(() => {
     getCoinData(coin);
   }, [coin]);
 
   console.log(data);
-  return(
+
+  const handleOrder = () => {
+    const orderData = {
+      userId: email,
+      coinId: data.id,
+      coinSymbol: data.symbol,
+      coinName: data.name,
+      purchaseDate: new Date().toISOString(),
+      purchasePrice: Number(data.market_data.current_price[currency]),
+      quantity: units,
+    };
+    
+
+    axios.post("/api/crypto", orderData)
+      .then(response => {
+        console.log("Order successful:", response.data);
+        // Add any further logic you need here
+      })
+      .catch(error => {
+        console.error("Error ordering:", error);
+        // Handle errors as needed
+      });
+  };
+
+  return (
     <div
       className="fixed top-0 min-w-full min-h-full bg-gray-700 bg-opacity-30 first-letter:
     backdrop-blur-sm flex items-center justify-center font-nunito
@@ -227,8 +252,6 @@ const ModalComponent = ({ coin, onClose }) => {
               </div>
 
               <div className="flex w-full mt-4 justify-between">
-                
-
                 <div className="flex flex-col content-start">
                   <span className="text-sm capitalize text-gray-100">
                     sentiment
@@ -291,15 +314,30 @@ const ModalComponent = ({ coin, onClose }) => {
               </div>
             </div>
             <div className="flex flex-col w-[60%] h-full pl-3 ">
-               {data.id && <ChartDetails id={data.id} /> }
+              {data.id && <ChartDetails id={data.id} />}
 
-              <div className="flex flex-col mt-4">
+              <div className="flex mt-4 justify-between">
                 <h3 className="text-white py-1">
                   <span className="text-gray-100 capitalize mr-1">
                     market cap rank:{" "}
                   </span>{" "}
                   {data.market_cap_rank}{" "}
                 </h3>
+                <div className="flex">
+                  <input
+                    type="number"
+                    value={units}
+                    onChange={(e) => setUnits(parseInt(e.target.value))}
+                    className="text-base font-bold text-white w-32 h-8 rounded-md bg-gray-400"
+                    placeholder="Units"
+                  />
+                  <button
+                    onClick={handleOrder}
+                    className="bg-blue-500 text-white   rounded-md mr-2 ml-5 w-14 h-8"
+                  >
+                    Order
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -319,7 +357,6 @@ const ModalComponent = ({ coin, onClose }) => {
         )}
       </div>
     </div>
-   
   );
 };
 export default ModalComponent;
