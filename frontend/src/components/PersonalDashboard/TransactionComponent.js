@@ -72,7 +72,7 @@ const TransactionComponent = () => {
       <div className="p-4 flex justify-between items-center">
         <div className="text-lg font-semibold">Transactions</div>
         <div className="text-right text-blue-500 cursor-pointer">
-          <Link href="/transactions">View all</Link>
+          <Link href="/personaldashboard/transactions">View all</Link>
         </div>
       </div>
       <div className="flex justify-around text-lg font-semibold p-4 bg-gray-300/10 backdrop-filter backdrop-blur-lg">

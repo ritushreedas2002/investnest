@@ -29,7 +29,7 @@ export const CryptoProvider = ({ children }) => {
     //here we will set an empty string for the data error
     setError({ ...error, data: "" });
     setCryptoData();
-    setTotalPages(13220);
+    setTotalPages(40);
     
     try {
       const data = await fetch(
