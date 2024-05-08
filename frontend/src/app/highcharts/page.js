@@ -2,12 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Highcharts from "highcharts/highstock";
 import HighchartsReact from "highcharts-react-official";
-import Indicators from "highcharts/indicators/indicators-all";
-import Accessibility from "highcharts/modules/accessibility";
 
-// Initialize Highcharts modules
-Indicators(Highcharts);
-Accessibility(Highcharts);
 
 const HighchartsComponent = () => {
   const [chartOptions, setChartOptions] = useState({
