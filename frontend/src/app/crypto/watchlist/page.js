@@ -589,8 +589,8 @@ const WatchList = () => {
           setPrices(prevPrices => ({
             ...prevPrices,
             [id]: {
+              previous: prevPrices[id] ? prevPrices[id].current : p,
               current: p,
-              previous: prevPrices[id] ? prevPrices[id].current : p
             }
           }));
           setChange24(prev => ({ ...prev, [id]: p24h }));
