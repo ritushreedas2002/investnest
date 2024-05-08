@@ -169,10 +169,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import data from "../../../../top_300_coins_reduced.json";
+import { MdDeleteForever } from "react-icons/md";
 
 const WatchList = () => {
   const [watchlist, setWatchlist] = useState([]); // Static data from the backend
   const [prices, setPrices] = useState({}); // Dynamic price data from WebSocket
+  const [change24, setChange24] = useState({}); // Dynamic 24h change data from WebSocket
+  const [change1m, setChange1m] = useState({}); // Dynamic 24h change data from WebSocket
+  const [lastPrices, setLastPrices] = useState({}); // Keep track of last prices
+
   const wsUrl =
     "wss://push.coinmarketcap.com/ws?device=web&client_source=home_page";
   const email =
@@ -225,7 +230,9 @@ const WatchList = () => {
 
   const handleRemoveFromWatchlist = async (coinId) => {
     try {
-      await axios.delete(`/api/crypto/watchlist?userId=${email}&coinId=${coinId}`);
+      await axios.delete(
+        `/api/crypto/watchlist?userId=${email}&coinId=${coinId}`
+      );
       fetchWatchlist(); // Refresh the watchlist after deletion
     } catch (error) {
       console.error("Failed to delete coin from watchlist:", error);
@@ -249,11 +256,38 @@ const WatchList = () => {
         cryptoWebSocket.send(JSON.stringify(payload));
       };
 
+      // cryptoWebSocket.onmessage = (event) => {
+      //   const message = JSON.parse(event.data);
+      //   if (message && message.d) {
+      //     const updates = message.d;
+      //     console.log(message.d);
+      //     setPrices((prev) => ({ ...prev, [updates.id]: updates.p }));
+      //     setChange24((prev) => ({ ...prev, [updates.id]: updates.p24h }));
+      //     setChange1m((prev) => ({ ...prev, [updates.id]: updates.p30d }));
+      //   } else {
+      //     console.error("Unexpected message format:", message);
+      //   }
+      // };
       cryptoWebSocket.onmessage = (event) => {
         const message = JSON.parse(event.data);
         if (message && message.d) {
           const updates = message.d;
-          setPrices((prev) => ({ ...prev, [updates.id]: updates.p }));
+          console.log(message.d);
+
+          // First update lastPrices with the current prices before updating prices
+          setLastPrices((prevLastPrices) => ({
+            ...prevLastPrices,
+            [updates.id]: prevLastPrices[updates.id] || prices[updates.id], // this ensures to keep previous last price if exists, else use current price
+          }));
+          console.log(lastPrices);
+          // Then update prices with new incoming data
+          setPrices((prevPrices) => ({
+            ...prevPrices,
+            [updates.id]: updates.p,
+          }));
+          console.log(prices);
+          setChange24((prev) => ({ ...prev, [updates.id]: updates.p24h }));
+          setChange1m((prev) => ({ ...prev, [updates.id]: updates.p30d }));
         } else {
           console.error("Unexpected message format:", message);
         }
@@ -267,17 +301,62 @@ const WatchList = () => {
     };
   }, [watchlist]); // Only re-run this effect if watchlist changes, which should be infrequently
 
+  // const getPriceChangeColor = (coinId) => {
+  //   if (lastPrices[coinId] && prices[coinId]) {
+  //     return prices[coinId] > lastPrices[coinId]
+  //       ? "text-green-500"
+  //       : "text-red-500";
+  //   }
+  //   return "";
+  // };
+
+  // useEffect(() => {
+  //   // Update last prices when prices change
+  //   for (const coinId in prices) {
+  //     setLastPrices((prev) => ({ ...prev, [coinId]: prices[coinId] }));
+  //   }
+  // }, [prices]);
+
+  // useEffect(() => {
+  //   const newLastPrices = {};
+  //   for (const coinId in prices) {
+  //     newLastPrices[coinId] = lastPrices[coinId] || prices[coinId];
+  //   }
+  //   setLastPrices(newLastPrices);
+  // }, [prices]);
+
+  const getPriceChangeColor = (coinId) => {
+    // Ensure both values are defined and then compare
+    if (lastPrices[coinId] !== undefined && prices[coinId] !== undefined) {
+      if (prices[coinId] > lastPrices[coinId]) {
+        console.log("price increase");
+        return "text-green-500";
+      } else if (prices[coinId] < lastPrices[coinId]) {
+        console.log("price decrease");
+        return "text-red-500";
+      }
+    }
+    console.log("price same");
+    return "text-black"; // Default color if the price remains the same or insufficient data
+  };
+
   return (
-    <div className="container mx-auto p-6 max-w-sm">
-      <h1 className="text-xl font-semibold text-gray-800 mb-4">
-        Watchlist Crypto Prices
-      </h1>
+    <div className="container  p-6 max-w-sm">
+      <h1 className="text-xl font-semibold text-white mb-4">Your WatchList</h1>
       <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
         <thead>
-          <tr className="w-full bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+          <tr className="w-full bg-gray-200 text-gray-600 uppercase text-sm ">
             <th className="py-3 px-6 text-left">Name</th>
-            <th className="py-3 px-6 text-center">Image</th>
-            <th className="py-3 px-6 text-right">Price</th>
+            <th className="py-3 px-6 text-left whitespace-nowrap">
+              Live Price
+            </th>
+            <th className="py-3 px-6 text-left whitespace-nowrap">
+              24h Change
+            </th>
+            <th className="py-3 px-6 text-left whitespace-nowrap">
+              30d Change
+            </th>
+            <th></th>
           </tr>
         </thead>
         <tbody className="text-gray-600 text-sm font-light">
@@ -288,32 +367,54 @@ const WatchList = () => {
             >
               <td className="py-3 px-6 text-left whitespace-nowrap">
                 <div className="flex items-center">
+                  <img
+                    src={coin.coinImage}
+                    alt={`${coin.coinName} logo`}
+                    className="mr-2 w-8 h-8 rounded-full shadow-sm"
+                  />
                   <span className="font-medium">
                     {coin.coinName} ({coin.symbol})
                   </span>
                 </div>
               </td>
-              <td className="py-3 px-6 text-center">
-                <img
-                  src={coin.coinImage}
-                  alt={`${coin.coinName} logo`}
-                  className="w-14 h-14 rounded-full"
-                />
-              </td>
               <td className="py-3 px-6 text-right">
-                <span className="font-semibold">
+                <span
+                  className={`font-semibold ${getPriceChangeColor(coin.id)}`}
+                >
                   $
                   {prices[coin.id]
                     ? prices[coin.id].toFixed(2)
                     : coin.coinPrice.toFixed(2)}
                 </span>
               </td>
+              <td className="py-3 px-6 text-right font-semibold">
+                <span
+                  className={
+                    change24[coin.id] >= 0 ? "text-green-500" : "text-red-500"
+                  }
+                >
+                  {change24[coin.id]
+                    ? `${change24[coin.id].toFixed(2)}%`
+                    : "N/A"}
+                </span>
+              </td>
+              <td className="py-3 px-6 text-right font-semibold">
+                <span
+                  className={
+                    change1m[coin.id] >= 0 ? "text-green-500" : "text-red-500"
+                  }
+                >
+                  {change1m[coin.id]
+                    ? `${change1m[coin.id].toFixed(2)}%`
+                    : "N/A"}
+                </span>
+              </td>
               <td className="py-3 px-6 text-center">
                 <button
                   onClick={() => handleRemoveFromWatchlist(coin.coinId)}
-                  className="text-red-500 hover:text-red-700 transition duration-300"
+                  className="text-red-500 text-2xl hover:text-red-700 transition duration-300"
                 >
-                  Remove
+                  <MdDeleteForever />
                 </button>
               </td>
             </tr>
