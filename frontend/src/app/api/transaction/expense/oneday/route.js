@@ -10,7 +10,7 @@ export async function GET(request) {
     const url=new URL(request.url);
     const email=url.searchParams.get("email");
     if (!email) {
-      return new NextResponse(JSON.stringify({ error: "Email is required" }), { status: 400 });
+      return new NextResponse(JSON.stringify({ msg: "Email is required" }), { status: 400 });
     }
 
     const transactionData = await TransactionData.findOne({ userId: email });

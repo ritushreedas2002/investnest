@@ -3,6 +3,8 @@ import { useLayoutEffect } from "react";
 import { CryptoContext } from "@/Context/Cyrpto";
 import ChartDetails from "@/components/GlobalCyrpto/CoinDetails/ChartDetails";
 import axios from "axios"
+import { toast } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 
 const HighLowIndicator = ({ currentPrice, high, low }) => {
   const [green, setGreen] = useState();
@@ -58,10 +60,13 @@ const ModalComponent = ({ coin, onClose }) => {
       .then(response => {
         console.log("Order successful:", response.data);
         // Add any further logic you need here
+        setUnits(0);
       })
       .catch(error => {
-        console.error("Error ordering:", error);
+        console.error("Error ordering:", error.message);
         // Handle errors as needed
+        toast.error((error.response?.data.message || error.message));
+        setUnits(0);
       });
   };
 
@@ -72,10 +77,12 @@ const ModalComponent = ({ coin, onClose }) => {
     "
       onClick={onClose}
     >
+      <Toaster position="top-right"/>
       <div
         className=" top-12 w-[90%] h-[90%] bg-gray-900 bg-opacity-75 rounded-lg text-white relative"
         onClick={(e) => e.stopPropagation()}
       >
+        
         {data ? (
           <div className="flex items-center justify-between h-full w-full p-4">
             <div className="flex flex-col w-[35%] h-full pr-2 ">
@@ -95,7 +102,7 @@ const ModalComponent = ({ coin, onClose }) => {
                   {data.symbol}
                 </span>
               </div>
-
+             
               <div className="flex w-full mt-6">
                 <div className="flex flex-col w-full">
                   <div className="flex justify-between">

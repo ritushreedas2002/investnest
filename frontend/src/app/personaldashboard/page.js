@@ -3,7 +3,7 @@ import React from "react";
 import BarGraphComponent from "@/components/PersonalDashboard/ChartDashboard";
 import PieChart from "@/components/PersonalDashboard/WeeklySpendingPieChart";
 import DashboardBox from "@/components/PersonalDashboard/DashboardBox";
-import Sidebar from "@/components/PersonalDashboard/Sidebar";
+
 import TransactionComponent from "@/components/PersonalDashboard/TransactionComponent";
 import LearningDetails from "@/components/PersonalDashboard/LearningDetails";
 import { Chart, registerables } from "chart.js";
@@ -13,7 +13,7 @@ const Dashboard = () => {
   return (
     <div className="bg-slate-500 min-w-screen min-h-screen">
       <div className="flex bg-slate-500 min-w-screen">
-        <Sidebar />
+        {/* <Sidebar /> */}
         <div className="flex ml-12">
           <div className="w-6/7 flex-col">
             <DashboardBox />

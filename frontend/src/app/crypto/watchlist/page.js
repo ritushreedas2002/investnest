@@ -555,6 +555,7 @@ const WatchList = () => {
       }
     }
   };
+ 
 
   const handleRemoveFromWatchlist = async (coinId) => {
     try {
@@ -564,7 +565,7 @@ const WatchList = () => {
       console.error("Failed to delete coin from watchlist:", error);
     }
   };
-
+  
   useEffect(() => {
     let cryptoWebSocket;
     const ids = watchlist.map(coin => coin.id.toString()).join(",");

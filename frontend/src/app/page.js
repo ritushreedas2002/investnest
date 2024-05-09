@@ -3,7 +3,6 @@
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 
-import Navbar from "@/components/Navbar";
 import Carousal from "@/components/GlobalCyrpto/Carousal";
 import CoinTable from "@/components/GlobalCyrpto/CoinTable";
 import Filters from "@/components/GlobalCyrpto/Filters";
@@ -32,10 +31,9 @@ const Home = () => {
       <div className="bg-gray-800 min-h-screen">
       
         <div className="relative z-10"> 
-          <Navbar />
           <Carousal />
           <Filters />
-          <CoinTable />
+          <CoinTable /> 
           <Pagination />
         </div>
       </div>

@@ -79,6 +79,8 @@ const TableComponent = () => {
       setExpenses(currentExpenses => currentExpenses.filter(expense => expense.id !== item.id));
     } catch (error) {
       console.error('Failed to delete:', error);
+      toast.error((error.response?.data.msg || error.message));
+
     }
   };
   
