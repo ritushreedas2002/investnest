@@ -26,7 +26,7 @@ const CryptoHome = () => {
             <VirtualPortfolio />
           </div>
           <div className=" w-[50%]">
-            <div className="h-1/3 rounded-xl  p-4 m-4 bg-gray-600  relative overflow-y-auto no-scrollbar">
+            <div className="h-64 rounded-xl  p-4 m-4 bg-gray-600  relative overflow-y-auto no-scrollbar">
               <div className="sticky flex justify-end top-0 right-0 z-10 -mt-8">
                 <Link href="/">
                   <button className="bg-blue-500 hover:bg-blue-700 text-white text-sm font-semibold py-1.5 px-3 rounded">
@@ -39,7 +39,7 @@ const CryptoHome = () => {
             <h1 className="text-xl font-semibold text-white mb-4">
               Your WatchList
             </h1>
-            <div className=" h-1/3 m-4 rounded-xl overflow-y-auto no-scrollbar">
+            <div className=" h-64 m-4 rounded-xl overflow-y-auto no-scrollbar">
               <WatchList />
             </div>
           </div>

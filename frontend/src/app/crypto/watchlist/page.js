@@ -4,12 +4,40 @@ import axios from "axios";
 import data from "../../../../top_300_coins_reduced.json";
 import { MdDeleteForever } from "react-icons/md";
 
+const ShimmerRow = () => {
+  return (
+    <tr className="animate-pulse">
+      <td className="py-3 px-6 text-left whitespace-nowrap">
+        <div className="flex items-center space-x-4">
+        <div className="rounded-full bg-gray-300 h-10 w-10"></div>  
+          <div className="flex-1 space-y-4 py-1">
+            <div className="h-6 bg-gray-300 rounded w-20"></div>  
+          </div>
+        </div>
+      </td>
+      <td className="py-3 px-6 text-right">
+        <div className="h-6 bg-gray-300 rounded w-20"></div>
+      </td>
+      <td className="py-3 px-6 text-right">
+        <div className="h-6 bg-gray-300 rounded w-20"></div>
+      </td>
+      <td className="py-3 px-6 text-right">
+        <div className="h-6 bg-gray-300 rounded w-20"></div>
+      </td>
+      <td className="py-3 px-6 text-center">
+        <div className="h-6 w-6 bg-gray-300 rounded"></div>
+      </td>
+    </tr>
+  );
+};
+
 const WatchList = () => {
   const [watchlist, setWatchlist] = useState([]);
   // Combining prices and previous prices in a single state to manage them atomically
   const [prices, setPrices] = useState({});
   const [change24, setChange24] = useState({});
   const [change1m, setChange1m] = useState({});
+  const [loading, setLoading] = useState(true);
 
   const wsUrl =
     "wss://push.coinmarketcap.com/ws?device=web&client_source=home_page";
@@ -22,10 +50,12 @@ const WatchList = () => {
 
   const fetchWatchlist = async () => {
     if (email) {
+      setLoading(true); 
       try {
         const response = await axios.get(
           `/api/crypto/watchlist?userId=${email}`
         );
+        
         const symbolsFromBackend = response.data.data.map((item) =>
           item.coinSymbol.toLowerCase()
         );
@@ -42,6 +72,7 @@ const WatchList = () => {
           });
 
         setWatchlist(matchedData);
+        setLoading(false);
       } catch (error) {
         console.error("Failed to fetch watchlist:", error);
       }
@@ -121,7 +152,78 @@ const WatchList = () => {
           </tr>
         </thead>
         <tbody className="text-gray-600 text-sm font-light">
-          {watchlist.map((coin, index) => (
+        {loading ? (
+            Array.from({ length: 5 }).map((_, index) => <ShimmerRow key={index} />)
+          ) : (
+            watchlist.map((coin, index) => (
+              <tr
+                key={index}
+                className="border-b border-gray-200 hover:bg-gray-100"
+              >
+                <td className="py-3 px-6 text-left whitespace-nowrap">
+                  <div className="flex items-center">
+                    <img
+                      src={coin.coinImage}
+                      alt={`${coin.coinName} logo`}
+                      className="mr-2 w-8 h-8 rounded-full shadow-sm"
+                    />
+                    <span className="font-medium">
+                      {coin.coinName} ({coin.symbol})
+                    </span>
+                  </div>
+                </td>
+                <td className="py-3 px-6 text-right">
+                  <span
+                    className={`font-semibold ${
+                      prices[coin.id] &&
+                      prices[coin.id].current > prices[coin.id].previous
+                        ? "text-green-500"
+                        : prices[coin.id] &&
+                          prices[coin.id].current < prices[coin.id].previous
+                        ? "text-red-500"
+                        : ""
+                    }`}
+                  >
+                    $
+                    {prices[coin.id]
+                      ? prices[coin.id].current.toFixed(2)
+                      : coin.coinPrice.toFixed(2)}
+                  </span>
+                </td>
+                <td className="py-3 px-6 text-right font-semibold">
+                  <span
+                    className={
+                      change24[coin.id] >= 0 ? "text-green-500" : "text-red-500"
+                    }
+                  >
+                    {change24[coin.id]
+                      ? `${change24[coin.id].toFixed(2)}%`
+                      : "N/A"}
+                  </span>
+                </td>
+                <td className="py-3 px-6 text-right font-semibold">
+                  <span
+                    className={
+                      change1m[coin.id] >= 0 ? "text-green-500" : "text-red-500"
+                    }
+                  >
+                    {change1m[coin.id]
+                      ? `${change1m[coin.id].toFixed(2)}%`
+                      : "N/A"}
+                  </span>
+                </td>
+                <td className="py-3 px-6 text-center">
+                  <button
+                    onClick={() => handleRemoveFromWatchlist(coin.coinId)}
+                    className="text-red-500 text-2xl hover:text-red-700 transition duration-300"
+                  >
+                    <MdDeleteForever />
+                  </button>
+                </td>
+              </tr>
+            ))
+          )}
+          {/* {watchlist.map((coin, index) => (
             <tr
               key={index}
               className="border-b border-gray-200 hover:bg-gray-100"
@@ -187,7 +289,7 @@ const WatchList = () => {
                 </button>
               </td>
             </tr>
-          ))}
+          ))} */}
         </tbody>
       </table>
     </div>
