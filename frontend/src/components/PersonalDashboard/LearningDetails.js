@@ -5,42 +5,6 @@ import axios from "axios";
 import Image from "next/image";
 
 const LearningDetails = () => {
-  // const [articles, setArticles] = useState([]);
-
-  // useEffect(() => {
-  //   const fetchArticles = async () => {
-  //     try {
-  //       const response = await axios.get('https://newsapi.org/v2/everything', {
-  //         params: {
-  //           q: 'personal finance management', // Search query
-  //           apiKey: '0a24a9ad8e4b4a078c674b91f0b703fe' // Replace 'YOUR_API_KEY' with your actual NewsAPI key
-  //         }
-  //       });
-  //       setArticles(response.data.articles);
-  //       console.log(response.data);
-  //     } catch (error) {
-  //       console.error('Error fetching articles:', error);
-  //     }
-  //   };
-
-  //   fetchArticles();
-  // }, []);
-
-  // return (
-  //   <div style={{ padding: '20px' }}>
-  //     <h1 style={{ color: '#333', marginBottom: '10px' }}>Personal Finance News</h1>
-  //     <ul style={{ listStyleType: 'none', padding: 0 }}>
-  //       {articles.map(article => (
-  //         <li key={article.url} style={{ marginBottom: '10px', borderBottom: '1px solid #ccc', paddingBottom: '10px' }}>
-  //           <a href={article.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'white' }}>
-  //             <h2>{article.title}</h2>
-  //             <p>{article.description}</p>
-  //           </a>
-  //         </li>
-  //       ))}
-  //     </ul>
-  //   </div>
-  // );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [articles, setArticles] = useState([]);
@@ -91,34 +55,36 @@ const LearningDetails = () => {
   //if (error) return <p>Error: {error}</p>;
 
   return (
-    <div className="p-2 flex-col min-w-96">
+    <div className="p-2 flex-col " style={{ width: "50vw" }}>
       {error && <p>Error loading articles: {error}</p>}
-        
-       <div className=" flex-col overflow-y-auto no-scrollbar">
+
+      <div className=" flex-col overflow-y-auto bg-white rounded-lg no-scrollbar">
         {articles.map((article) => (
           <div
             key={article.url}
-            className=" p-2 m-2 w-36 rounded-xl  bg-white max-h-24 overflow-y-auto no-scrollbar"
+            className=" p-2 mx-3 rounded-xl border-b border-gray-300  overflow-y-auto no-scrollbar"
           >
-            <a href={article.url} target="_blank" rel="noopener noreferrer">
-              
-              <div className=" text-lg text-black font-semibold">
-                {article.title}
-              </div>
-              <p>{article.description}</p>
+            <a href={article.url} target="_blank" rel="noopener noreferrer" className="text-black">
+              <p className=" text-lg text-red-800 font-semibold hover:underline">
+                {article.name}
+              </p>
+              <p>
+                {article.description.length > 93
+                  ? article.description.slice(0, 93) + "..."
+                  : article.description}
+              </p>
             </a>
           </div>
         ))}
-       
-      </div> 
+      </div>
     </div>
   );
 };
 
 export default LearningDetails;
 
-
-{/* {article.image?.thumbnail?.contentUrl && (
+{
+  /* {article.image?.thumbnail?.contentUrl && (
                 <Image
                   src={article.image.thumbnail.contentUrl}
                   alt="Article image"
@@ -126,4 +92,5 @@ export default LearningDetails;
                   height={100} // Example height, adjust based on your design needs
                   className="rounded"
                 />
-              )} */}
+              )} */
+}
