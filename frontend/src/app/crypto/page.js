@@ -39,7 +39,7 @@ const CryptoHome = () => {
             <h1 className="text-xl font-semibold text-white mb-4">
               Your WatchList
             </h1>
-            <div className=" h-1/3 rounded-xl  p-4  overflow-y-auto ">
+            <div className=" h-1/3 m-4 rounded-xl overflow-y-auto no-scrollbar">
               <WatchList />
             </div>
           </div>
