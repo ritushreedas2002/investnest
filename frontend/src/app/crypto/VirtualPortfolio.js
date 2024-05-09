@@ -49,7 +49,7 @@ const VirtualPortfolio = () => {
         Insights - Get details <span className="ml-2">➔</span>
       </button>
       {/* <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} data={portfolioData} /> */}
-      {portfolioData && (
+      {portfolioData && modalOpen && (
         <Modal
           isOpen={modalOpen}
           onClose={() => setModalOpen(false)}

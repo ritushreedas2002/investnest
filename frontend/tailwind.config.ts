@@ -10,8 +10,15 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      backdropFilter: { 'none': 'none', 'blur': 'blur(20px)' },
+      borderColor: { 
+        // This setting enables border color utilities to support hover and focus states
+        DEFAULT: 'currentColor',
+        'hover': 'var(--tw-border-color-hover)', // Define this variable in your CSS
+        'focus': 'var(--tw-border-color-focus)', // Define this variable in your CSS
+      },
       backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+        'gradient-radial': 'radial-gradient(ellipse at top right, var(--tw-gradient-stops))',
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },

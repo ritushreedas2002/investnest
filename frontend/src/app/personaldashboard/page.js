@@ -6,6 +6,7 @@ import DashboardBox from "@/components/PersonalDashboard/DashboardBox";
 import Sidebar from "@/components/PersonalDashboard/Sidebar";
 import TransactionComponent from "@/components/PersonalDashboard/TransactionComponent";
 import LearningDetails from "@/components/PersonalDashboard/LearningDetails";
+import YouTubeVideos from "@/components/PersonalDashboard/YoutubeVideos";
 import { Chart, registerables } from "chart.js";
 Chart.register(...registerables);
 
@@ -14,18 +15,18 @@ const Dashboard = () => {
     <div className="bg-slate-500 min-w-screen min-h-screen">
       <div className="flex bg-slate-500 min-w-screen">
         <Sidebar />
-        <div className="flex ml-12">
-          <div className="w-6/7 flex-col">
+        <div className="flex ">
+          <div className=" flex-col">
             <DashboardBox />
             <div className="ml-24">
               <BarGraphComponent />
-            </div>
-            <div className=" bg-slate-400 ml-24 mt-6 flex min-h-32 overflow-y-auto no scrollbar">
-              <div className="w-5/6">
-                <LearningDetails />
-              </div>
-              <div className="w-1/6">
-                {/* <YouTubeVideos /> */}
+              <div className=" bg-slate-400 w-full  mt-6 min-h-32 overflow-y-auto no scrollbar">
+                <div className="w-full">
+                  <LearningDetails />
+                </div>
+                <div className="">
+                  <YouTubeVideos />
+                </div>
               </div>
             </div>
           </div>
@@ -38,7 +39,8 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        {/* <div className="flex-col w-  mt-10">
+
+        {/* <div className="flex-col  mt-10">
          
           <DashboardBox />
          
@@ -51,8 +53,8 @@ const Dashboard = () => {
           <div className="  ml-20  p-6">
             <YouTubeVideos />
           </div> 
-        </div> */}
-        {/* <div className="flex-col w-1/4 mr-10 mt-24 ml-20">
+        </div>
+        <div className="flex-col w-1/4 mr-10 mt-24 ml-20">
           <TransactionComponent />
           <div className="mb-7"></div>
           <div className="w-[400px]  h-[300px] rounded-lg  mb-7">
