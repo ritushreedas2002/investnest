@@ -19,13 +19,13 @@ const CryptoHome = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="p-8 h-screen " >
+      <div className="p-8 h-screen ">
         <h1 className="text-3xl font-bold ">Cryptocurrency Dashboard</h1>
         <div className=" flex">
           <div className="m-4 ">
             <VirtualPortfolio />
           </div>
-          <div className=" w-[45%]">
+          <div className=" w-[50%]">
             <div className="h-1/3 rounded-xl  p-4 m-4 bg-gray-600  relative overflow-y-auto no-scrollbar">
               <div className="sticky flex justify-end top-0 right-0 z-10 -mt-8">
                 <Link href="/">
@@ -36,7 +36,10 @@ const CryptoHome = () => {
               </div>
               <CryptoTable />
             </div>
-            <div>
+            <h1 className="text-xl font-semibold text-white mb-4">
+              Your WatchList
+            </h1>
+            <div className=" h-1/3 rounded-xl  p-4  overflow-y-auto ">
               <WatchList />
             </div>
           </div>

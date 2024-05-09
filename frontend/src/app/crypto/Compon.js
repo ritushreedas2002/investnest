@@ -17,7 +17,7 @@ const CryptoTable = () => {
   }, []);
 
   return (
-    <div className="overflow-x-auto relative">
+    <div className=" relative">
       <table className="min-w-full leading-normal">
         <thead>
           <tr>
