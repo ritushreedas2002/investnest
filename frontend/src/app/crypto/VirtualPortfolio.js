@@ -21,7 +21,6 @@ const VirtualPortfolio = () => {
       const response = await fetch(`/api/crypto?email=${email}`); // Assuming you have an API route to fetch portfolio data
       const data = await response.json();
       setPortfolioData(data);
-      setModalOpen(true);
     } catch (error) {
       console.error("Error fetching portfolio data:", error);
     }
@@ -49,7 +48,7 @@ const VirtualPortfolio = () => {
         Insights - Get details <span className="ml-2">➔</span>
       </button>
       {/* <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} data={portfolioData} /> */}
-      {portfolioData && modalOpen && (
+      {modalOpen &&portfolioData && (
         <Modal
           isOpen={modalOpen}
           onClose={() => setModalOpen(false)}
