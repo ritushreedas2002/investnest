@@ -9,9 +9,9 @@ const ShimmerRow = () => {
     <tr className="animate-pulse">
       <td className="py-3 px-6 text-left whitespace-nowrap">
         <div className="flex items-center space-x-4">
-        <div className="rounded-full bg-gray-300 h-10 w-10"></div>  
+          <div className="rounded-full bg-gray-300 h-10 w-10"></div>
           <div className="flex-1 space-y-4 py-1">
-            <div className="h-6 bg-gray-300 rounded w-20"></div>  
+            <div className="h-6 bg-gray-300 rounded w-20"></div>
           </div>
         </div>
       </td>
@@ -50,12 +50,12 @@ const WatchList = () => {
 
   const fetchWatchlist = async () => {
     if (email) {
-      setLoading(true); 
+      setLoading(true);
       try {
         const response = await axios.get(
           `/api/crypto/watchlist?userId=${email}`
         );
-        
+
         const symbolsFromBackend = response.data.data.map((item) =>
           item.coinSymbol.toLowerCase()
         );
@@ -134,164 +134,266 @@ const WatchList = () => {
   }, [watchlist]);
 
   return (
+    // <div>
+    //   <table className="min-w-full  bg-white rounded-lg shadow overflow-hidden">
+    //     <thead>
+    //       <tr className="w-full bg-gray-200 text-gray-600 uppercase text-sm">
+    //         <th className="py-3 px-5 text-left">Name</th>
+    //         <th className="py-3 px-5 text-left whitespace-nowrap">
+    //           Live Price
+    //         </th>
+    //         <th className="py-3 px-5 text-left whitespace-nowrap">
+    //           24h Change
+    //         </th>
+    //         <th className="py-3 px-5 text-left whitespace-nowrap">
+    //           30d Change
+    //         </th>
+    //         <th></th>
+    //       </tr>
+    //     </thead>
+    //     <tbody className="text-gray-600 text-sm font-light">
+    //     {loading ? (
+    //         Array.from({ length: 5 }).map((_, index) => <ShimmerRow key={index} />)
+    //       ) : (
+    //         watchlist.map((coin, index) => (
+    //           <tr
+    //             key={index}
+    //             className="border-b border-gray-200 hover:bg-gray-100"
+    //           >
+    //             <td className="py-3 px-6 text-left whitespace-nowrap">
+    //               <div className="flex items-center">
+    //                 <img
+    //                   src={coin.coinImage}
+    //                   alt={`${coin.coinName} logo`}
+    //                   className="mr-2 w-8 h-8 rounded-full shadow-sm"
+    //                 />
+    //                 <span className="font-medium">
+    //                   {coin.coinName} ({coin.symbol})
+    //                 </span>
+    //               </div>
+    //             </td>
+    //             <td className="py-3 px-6 text-right">
+    //               <span
+    //                 className={`font-semibold ${
+    //                   prices[coin.id] &&
+    //                   prices[coin.id].current > prices[coin.id].previous
+    //                     ? "text-green-500"
+    //                     : prices[coin.id] &&
+    //                       prices[coin.id].current < prices[coin.id].previous
+    //                     ? "text-red-500"
+    //                     : ""
+    //                 }`}
+    //               >
+    //                 $
+    //                 {prices[coin.id]
+    //                   ? prices[coin.id].current.toFixed(2)
+    //                   : coin.coinPrice.toFixed(2)}
+    //               </span>
+    //             </td>
+    //             <td className="py-3 px-6 text-right font-semibold">
+    //               <span
+    //                 className={
+    //                   change24[coin.id] >= 0 ? "text-green-500" : "text-red-500"
+    //                 }
+    //               >
+    //                 {change24[coin.id]
+    //                   ? `${change24[coin.id].toFixed(2)}%`
+    //                   : "N/A"}
+    //               </span>
+    //             </td>
+    //             <td className="py-3 px-6 text-right font-semibold">
+    //               <span
+    //                 className={
+    //                   change1m[coin.id] >= 0 ? "text-green-500" : "text-red-500"
+    //                 }
+    //               >
+    //                 {change1m[coin.id]
+    //                   ? `${change1m[coin.id].toFixed(2)}%`
+    //                   : "N/A"}
+    //               </span>
+    //             </td>
+    //             <td className="py-3 px-6 text-center">
+    //               <button
+    //                 onClick={() => handleRemoveFromWatchlist(coin.coinId)}
+    //                 className="text-red-500 text-2xl hover:text-red-700 transition duration-300"
+    //               >
+    //                 <MdDeleteForever />
+    //               </button>
+    //             </td>
+    //           </tr>
+    //         ))
+    //       )}
+    //       {/* {watchlist.map((coin, index) => (
+    //         <tr
+    //           key={index}
+    //           className="border-b border-gray-200 hover:bg-gray-100"
+    //         >
+    //           <td className="py-3 px-6 text-left whitespace-nowrap">
+    //             <div className="flex items-center">
+    //               <img
+    //                 src={coin.coinImage}
+    //                 alt={`${coin.coinName} logo`}
+    //                 className="mr-2 w-8 h-8 rounded-full shadow-sm"
+    //               />
+    //               <span className="font-medium">
+    //                 {coin.coinName} ({coin.symbol})
+    //               </span>
+    //             </div>
+    //           </td>
+    //           <td className="py-3 px-6 text-right">
+    //             <span
+    //               className={`font-semibold ${
+    //                 prices[coin.id] &&
+    //                 prices[coin.id].current > prices[coin.id].previous
+    //                   ? "text-green-500"
+    //                   : prices[coin.id] &&
+    //                     prices[coin.id].current < prices[coin.id].previous
+    //                   ? "text-red-500"
+    //                   : ""
+    //               }`}
+    //             >
+    //               $
+    //               {prices[coin.id]
+    //                 ? prices[coin.id].current.toFixed(2)
+    //                 : coin.coinPrice.toFixed(2)}
+    //             </span>
+    //           </td>
+    //           <td className="py-3 px-6 text-right font-semibold">
+    //             <span
+    //               className={
+    //                 change24[coin.id] >= 0 ? "text-green-500" : "text-red-500"
+    //               }
+    //             >
+    //               {change24[coin.id]
+    //                 ? `${change24[coin.id].toFixed(2)}%`
+    //                 : "N/A"}
+    //             </span>
+    //           </td>
+    //           <td className="py-3 px-6 text-right font-semibold">
+    //             <span
+    //               className={
+    //                 change1m[coin.id] >= 0 ? "text-green-500" : "text-red-500"
+    //               }
+    //             >
+    //               {change1m[coin.id]
+    //                 ? `${change1m[coin.id].toFixed(2)}%`
+    //                 : "N/A"}
+    //             </span>
+    //           </td>
+    //           <td className="py-3 px-6 text-center">
+    //             <button
+    //               onClick={() => handleRemoveFromWatchlist(coin.coinId)}
+    //               className="text-red-500 text-2xl hover:text-red-700 transition duration-300"
+    //             >
+    //               <MdDeleteForever />
+    //             </button>
+    //           </td>
+    //         </tr>
+    //       ))} */}
+    //     </tbody>
+    //   </table>
+    // </div>
     <div>
-      <table className="min-w-full  bg-white rounded-lg shadow overflow-hidden">
-        <thead>
-          <tr className="w-full bg-gray-200 text-gray-600 uppercase text-sm">
-            <th className="py-3 px-5 text-left">Name</th>
-            <th className="py-3 px-5 text-left whitespace-nowrap">
-              Live Price
-            </th>
-            <th className="py-3 px-5 text-left whitespace-nowrap">
-              24h Change
-            </th>
-            <th className="py-3 px-5 text-left whitespace-nowrap">
-              30d Change
-            </th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody className="text-gray-600 text-sm font-light">
-        {loading ? (
-            Array.from({ length: 5 }).map((_, index) => <ShimmerRow key={index} />)
-          ) : (
-            watchlist.map((coin, index) => (
-              <tr
-                key={index}
-                className="border-b border-gray-200 hover:bg-gray-100"
-              >
-                <td className="py-3 px-6 text-left whitespace-nowrap">
-                  <div className="flex items-center">
-                    <img
-                      src={coin.coinImage}
-                      alt={`${coin.coinName} logo`}
-                      className="mr-2 w-8 h-8 rounded-full shadow-sm"
-                    />
-                    <span className="font-medium">
-                      {coin.coinName} ({coin.symbol})
-                    </span>
-                  </div>
-                </td>
-                <td className="py-3 px-6 text-right">
-                  <span
-                    className={`font-semibold ${
-                      prices[coin.id] &&
-                      prices[coin.id].current > prices[coin.id].previous
-                        ? "text-green-500"
-                        : prices[coin.id] &&
-                          prices[coin.id].current < prices[coin.id].previous
-                        ? "text-red-500"
-                        : ""
-                    }`}
-                  >
-                    $
-                    {prices[coin.id]
-                      ? prices[coin.id].current.toFixed(2)
-                      : coin.coinPrice.toFixed(2)}
-                  </span>
-                </td>
-                <td className="py-3 px-6 text-right font-semibold">
-                  <span
-                    className={
-                      change24[coin.id] >= 0 ? "text-green-500" : "text-red-500"
-                    }
-                  >
-                    {change24[coin.id]
-                      ? `${change24[coin.id].toFixed(2)}%`
-                      : "N/A"}
-                  </span>
-                </td>
-                <td className="py-3 px-6 text-right font-semibold">
-                  <span
-                    className={
-                      change1m[coin.id] >= 0 ? "text-green-500" : "text-red-500"
-                    }
-                  >
-                    {change1m[coin.id]
-                      ? `${change1m[coin.id].toFixed(2)}%`
-                      : "N/A"}
-                  </span>
-                </td>
-                <td className="py-3 px-6 text-center">
-                  <button
-                    onClick={() => handleRemoveFromWatchlist(coin.coinId)}
-                    className="text-red-500 text-2xl hover:text-red-700 transition duration-300"
-                  >
-                    <MdDeleteForever />
-                  </button>
-                </td>
-              </tr>
-            ))
-          )}
-          {/* {watchlist.map((coin, index) => (
-            <tr
-              key={index}
-              className="border-b border-gray-200 hover:bg-gray-100"
-            >
-              <td className="py-3 px-6 text-left whitespace-nowrap">
-                <div className="flex items-center">
-                  <img
-                    src={coin.coinImage}
-                    alt={`${coin.coinName} logo`}
-                    className="mr-2 w-8 h-8 rounded-full shadow-sm"
-                  />
-                  <span className="font-medium">
-                    {coin.coinName} ({coin.symbol})
-                  </span>
-                </div>
-              </td>
-              <td className="py-3 px-6 text-right">
-                <span
-                  className={`font-semibold ${
-                    prices[coin.id] &&
-                    prices[coin.id].current > prices[coin.id].previous
-                      ? "text-green-500"
-                      : prices[coin.id] &&
-                        prices[coin.id].current < prices[coin.id].previous
-                      ? "text-red-500"
-                      : ""
-                  }`}
-                >
-                  $
-                  {prices[coin.id]
-                    ? prices[coin.id].current.toFixed(2)
-                    : coin.coinPrice.toFixed(2)}
-                </span>
-              </td>
-              <td className="py-3 px-6 text-right font-semibold">
-                <span
-                  className={
-                    change24[coin.id] >= 0 ? "text-green-500" : "text-red-500"
-                  }
-                >
-                  {change24[coin.id]
-                    ? `${change24[coin.id].toFixed(2)}%`
-                    : "N/A"}
-                </span>
-              </td>
-              <td className="py-3 px-6 text-right font-semibold">
-                <span
-                  className={
-                    change1m[coin.id] >= 0 ? "text-green-500" : "text-red-500"
-                  }
-                >
-                  {change1m[coin.id]
-                    ? `${change1m[coin.id].toFixed(2)}%`
-                    : "N/A"}
-                </span>
-              </td>
-              <td className="py-3 px-6 text-center">
-                <button
-                  onClick={() => handleRemoveFromWatchlist(coin.coinId)}
-                  className="text-red-500 text-2xl hover:text-red-700 transition duration-300"
-                >
-                  <MdDeleteForever />
-                </button>
-              </td>
+      <div className="bg-gray-200 sticky top-0 z-10">
+        <table className="min-w-full">
+          <thead className="text-gray-600 uppercase text-sm">
+            <tr>
+              <th className="py-3 pl-7 pr-48 text-left">Name</th>
+              <th className="py-3 pr-6 text-left whitespace-nowrap">
+                Live Price
+              </th>
+              <th className="pr-2 py-3  text-left whitespace-nowrap">
+                24h Change
+              </th>
+              <th className="py-3 pr-14 text-left whitespace-nowrap">
+                30d Change
+              </th>
+              <th></th>
             </tr>
-          ))} */}
-        </tbody>
-      </table>
+          </thead>
+        </table>
+      </div>
+      <div className="overflow-y-auto h-[400px] bg-white rounded-bl-lg shadow no-scrollbar">
+        <table className="min-w-full">
+          <tbody className="text-gray-600 text-sm font-light">
+            {loading
+              ? Array.from({ length: 5 }).map((_, index) => (
+                  <ShimmerRow key={index} />
+                ))
+              : watchlist.map((coin, index) => (
+                  <tr
+                    key={index}
+                    className="border-b border-gray-200 hover:bg-gray-100"
+                  >
+                    <td className="py-3 px-6 text-left whitespace-nowrap">
+                      <div className="flex items-center">
+                        <img
+                          src={coin.coinImage}
+                          alt={`${coin.coinName} logo`}
+                          className="mr-2 w-8 h-8 rounded-full shadow-sm"
+                        />
+                        <span className="font-medium">
+                          {coin.coinName} ({coin.symbol})
+                        </span>
+                      </div>
+                    </td>
+                    <td className="py-3 px-6 text-right">
+                      <span
+                        className={`font-semibold ${
+                          prices[coin.id] &&
+                          prices[coin.id].current > prices[coin.id].previous
+                            ? "text-green-500"
+                            : prices[coin.id] &&
+                              prices[coin.id].current < prices[coin.id].previous
+                            ? "text-red-500"
+                            : ""
+                        }`}
+                      >
+                        $
+                        {prices[coin.id]
+                          ? prices[coin.id].current.toFixed(2)
+                          : coin.coinPrice.toFixed(2)}
+                      </span>
+                    </td>
+                    <td className="py-3 px-6 text-right font-semibold">
+                      <span
+                        className={
+                          change24[coin.id] >= 0
+                            ? "text-green-500"
+                            : "text-red-500"
+                        }
+                      >
+                        {change24[coin.id]
+                          ? `${change24[coin.id].toFixed(2)}%`
+                          : "N/A"}
+                      </span>
+                    </td>
+                    <td className="py-3 px-6 text-right font-semibold">
+                      <span
+                        className={
+                          change1m[coin.id] >= 0
+                            ? "text-green-500"
+                            : "text-red-500"
+                        }
+                      >
+                        {change1m[coin.id]
+                          ? `${change1m[coin.id].toFixed(2)}%`
+                          : "N/A"}
+                      </span>
+                    </td>
+                    <td className="py-3 px-6 text-center">
+                      <button
+                        onClick={() => handleRemoveFromWatchlist(coin.coinId)}
+                        className="text-red-500 text-2xl hover:text-red-700 transition duration-300"
+                      >
+                        <MdDeleteForever />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

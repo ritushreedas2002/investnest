@@ -9,7 +9,7 @@ import Dashboard from "./Glassy";
 
 const CryptoHome = () => {
   return (
-    <div className="bg-gray-900   min-h-screen text-white">
+    <div className="bg-gray-900 ml-16   min-h-screen text-white">
       <Head>
         <title>Crypto Dashboard</title>
         <meta
@@ -26,17 +26,20 @@ const CryptoHome = () => {
             <VirtualPortfolio />
           </div>
           <div className=" w-[50%]">
-            <div className="h-64 rounded-xl  p-4 m-4 bg-gray-600  relative overflow-y-auto no-scrollbar">
-              <div className="sticky flex justify-end top-0 right-0 z-10 -mt-8">
+            <h1 className="text-xl font-semibold mx-4 text-white mb-4">
+              Cryptocurrencies
+            </h1>
+            <div className="h-64 rounded-xl m-4 bg-gray-600 overflow-y-auto no-scrollbar">
+              {/* <div className="sticky flex justify-end top-0 right-0 z-10 -mt-8">
                 <Link href="/">
-                  <button className="bg-blue-500 hover:bg-blue-700 text-white text-sm font-semibold py-1.5 px-3 rounded">
+                  <button className="bg-blue-500 z-20 hover:bg-blue-700 text-white text-sm font-semibold py-1.5 px-3 rounded">
                     View All
                   </button>
                 </Link>
-              </div>
+              </div> */}
               <CryptoTable />
             </div>
-            <h1 className="text-xl font-semibold text-white mb-4">
+            <h1 className="text-xl font-semibold mx-4 text-white mb-4">
               Your WatchList
             </h1>
             <div className=" h-64 m-4 rounded-xl overflow-y-auto no-scrollbar">
