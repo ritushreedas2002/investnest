@@ -27,7 +27,7 @@ const VirtualPortfolio = () => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-purple-800 to-pink-600 rounded-lg p-6 shadow-lg max-w-sm">
+    <div className="bg-gradient-to-br from-purple-800 to-pink-600 rounded-lg px-6 py-6 shadow-lg w-80">
       <div className="flex justify-between items-center">
         <select className="bg-transparent text-white border-none outline-none cursor-pointer">
           <option>Wallet</option>

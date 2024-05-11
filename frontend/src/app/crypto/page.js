@@ -6,6 +6,7 @@ import VirtualPortfolio from "./VirtualPortfolio";
 import WatchList from "@/app/crypto/watchlist/page";
 import Link from "next/link";
 import Dashboard from "./Glassy";
+import CryptoTopics from "./LearningChat";
 
 const CryptoHome = () => {
   return (
@@ -19,7 +20,7 @@ const CryptoHome = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="p-8 h-screen ">
+      <div className="p-4 h-screen ">
         <h1 className="text-3xl font-bold ">Cryptocurrency Dashboard</h1>
         <div className=" flex">
           <div className="m-4 ">
@@ -29,14 +30,14 @@ const CryptoHome = () => {
             <h1 className="text-xl font-semibold mx-4 text-white mb-4">
               Cryptocurrencies
             </h1>
-            <div className="h-64 rounded-xl m-4 bg-gray-600 overflow-y-auto no-scrollbar">
-              {/* <div className="sticky flex justify-end top-0 right-0 z-10 -mt-8">
-                <Link href="/">
-                  <button className="bg-blue-500 z-20 hover:bg-blue-700 text-white text-sm font-semibold py-1.5 px-3 rounded">
-                    View All
-                  </button>
-                </Link>
-              </div> */}
+            <div className=" flex justify-end z-20 mr-6 -mt-12">
+              <Link href="/">
+                <button className="bg-blue-500 z-20 hover:bg-blue-700 text-white text-sm font-semibold py-1.5 px-3 rounded">
+                  View All
+                </button>
+              </Link>
+            </div>
+            <div className="h-64 rounded-xl relative m-4 bg-gray-600 overflow-y-auto no-scrollbar">
               <CryptoTable />
             </div>
             <h1 className="text-xl font-semibold mx-4 text-white mb-4">
@@ -45,6 +46,9 @@ const CryptoHome = () => {
             <div className=" h-64 m-4 rounded-xl overflow-y-auto no-scrollbar">
               <WatchList />
             </div>
+          </div>
+          <div className=" w-96">
+            <CryptoTopics />
           </div>
         </div>
 

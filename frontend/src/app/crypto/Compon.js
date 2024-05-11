@@ -5,11 +5,11 @@ import Link from "next/link";
 const ShimmerRow = () => {
   return (
     <tr>
-      <td className="px-2 py-3 border-b border-gray-800">
-        <div className="animate-pulse flex space-x-4">
+      <td className="pl-6 px-2 py-3 border-b border-gray-800">
+        <div className="animate-pulse flex items-center space-x-4">
           <div className="rounded-full bg-gray-700 h-10 w-10"></div>
           <div className="flex-1 space-y-4 py-1">
-            <div className="h-6 bg-gray-700 rounded w-3/4"></div>
+            <div className="h-6 bg-gray-700 rounded w-20"></div>
           </div>
         </div>
       </td>
@@ -44,7 +44,7 @@ const CryptoTable = () => {
 
   return (
     <div className=" ">
-      <div className="bg-gray-800 sticky top-0 z-1 ">
+      <div className="bg-gray-800 sticky top-0 z-10 ">
         <table className="min-w-full leading-normal ">
           <thead>
             <tr>

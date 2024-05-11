@@ -70,7 +70,6 @@ const WatchList = () => {
             );
             return { ...coin, ...details };
           });
-
         setWatchlist(matchedData);
         setLoading(false);
       } catch (error) {
