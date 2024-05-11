@@ -113,15 +113,17 @@ const Signup = () => {
                 .min(8, 'Password must be at least 8 characters')
                 .required('Please enter the password'),
         }),
-        onSubmit: async (values) => {
+        onSubmit: async (values,{ resetForm }) => {
             try {
                 setLoading(true);
                 const response = await axios.post("/api/users/signup", values);
                 toast.success("Signup success")
+                resetForm();
                 router.push("/login");
             } catch (error) {
                 console.error("Signup failed", error);
-                toast.error("Signup failed. Please try again.");
+                toast.error(error.response.data.error);
+                resetForm();
             }finally{
                 setLoading(false);
             }

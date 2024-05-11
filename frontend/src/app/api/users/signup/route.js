@@ -9,12 +9,12 @@ connect();
 
 export async function POST(request) {
   try {
-    const reqBody = request.json();
+    const reqBody = await request.json();
     const { username, email, password } = await reqBody;
 
     const user = await User.findOne({ email });
     if (user) {
-      NextResponse.json({ error: "User already exists" }, { status: 400 });
+      return NextResponse.json({ error: "User already exists" }, { status: 400 });
     }
     //validation
     const salt = await bcryptjs.genSalt(10);
