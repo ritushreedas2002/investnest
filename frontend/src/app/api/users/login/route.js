@@ -3,6 +3,7 @@ import User from "@/models/userModel";
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import bcryptjs from "bcryptjs";
+import { cookies } from 'next/headers'
 //api/users/verifyEmail
 connect();
 
@@ -45,10 +46,9 @@ export async function POST(request) {
             success:true
         })
 
-        response.cookies.set("token",token,{
-            httpOnly: true, 
-            
-        })
+        cookies().set("token", token, {
+            httpOnly:true
+        });
         return response;
 
     } catch (error) {

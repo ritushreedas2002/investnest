@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-
+import jwt from "jsonwebtoken";
 export async function middleware(request) {
     const path = request.nextUrl.pathname;
     const publicPaths = ['/login', '/signup', '/verifyemail','/passwordreset'];
-    const token = request.cookies.get("token");
-
+    const token = request.cookies.get("token")?.value || '';
     if (publicPaths.includes(path) && token) {
         // Redirect logged-in users away from public pages like login or signup to the home page
         return NextResponse.redirect(new URL('/', request.nextUrl));

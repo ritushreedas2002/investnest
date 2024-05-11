@@ -9,6 +9,7 @@ import Filters from "@/components/GlobalCyrpto/Filters";
 import { CryptoProvider } from "@/Context/Cyrpto";
 import Pagination from "@/components/GlobalCyrpto/Pagination";
 
+
 const Home = () => {
   const router=useRouter();
 
