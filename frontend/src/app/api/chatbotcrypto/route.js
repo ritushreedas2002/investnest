@@ -4,13 +4,12 @@ import mongoose from "mongoose";
 export const dynamic = "force-dynamic";
 import TransactionModel from "@/models/transactionModel";
 
-
 connect(); 
 
 export async function POST(request) {
     try {
         const url = new URL(request.url);
-         const email = url.searchParams.get("email");
+        const email = url.searchParams.get("email");
 
          if (!email) {
             return new NextResponse(
@@ -18,6 +17,15 @@ export async function POST(request) {
               { status: 400 }
             );
           }
+
+
+     // Month as 'MM' string
+
+    // Find the user's transaction data for the current year and month
+    const userTransactions = await TransactionModel.findOne(
+      { userId: email },
+      { [`years.${currentYear}.months.${currentMonth}`]: 1 }
+    );
 
         return NextResponse.json({ 
             fulfillmentText: "Hello",

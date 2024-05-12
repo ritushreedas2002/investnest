@@ -38,7 +38,7 @@ export async function POST(request) {
             email: user.email
 
         })
-
+        
         const token=jwt.sign(tokenData,process.env.TOKEN_SECRET);
 
         const response=NextResponse.json({
