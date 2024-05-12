@@ -7,6 +7,8 @@ import WatchList from "@/app/crypto/watchlist/page";
 import Link from "next/link";
 import Dashboard from "./Glassy";
 import CryptoTopics from "./LearningChat";
+import CoinCompare from "./CoinCompare";
+
 
 const CryptoHome = () => {
   return (
@@ -23,8 +25,9 @@ const CryptoHome = () => {
       <div className="p-4 h-screen ">
         <h1 className="text-3xl font-bold ">Cryptocurrency Dashboard</h1>
         <div className=" flex">
-          <div className="m-4 ">
+          <div className="my-4 ml-6 ">
             <VirtualPortfolio />
+            <CoinCompare />
           </div>
           <div className=" w-[50%]">
             <h1 className="text-xl font-semibold mx-4 text-white mb-4">
