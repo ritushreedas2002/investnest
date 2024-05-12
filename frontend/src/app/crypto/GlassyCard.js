@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
-// components/GlassyCard.js
-/*bg-gradient-radial from-transparent to-green-400 h-16 w-16 transform rotate-45 translate-x-6 -translate-y-6 */
+
 const GlassyCard = ({ icon, title, amount }) => {
   return (
     <div className="bg-black bg-opacity-20 rounded-xl p-4 w-64 backdrop-filter backdrop-blur-lg border border-gray-700 relative overflow-hidden  " style={{ backgroundColor: '#000000', backgroundImage: 'linear-gradient(43deg, #000000 0%, rgba(33, 33, 33, 0.5) 72%, #FFCC70 100%)' }}>

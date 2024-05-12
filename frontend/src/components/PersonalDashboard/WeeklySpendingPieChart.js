@@ -216,7 +216,7 @@ const PieChart = () => {
           highcharts={Highcharts}
           options={options}
           containerProps={{
-            style: { height: "450px", maxWidth: "600px", margin: "0 auto" },
+            style: { height: "350px", maxWidth: "500px", margin: "0 auto" },
           }}
         />
       ) : (

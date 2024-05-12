@@ -2,15 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-
-// import HC_exportData from "highcharts/modules/export-data";
-// import HC_accessibility from "highcharts/modules/accessibility";
 import axios from "axios";
-
-// Load modules
-
-// HC_exportData(Highcharts);
-// HC_accessibility(Highcharts);
 
 const PieShimmerChart = () => {
     const [chartData, setChartData] = useState([]);
@@ -158,8 +150,8 @@ const PieShimmerChart = () => {
       align: "center",
       verticalAlign: "bottom",
       useHTML: true,
-      width: 360, // Set a specific width to encourage a two-column layout
-      itemWidth: 180, // Approximate width of each column
+      width: 300, // Set a specific width to encourage a two-column layout
+      itemWidth: 150, // Approximate width of each column
       symbolRadius: 2, // Makes the legend symbol squares
       symbolHeight: 12,
       labelFormatter: function () {
@@ -214,7 +206,7 @@ const PieShimmerChart = () => {
         highcharts={Highcharts}
         options={options}
         containerProps={{
-          style: { height: "450px", maxWidth: "600px", margin: "0 auto" },
+          style: { height: "300px", maxWidth: "430px", margin: "0 auto" },
         }}
       />
     </div>

@@ -173,17 +173,10 @@ import React, { useEffect, useState } from "react";
 import axios from "axios"; // Make sure axios is imported
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-// import HC_exporting from "highcharts/modules/exporting";
-// import HC_exportData from "highcharts/modules/export-data";
-// import HC_accessibility from "highcharts/modules/accessibility";
-import ShimmerBarComponent from "../Shimmer/ShimmerBarChart";
-
-// HC_exporting(Highcharts);
-// HC_exportData(Highcharts);
-// HC_accessibility(Highcharts);
 
 const BarGraphComponent = () => {
-  const email = typeof window !== "undefined" ? localStorage.getItem("email") : null;
+  const email =
+    typeof window !== "undefined" ? localStorage.getItem("email") : null;
 
   // Initialize chartData as an object with categories and series keys
   const [chartData, setChartData] = useState({ categories: [], series: [] });
@@ -250,28 +243,45 @@ const BarGraphComponent = () => {
   const options = {
     chart: {
       type: "column",
+      height: 280,
+      backgroundColor: "#4B5563",
     },
     title: {
-      text: "Monthly Income and Expenses",
-      align: "left",
+      text: "",
     },
     xAxis: {
       categories: chartData.categories,
+      labels: {
+        style: {
+          color: "#ffffff", // Set the x-axis labels to white
+        },
+      },
     },
     yAxis: {
       min: 0,
       // max: yAxisMax + (0.1 * yAxisMax),
       title: {
         text: "Amount (₹)", // Use the symbol for Indian Rupee
+        style: {
+          color: "#ffffff",
+        },
       },
       labels: {
         format: "₹{value}", // Format the y-axis labels to show currency
+        style: {
+          color: "#ffffff",
+        },
       },
       //tickInterval: Math.ceil(yAxisMax / 5),
     },
     tooltip: {
       shared: true,
       valuePrefix: "₹",
+    },
+    legend: {
+      itemStyle: {
+        color: "#ffffff", // Set the legend text color to white
+      },
     },
     navigation: {
       buttonOptions: {
@@ -329,9 +339,9 @@ const BarGraphComponent = () => {
         },
       },
       column: {
-        borderRadius: 5,
-        pointWidth: 28,
-        pointPadding: 0.05,
+        borderRadius: 4,
+        pointWidth: 18,
+        // pointPadding: 0.05,
         groupPadding: 0.1,
       },
     },
@@ -345,7 +355,7 @@ const BarGraphComponent = () => {
       {chartData && chartData.categories.length > 0 ? (
         <HighchartsReact highcharts={Highcharts} options={options} />
       ) : (
-        <ShimmerBarComponent /> // Display loading or some placeholder
+        <p>Loading data or no data available...</p> // Display loading or some placeholder
       )}
     </div>
   );

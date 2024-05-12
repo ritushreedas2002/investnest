@@ -43,10 +43,10 @@ const TransactionComponent = () => {
     return transactions[type].map((transaction, index) => (
       <div
         key={index}
-        className="flex justify-between items-center p-4 border-b"
+        className="flex justify-between items-center p-2 border-b"
       >
-        <div className="flex items-center">
-          <span className="p-2 rounded-full bg-gray-200 mr-4">
+        <div className="flex items-center ml-3">
+          <span className="p-1 rounded-full bg-gray-200 mr-6">
             {/* Icon placeholder */}
           </span>
           <div>
@@ -68,14 +68,14 @@ const TransactionComponent = () => {
   };
 
   return (
-    <div className="min-w-[300px] mx-auto bg-[#231818] bg-opacity-20 rounded-lg shadow-md overflow-hidden text-white">
-      <div className="p-4 flex justify-between items-center">
+    <div className="min-w-[300px] mx-auto bg-[#2f2828]  rounded-lg shadow-md overflow-hidden text-white">
+      <div className="py-2 px-4 flex justify-between items-center">
         <div className="text-lg font-semibold">Transactions</div>
-        <div className="text-right text-blue-500 cursor-pointer">
+        <div className="text-right text-sm text-blue-500 cursor-pointer">
           <Link href="/personaldashboard/transactions">View all</Link>
         </div>
       </div>
-      <div className="flex justify-around text-lg font-semibold p-4 bg-gray-300/10 backdrop-filter backdrop-blur-lg">
+      <div className="flex justify-around font-semibold p-1 bg-gray-300/10 backdrop-filter backdrop-blur-lg">
         <span
           className={`cursor-pointer ${
             activeTab === "income" ? "text-green-300" : ""
@@ -93,7 +93,7 @@ const TransactionComponent = () => {
           Expenses
         </span>
       </div>
-      <div className="h-56 overflow-y-auto">
+      <div className="h-40 overflow-y-auto">
         {renderTransactions(activeTab)}
       </div>
     </div>
