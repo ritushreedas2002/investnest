@@ -159,8 +159,8 @@ const PieChart = () => {
       align: "center",
       verticalAlign: "bottom",
       useHTML: true,
-      width: 350, // Set a specific width to encourage a two-column layout
-      itemWidth: 150, // Approximate width of each column
+      width: 280, // Set a specific width to encourage a two-column layout
+      itemWidth: 140, // Approximate width of each column
       symbolRadius: 2, // Makes the legend symbol squares
       symbolHeight: 12,
       labelFormatter: function () {
@@ -216,7 +216,7 @@ const PieChart = () => {
           highcharts={Highcharts}
           options={options}
           containerProps={{
-            style: { height: "350px", maxWidth: "500px", margin: "0 auto" },
+            style: { height: "270px", maxWidth: "500px", margin: "0 auto" },
           }}
         />
       ) : (

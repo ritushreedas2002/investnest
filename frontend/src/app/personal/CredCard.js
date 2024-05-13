@@ -1,39 +1,66 @@
 "use client";
+
 import React, { useState, useEffect } from "react";
 
 const CredCard = () => {
+  const [transactionData, setTransactionData] = useState({
+    totalIncome: "0.00",
+    totalExpense: "0.00",
+    totalSavings: "0.00"
+  });
+  const [selectedOption, setSelectedOption] = useState('Savings');
   const email = typeof window !== "undefined" ? localStorage.getItem("email") : null;
-  
-  // State to hold the selected option
-  const [selectedOption, setSelectedOption] = useState('Income');
 
-  // Function to handle the change of the select option
+  // Fetch all transaction data once when the component mounts
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`/api/transaction/savings?email=${email}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            // Include other headers such as Authorization if needed
+          }
+        });
+        const data = await response.json();
+        if (response.ok) {
+          setTransactionData(data);
+        } else {
+          console.error('Failed to fetch data:', data.message);
+        }
+      } catch (error) {
+        console.error("Error fetching transaction data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const handleChange = (event) => {
     setSelectedOption(event.target.value);
   };
 
-  // Function to determine what to display based on the selected option
   const displayContent = () => {
     switch (selectedOption) {
       case 'Income':
         return (
           <div>
-            <p className="text-sm opacity-70 mb-1">Your income for this month(till date) is</p>
-            <p className="text-2xl font-bold">$300.00</p>
+            <p className="text-sm opacity-70 mb-1">Your income for this month (till date) is</p>
+            <p className="text-2xl font-bold">${transactionData.totalIncome}</p>
           </div>
         );
       case 'Savings':
         return (
           <div>
             <p className="text-sm opacity-70">Since last month, your savings have grown by</p>
-            <p className="text-2xl font-bold">$1,200.00</p>
+            <p className="text-2xl font-bold">${transactionData.totalSavings}</p>
           </div>
         );
       case 'Expense':
         return (
           <div>
             <p className="text-sm opacity-70">In the past week, your expenses amounted to</p>
-            <p className="text-2xl font-bold">$500.00</p>
+            <p className="text-2xl font-bold">${transactionData.totalExpense}</p>
           </div>
         );
       default:
@@ -49,9 +76,9 @@ const CredCard = () => {
           value={selectedOption}
           onChange={handleChange}
         >
-          <option value="Income">Income</option>
-          <option value="Savings">Savings</option>
-          <option value="Expense">Expense</option>
+          <option value="Income" className="text-black">Income</option>
+          <option value="Savings"  className="text-black">Savings</option>
+          <option value="Expense"  className="text-black">Expense</option>
         </select>
       </div>
       <div className="text-white mt-4">
@@ -62,3 +89,4 @@ const CredCard = () => {
 };
 
 export default CredCard;
+

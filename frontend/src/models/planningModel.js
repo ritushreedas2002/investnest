@@ -15,6 +15,9 @@ const planSchema = new Schema({
         type: Number,
         default: 0
     },
+    Color:{
+        type:String,
+    },
     Achieved: {
         type: Number,
         default: 0

@@ -35,21 +35,26 @@ export async function GET(request) {
 export async function POST(request) {
   try {
     const reqBody = await request.json();
-    const { email, title, goal, currentamt, date } = reqBody;
+    const { email, title, goal, currentamt, color, date } = reqBody;
+
+    // Convert string to numbers to ensure proper type handling
+    const numericGoal = Number(goal);
+    const numericCurrentAmt = Number(currentamt);
 
     // Check if user exists
     let user = await PlanningModel.findOne({ userId: email });
     let achieved = 0;
-    if (goal > 0) {
-      // Avoid division by zero
-      achieved = parseFloat(((currentamt / goal) * 100).toFixed(2));
+    if (numericGoal > 0) {
+      // Avoid division by zero and calculate the achieved percentage
+      achieved = parseFloat(((numericCurrentAmt / numericGoal) * 100).toFixed(2));
     }
     const newPlan = {
       Title: title,
-      GoalTarget: goal,
-      CurrentAmount: currentamt,
+      GoalTarget: numericGoal,
+      CurrentAmount: numericCurrentAmt,
       Achieved: achieved,
-      Date: new Date(date), // Ensure date is handled correctly
+      Color: color,
+      Date: new Date(date)  // Ensure date is handled correctly
     };
 
     if (user) {
@@ -80,10 +85,11 @@ export async function POST(request) {
   }
 }
 
+
 export async function PUT(request) {
   try {
     const reqBody = await request.json();
-    const { email, id, newamt } = reqBody;
+    const { email, id, currentamt,color } = reqBody;
     const user = await PlanningModel.findOne({
       userId: email,
       "Plans._id": new mongoose.Types.ObjectId(id),
@@ -98,9 +104,10 @@ export async function PUT(request) {
     if (!plan) {
       return res.status(404).json({ message: "Plan not found" });
     }
-
+    const numericCurrentAmt = Number(currentamt);
     // Update the current amount and recalculate the achieved percentage
-    plan.CurrentAmount += newamt;
+    plan.Color=color,
+    plan.CurrentAmount += numericCurrentAmt;
     if (plan.GoalTarget > 0) {
       plan.Achieved = parseFloat(
         ((plan.CurrentAmount / plan.GoalTarget) * 100).toFixed(2)
@@ -109,6 +116,7 @@ export async function PUT(request) {
 
     // Save the user document
     await user.save();
+    console.log(user);
     return new NextResponse(JSON.stringify({ mag: "Updated Successfully" }), {
       status: 200,
     });

@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import TransactionCard from "./TransactionCard";
 import CredCard from "./CredCard";

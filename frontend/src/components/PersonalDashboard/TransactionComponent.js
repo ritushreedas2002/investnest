@@ -53,11 +53,11 @@ const TransactionComponent = () => {
             <div className="font-bold">
               {type === "income" ? transaction.source : transaction.title}
             </div>
-            <div className="text-sm text-gray-600">{transaction.category}</div>
+            <div className="text-sm text-gray-200">{transaction.category}</div>
           </div>
         </div>
         <div
-          className={`font-bold ${
+          className={`font-bold  mr-7 ${
             type === "expenses" ? "text-red-500" : "text-[#57E8B6]"
           }`}
         >
@@ -93,7 +93,7 @@ const TransactionComponent = () => {
           Expenses
         </span>
       </div>
-      <div className="h-40 overflow-y-auto">
+      <div className="h-[192px] overflow-y-auto no-scrollbar">
         {renderTransactions(activeTab)}
       </div>
     </div>
