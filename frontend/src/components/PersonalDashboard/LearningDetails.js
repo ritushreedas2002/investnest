@@ -51,11 +51,8 @@ const LearningDetails = () => {
     fetchArticles();
   }, []);
 
-  //if (loading) return <p>Loading...</p>;
-  //if (error) return <p>Error: {error}</p>;
-
   return (
-    <div className="p-2 flex-col " style={{ width: "50vw" }}>
+    <div className="mt-8 flex-col " >
       {error && <p>Error loading articles: {error}</p>}
 
       <div className=" flex-col overflow-y-auto bg-white rounded-lg no-scrollbar">

@@ -320,15 +320,3 @@ export default function CryptoTopics() {
   );
 }
 
-/* {Object.keys(articles).map((topic, index) => (
-                <button
-                  key={index}
-                  onClick={() => setSelectedTopic(topic)}
-                  className="bg-gray-800 p-4 rounded-lg"
-                >
-                  <h3 className="text-lg font-semibold">{topic}</h3>
-                  <p className="text-sm text-gray-400">
-                  {articles[topic][0].description}
-                  </p>
-                </button>
-              ))} */

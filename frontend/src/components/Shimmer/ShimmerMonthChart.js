@@ -174,28 +174,6 @@ const PieShimmerChart = () => {
         },
         colorByPoint: true,
         data: chartData,
-        // data: [
-        //   {
-        //     name: "Customer Support",
-        //     y: 21.3,
-        //   },
-        //   {
-        //     name: "Development",
-        //     y: 18.7,
-        //   },
-        //   {
-        //     name: "Sales",
-        //     y: 20.2,
-        //   },
-        //   {
-        //     name: "Marketing",
-        //     y: 14.2,
-        //   },
-        //   {
-        //     name: "Other",
-        //     y: 25.6,
-        //   },
-        // ],
       },
     ],
   };
