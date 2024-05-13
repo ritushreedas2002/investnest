@@ -1,8 +1,6 @@
 "use client";
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
 const TableComponent = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isTypeOpen, setIsTypeOpen] = useState(false);
