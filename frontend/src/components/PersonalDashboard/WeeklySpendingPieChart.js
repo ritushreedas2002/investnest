@@ -118,7 +118,7 @@ const PieChart = () => {
   const options = {
     chart: {
       type: "pie",
-      backgroundColor: "#FFD700",
+      backgroundColor: "#ADD8E6",
     },
     title: {
       text: "",
@@ -168,13 +168,12 @@ const PieChart = () => {
       },
     },
     colors: [
-      // Custom colors for each slice
-      "#32CD32", // Tomato
-      "#4682B4", // SteelBlue
-      "#32CD32", // LimeGreen
-      "#FFD700", // Gold
-      "#6A5ACD", // SlateBlue
-    ],
+      "#E6F7FF", // Very light blue (almost white)
+      "#B3E0FF", // Light sky blue
+      "#7EC8E3", // Medium light blue
+      "#4696C8", // Medium blue
+      "#005691"  // Dark blue (navy)
+  ],
     series: [
       {
         enableMouseTracking: false,

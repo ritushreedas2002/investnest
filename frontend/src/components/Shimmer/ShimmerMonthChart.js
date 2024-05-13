@@ -1,203 +1,117 @@
 "use client"
+
 // import React, { useEffect, useState } from "react";
 // import Highcharts from "highcharts";
 // import HighchartsReact from "highcharts-react-official";
 
-
 // const PieShimmerChart = () => {
-//     const [chartData, setChartData] = useState([]);
-
-//     useEffect(() => {
-//       // Simulate fetching data from an API
-//       const fetchData = async () => {
-//         try {
-//           // Simulate an API call with a delay
-         
-//             // Mock response from the backend
-//             const response = {
-//               data: {
-//                 month: {
-//                   "Electronics": 12000,
-//                   "Electronics1": 3000,
-//                   "Clothing": 8000,
-//                   "Grocery": 5000,
-//                   "Utilities": 7000,
-//                 }
-//               }
-//             };
-  
-//             // Transform the data into the format Highcharts expects
-//             const transformedData = Object.entries(response.data.month).map(([key, value]) => ({
-//               name: key,
-//               y: value
-//             }));
-  
-//             // Update state with the transformed data
-//             setChartData(transformedData);
-         
-//         } catch (error) {
-//           console.error('Error fetching data: ', error);
-//         }
-//       };
-  
-//       fetchData();
-//     }, []);
-  
+//   const [chartData, setChartData] = useState([]);
 
 //   useEffect(() => {
+//     // Simulate fetching data from an API
+//     const fetchData = async () => {
+//       try {
+//         // Simulate an API call with a delay
+//         // Mock response from the backend
+//         const response = {
+//           data: {
+//             month: {
+//               "Electronics": 12000,
+//               "Electronics1": 3000,
+//               "Clothing": 8000,
+//               "Grocery": 5000,
+//               "Utilities": 7000,
+//             }
+//           }
+//         };
 
-//     // Define custom animation for pie series
-//     Highcharts.seriesTypes.pie.prototype.animate = function (init) {
-//       const series = this,
-//         chart = series.chart,
-//         points = series.points,
-//         { animation } = series.options,
-//         { startAngleRad } = series;
+//         // Transform the data into the format Highcharts expects
+//         const transformedData = Object.entries(response.data.month).map(([key, value]) => ({
+//           name: key,
+//           y: value
+//         }));
 
-//       if (init) {
-//         points.forEach((point) => {
-//           point.opacity = 0;
-//         });
-//       } else {
-//         fanAnimate(points[0], startAngleRad);
+//         // Update state with the transformed data
+//         setChartData(transformedData);
+//       } catch (error) {
+//         console.error('Error fetching data: ', error);
 //       }
-
-//       function fanAnimate(point, startAngleRad) {
-//         const graphic = point && point.graphic, // Check if point is defined first
-//         args = point && point.shapeArgs; 
-
-//         if (graphic && args) {
-//           graphic
-//             .attr({
-//               start: startAngleRad,
-//               end: startAngleRad,
-//               opacity: 1,
-//             })
-//             .animate(
-//               {
-//                 start: args.start,
-//                 end: args.end,
-//               },
-//               {
-//                 duration: animation.duration / points.length,
-//               },
-//               function () {
-//                 if (points[point.index + 1]) {
-//                   fanAnimate(points[point.index + 1], args.end);
-//                 }
-//                 if (point.index === series.points.length - 1) {
-//                   // Update pie to donut only after the last animation completes
-//                   chart.update(
-//                     {
-//                       plotOptions: {
-//                         pie: {
-//                           innerSize: "70%", // Creates a donut effect
-//                           borderRadius: 10,
-//                         },
-//                       },
-//                     },
-//                     false
-//                   ); // False to avoid redrawing immediately
-//                   points.forEach((point) => {
-//                     point.opacity = 1;
-//                   });
-//                   series.update({ enableMouseTracking: true });
-//                   // Now redraw the chart to apply the updates
-//                   chart.redraw();
-//                 }
-//               }
-//             );
-//         }
-//       }
-      
 //     };
+
+//     fetchData();
 //   }, []);
 
 //   const options = {
 //     chart: {
 //       type: "pie",
+//       events: {
+//         render: function() {
+//           if (this.customLabel) {
+//             this.customLabel.destroy();
+//           }
+//           this.customLabel = this.renderer.text(
+//             'Add expense to see real data',
+//             this.plotLeft + (this.plotWidth * 0.5),
+//             this.plotHeight + this.plotTop - 12
+//           )
+//           .css({
+//             color: '#333333',
+//             fontSize: '16px'
+//           })
+//           .attr({
+//             align: 'center'
+//           })
+//           .add();
+//         }
+//       }
 //     },
 //     title: {
-//       text: "",
+//       text: ""
 //     },
 //     tooltip: {
-//       pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
+//       pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>"
 //     },
 //     credits: {
 //       enabled: false
 //     },
 //     accessibility: {
 //       point: {
-//         valueSuffix: "%",
-//       },
+//         valueSuffix: "%"
+//       }
 //     },
 //     plotOptions: {
 //       pie: {
+//         size: '75%', 
 //         allowPointSelect: true,
 //         borderRadius: 30,
 //         borderWidth: 2,
 //         cursor: "pointer",
-//         showInLegend: true,
+//         showInLegend: false,
 //         dataLabels: {
-//           enabled: false,
-//           // format: '<b>{point.name}</b><br>{point.percentage}%',
-//           distance: 0,
-//         },
-//       },
+//           enabled: false
+//         }
+//       }
 //     },
 //     legend: {
-//       layout: "horizontal", // Change layout to horizontal
-//       align: "center",
-//       verticalAlign: "bottom",
-//       useHTML: true,
-//       width: 280, // Set a specific width to encourage a two-column layout
-//       itemWidth: 140, // Approximate width of each column
-//       symbolRadius: 2, // Makes the legend symbol squares
-//       symbolHeight: 12,
-//       labelFormatter: function () {
-//         return `${this.name}: <b>${this.y}</b>`; // Custom format
-//       },
-      
+//       enabled: false
 //     },
-//     colors: [
-//         "#f0f0f0", // Very light grey
-//         "#d9d9d9", // Light grey
-//         "#bdbdbd", // Medium grey
-//         "#969696", // Dark grey
-//         "#636363"  // Very dark grey
-//       ],
 //     series: [
 //       {
 //         enableMouseTracking: false,
 //         animation: {
-//           duration: 2000,
+//           duration: 2000
 //         },
 //         colorByPoint: true,
-//         data: chartData,
-//         // data: [
-//         //   {
-//         //     name: "Customer Support",
-//         //     y: 21.3,
-//         //   },
-//         //   {
-//         //     name: "Development",
-//         //     y: 18.7,
-//         //   },
-//         //   {
-//         //     name: "Sales",
-//         //     y: 20.2,
-//         //   },
-//         //   {
-//         //     name: "Marketing",
-//         //     y: 14.2,
-//         //   },
-//         //   {
-//         //     name: "Other",
-//         //     y: 25.6,
-//         //   },
-//         // ],
-//       },
+//         data: chartData
+//       }
 //     ],
+//     colors: [
+//       "#f0f0f0", // Very light grey
+//       "#d9d9d9", // Light grey
+//       "#bdbdbd", // Medium grey
+//       "#969696", // Dark grey
+//       "#636363"  // Very dark grey
+//     ]
 //   };
 
 //   return (
@@ -206,7 +120,7 @@
 //         highcharts={Highcharts}
 //         options={options}
 //         containerProps={{
-//           style: { height: "280px", maxWidth: "400px", margin: "0 auto" },
+//           style: { height: "280px", maxWidth: "400px", margin: "0 auto" }
 //         }}
 //       />
 //     </div>
@@ -214,7 +128,6 @@
 // };
 
 // export default PieShimmerChart;
-
 
 import React, { useEffect, useState } from "react";
 import Highcharts from "highcharts";
