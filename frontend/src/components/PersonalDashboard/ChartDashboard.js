@@ -173,7 +173,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios"; // Make sure axios is imported
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-
+import ShimmerBarChart from "@/components/Shimmer/ShimmerBarChart"
 const BarGraphComponent = () => {
   const email =
     typeof window !== "undefined" ? localStorage.getItem("email") : null;
@@ -355,7 +355,8 @@ const BarGraphComponent = () => {
       {chartData && chartData.categories.length > 0 ? (
         <HighchartsReact highcharts={Highcharts} options={options} />
       ) : (
-        <p>Loading data or no data available...</p> // Display loading or some placeholder
+        <ShimmerBarChart/>
+        // <p>Loading data or no data available...</p> // Display loading or some placeholder
       )}
     </div>
   );
