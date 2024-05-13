@@ -122,7 +122,7 @@ const IncomeForm = ({ close }) => {
                 onChange={(e) => setTitle1(e.target.value)}
                 placeholder="Enter the income title"
                 required
-                className="mt-1 block w-full p-2 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                className="mt-1 block w-full p-2 rounded-md text-black border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               />
               {touched.title && errors.title && (
                 <div style={{ color: "red" }}>{errors.title}</div>
@@ -161,7 +161,7 @@ const IncomeForm = ({ close }) => {
                 onChange={(e) => setAmount1(e.target.value)}
                 placeholder="Enter the income amount"
                 required
-                className="mt-1 block w-full p-2 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                className="mt-1 block w-full p-2 text-black rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               />
               {touched.amount && errors.amount && (
                 <div style={{ color: "red" }}>{errors.amount}</div>

@@ -489,7 +489,22 @@ const Planning = () => {
             </div>
           ))
         ) : (
-          <h1 className="text-white text-center mt-12">Add your plans</h1>
+          <div className="animate pulse">
+          <div className="flex justify-between items-center mb-1">
+                <div className="h-3 bg-gray-300 rounded w-14"></div>
+                <div className="h-3 bg-gray-300 rounded w-12 ml-36"></div>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+              <div
+                className={`h-2.5 rounded-full bg-red-500`}
+                style={{
+                  width: `${(100 / 1000) * 100}%`,
+                }}
+              ></div>
+            </div>
+            <p className="text-white font-bold text-center mt-5">Add plans</p>
+            </div>
+          
         )}
       </div>
 
