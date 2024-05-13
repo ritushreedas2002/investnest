@@ -18,7 +18,7 @@ const PieShimmerChart = () => {
               data: {
                 month: {
                   "Electronics": 12000,
-                  "Books": 3000,
+                  "Electronics1": 3000,
                   "Clothing": 8000,
                   "Grocery": 5000,
                   "Utilities": 7000,
@@ -150,8 +150,8 @@ const PieShimmerChart = () => {
       align: "center",
       verticalAlign: "bottom",
       useHTML: true,
-      width: 300, // Set a specific width to encourage a two-column layout
-      itemWidth: 150, // Approximate width of each column
+      width: 280, // Set a specific width to encourage a two-column layout
+      itemWidth: 140, // Approximate width of each column
       symbolRadius: 2, // Makes the legend symbol squares
       symbolHeight: 12,
       labelFormatter: function () {
@@ -206,7 +206,7 @@ const PieShimmerChart = () => {
         highcharts={Highcharts}
         options={options}
         containerProps={{
-          style: { height: "300px", maxWidth: "430px", margin: "0 auto" },
+          style: { height: "280px", maxWidth: "400px", margin: "0 auto" },
         }}
       />
     </div>

@@ -441,7 +441,7 @@ const Planning = () => {
   //   );
   // };
   return (
-    <div className="p-6 bg-gray-400 rounded-lg shadow">
+    <div className="p-6 bg-gray-400 rounded-lg shadow h-48 w-[365px]">
       <div className="sticky top-0 bg-gray-400 z-10">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold">Planning</h2>
