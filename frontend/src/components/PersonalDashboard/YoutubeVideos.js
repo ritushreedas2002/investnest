@@ -34,13 +34,13 @@ function YouTubeVideos() {
   }, []);
 
   return (
-    <div className="w-80 relative mt-2 overflow-y-auto h-[500px]">
-      <div className=" flex flex-col items-center">
+    <div className="relative mt-2 overflow-y-scroll h-[500px] topics-section">
+      <div className=" flex flex-col items-center ml-2">
         {videos.map((video, index) => (
-          <div key={video.id.videoId} className=" w-[300px] mb-4">
+          <div key={video.id.videoId} className=" w-[330px] mb-3">
             {/* Embed YouTube video using iframe */}
             <iframe
-              width="100%"
+              width="95%"
               height="180"
               src={`https://www.youtube.com/embed/${video.id.videoId}`}
               frameBorder="0"

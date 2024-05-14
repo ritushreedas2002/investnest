@@ -110,7 +110,7 @@ const Dashboard = () => {
                 showLearning ? "h-[100%]" : "h-0"
               } overflow-hidden w-full`}
             >
-              <div className=" text-black p-4">
+              <div className=" text-black p-4 h-0">
                 <select
                   value={selectedOption}
                   onChange={(e) => setSelectedOption(e.target.value)}
