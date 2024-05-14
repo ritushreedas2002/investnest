@@ -6,36 +6,37 @@ import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import axios from "axios";
 import Datepicker from "tailwind-datepicker-react";
 
+
 const people = [
   {
     id: 1,
-    name: "Wade Cooper",
+    name: "Bills",
     avatar:
-      "https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+      "/bills.png",
   },
   {
     id: 2,
-    name: "Arlene Mccoy",
+    name: "Grocery",
     avatar:
-      "https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+      "/grocery.png",
   },
   {
     id: 3,
-    name: "Devon Webb",
+    name: "Entertainment",
     avatar:
-      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80",
+      "/music.png",
   },
   {
     id: 4,
-    name: "Tom Cook",
+    name: "Clothing",
     avatar:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+      "/clothing.png",
   },
   {
     id: 5,
-    name: "Tanya Fox",
+    name: "Others",
     avatar:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+      "/others.png",
   },
   {
     id: 6,
@@ -43,30 +44,7 @@ const people = [
     avatar:
       "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
   },
-  {
-    id: 7,
-    name: "Caroline Schultz",
-    avatar:
-      "https://images.unsplash.com/photo-1568409938619-12e139227838?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    id: 8,
-    name: "Mason Heaney",
-    avatar:
-      "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    id: 9,
-    name: "Claudie Smitham",
-    avatar:
-      "https://images.unsplash.com/photo-1584486520270-19eca1efcce5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    id: 10,
-    name: "Emil Schaefer",
-    avatar:
-      "https://images.unsplash.com/photo-1561505457-3bcad021f8ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
+ 
 ];
 
 function classNames(...classes) {
@@ -169,9 +147,10 @@ const ExpenseForm = ({ close }) => {
   };
 
   return (
-    <div className="p-6 bg-gray-400 rounded-lg shadow h-48 w-[365px]">
+    <div>
+      <div className="fixed inset-0 bg-black bg-opacity-50 z-40"></div>
       <div className="fixed -top-14 inset-10  flex items-center justify-center z-50">
-        <div className="mx-auto w-[40%] space-y-6 bg-white p-8 rounded-3xl">
+        <div className="mx-auto w-[40%] space-y-6 p-8 rounded-3xl bg-blue-200">
           <div className="space-y-2 text-center">
             <h1 className="text-3xl font-bold text-black">Expense Tracker</h1>
             <p className="text-gray-500 dark:text-gray-400">
@@ -303,7 +282,7 @@ const ExpenseForm = ({ close }) => {
                                       <img
                                         src={person.avatar}
                                         alt=""
-                                        className="h-5 w-5 flex-shrink-0 rounded-full"
+                                        className="h-7 w-7 flex-shrink-0 rounded-full object-cover"
                                       />
                                       <span
                                         className={classNames(

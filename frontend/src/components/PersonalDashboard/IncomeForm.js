@@ -99,6 +99,7 @@ const IncomeForm = ({ close }) => {
 
   return (
     <div>
+      <div className="fixed inset-0 bg-black bg-opacity-50 z-40"></div>
       <div className="fixed -top-10  inset-20 flex items-center justify-center z-50">
         <div className="mx-auto w-[30%] space-y-6 bg-white p-8 rounded-3xl">
           <div className="text-center space-y-1 -mb-10">

@@ -250,7 +250,7 @@ const TransactionComponent = () => {
 
   return (
     <div className="min-w-[300px] mx-auto bg-[#2f2828] rounded-lg shadow-md overflow-hidden text-white relative ">
-      <div className="py-2 px-4 flex justify-between items-center">
+      <div className="py-2 px-4 flex justify-between items-center ">
         <div className="text-lg font-semibold">Transactions</div>
         <div className="text-right text-sm text-blue-500 cursor-pointer">
           <Link href="/personal/transactions">View all</Link>
@@ -282,7 +282,7 @@ const TransactionComponent = () => {
           Bills
         </span>
       </div>
-      <div className="h-[196px] overflow-y-auto no-scrollbar">
+      <div className="h-[200px] overflow-y-auto no-scrollbar">
         {renderTransactions(activeTab)}
       </div>
       <button
