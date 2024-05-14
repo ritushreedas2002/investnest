@@ -8,6 +8,7 @@ import Planning from "./Planning";
 import TransactionComponent from "@/components/PersonalDashboard/TransactionComponent";
 import PieChart from "@/components/PersonalDashboard/WeeklySpendingPieChart";
 import LearningDetails from "@/components/PersonalDashboard/LearningDetails";
+import YouTubeVideos from "@/components/PersonalDashboard/YoutubeVideos";
 
 const Dashboard = () => {
   const [financialData, setFinancialData] = useState({
@@ -16,6 +17,7 @@ const Dashboard = () => {
   });
   const [showChat, setShowChat] = useState(false);
   const [showLearning, setLearning] = useState(false);
+  const [selectedOption, setSelectedOption] = useState("Articles");
 
   const toggleChat = () => setShowChat(!showChat);
   const toggleLearning = () => setLearning(!showLearning);
@@ -104,11 +106,18 @@ const Dashboard = () => {
             </div>
             {/* Learning Window */}
             <div
-              className={` transition-all bg-gray-200 rounded-xl duration-300 ease-in-out ${
+              className={` transition-all  bg-gray-200 rounded-xl duration-300 ease-in-out ${
                 showLearning ? "h-[100%]" : "h-0"
               } overflow-hidden w-full`}
             >
               <div className=" text-black p-4">
+                <select
+                  value={selectedOption}
+                  onChange={(e) => setSelectedOption(e.target.value)}
+                >
+                  <option value="Articles">Articles</option>
+                  <option value="Videos">Videos</option>
+                </select>
                 <button
                   onClick={toggleLearning}
                   className="text-black bg-gray-300 rounded-full text-sm p-1 float-right"
@@ -116,7 +125,11 @@ const Dashboard = () => {
                   X
                 </button>
                 {/* <div> */}
+                {selectedOption === "Articles" ? (
                   <LearningDetails />
+                ) : (
+                  <YouTubeVideos />
+                )}
                 {/* </div> */}
               </div>
             </div>
@@ -142,10 +155,14 @@ const Dashboard = () => {
               </div>
             </div>
             <div className="mx-2 text-white font-semibold mb-2 h-[7%] rounded-3xl flex items-center justify-center bg-red-500">
-              <button onClick={toggleLearning} className=" w-full h-full">Start Learning</button>
+              <button onClick={toggleLearning} className=" w-full h-full">
+                Start Learning
+              </button>
             </div>
             <div className="mx-2 text-white font-semibold h-[7%] rounded-3xl flex items-center justify-center bg-red-500">
-              <button onClick={toggleChat} className=" w-full h-full">Ask AI</button>
+              <button onClick={toggleChat} className=" w-full h-full">
+                Ask AI
+              </button>
             </div>
           </div>
         </div>

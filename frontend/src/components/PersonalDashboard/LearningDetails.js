@@ -52,7 +52,7 @@ const LearningDetails = () => {
   }, []);
 
   return (
-    <div className="mt-8 flex-col h-0" >
+    <div className="mt-2 -mb-8 flex-col h-0" >
       {error && <p>Error loading articles: {error}</p>}
 
       <div className=" flex-col overflow-y-auto bg-white rounded-lg no-scrollbar">
