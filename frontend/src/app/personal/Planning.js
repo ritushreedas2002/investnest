@@ -509,7 +509,7 @@ const Planning = () => {
       </div>
 
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center">
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50">
           <div className="bg-white p-8 rounded-lg shadow-lg max-w-lg w-full mx-4">
             <form onSubmit={handleSubmit} className="space-y-6">
               {!isEditing ? (

@@ -376,14 +376,14 @@ const TransactionComponent = () => {
   };
 
   return (
-    <div className="min-w-[300px] mx-auto bg-[#2f2828] rounded-lg shadow-md overflow-hidden text-white relative">
+    <div className="min-w-[300px] mx-auto bg-[#2f2828] rounded-lg shadow-md overflow-hidden text-white relative ">
       <div className="py-2 px-4 flex justify-between items-center">
         <div className="text-lg font-semibold">Transactions</div>
         <div className="text-right text-sm text-blue-500 cursor-pointer">
           <Link href="/personaldashboard/transactions">View all</Link>
         </div>
       </div>
-      <div className="flex justify-around font-semibold p-1 bg-gray-300/10 backdrop-filter backdrop-blur-lg">
+      <div className="flex justify-around font-semibold p-1 bg-gray-300/10 backdrop-blur-lg">
         <span
           className={`cursor-pointer ${
             activeTab === "income" ? "text-green-300" : ""

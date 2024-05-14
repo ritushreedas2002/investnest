@@ -15,7 +15,7 @@ const LearningDetails = () => {
     const fetchArticles = async () => {
       const params = new URLSearchParams({
         q: "Personal Finance Management", // Your query
-        count: "5", // Number of results to return
+        count: "7", // Number of results to return
         offset: "0", // Results offset for pagination
         mkt: "en-US", // Market code
         safeSearch: "Off", // Safe search setting
@@ -52,7 +52,7 @@ const LearningDetails = () => {
   }, []);
 
   return (
-    <div className="mt-8 flex-col " >
+    <div className="mt-8 flex-col h-0" >
       {error && <p>Error loading articles: {error}</p>}
 
       <div className=" flex-col overflow-y-auto bg-white rounded-lg no-scrollbar">
@@ -62,10 +62,10 @@ const LearningDetails = () => {
             className=" p-2 mx-3 rounded-xl border-b border-gray-300  overflow-y-auto no-scrollbar"
           >
             <a href={article.url} target="_blank" rel="noopener noreferrer" className="text-black">
-              <p className=" text-lg text-red-800 font-semibold hover:underline">
+              <p className=" text-sm text-red-800 font-semibold hover:underline">
                 {article.name}
               </p>
-              <p>
+              <p className="text-xs">
                 {article.description.length > 93
                   ? article.description.slice(0, 93) + "..."
                   : article.description}

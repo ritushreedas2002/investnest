@@ -93,7 +93,7 @@ import { useState } from "react";
 const sidebarItems = [
   {
     name: "Dashboard",
-    href: "/personaldashboard",
+    href: "/personal",
     icon: AiOutlineHome,
   },
   {
