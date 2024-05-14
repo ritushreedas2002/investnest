@@ -40,8 +40,8 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="ml-20 p-5">
-      <div className="h-12 ">dfg</div>
+    <div className="ml-20 px-5 py-2">
+      <div className="h-12">dfg</div>
       <div className="flex">
         <div className=" w-[75%] mr-2">
           <div className=" flex mb-4">

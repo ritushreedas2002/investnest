@@ -169,11 +169,11 @@ const ExpenseForm = ({ close }) => {
   };
 
   return (
-    <div>
+    <div className="p-6 bg-gray-400 rounded-lg shadow h-48 w-[365px]">
       <div className="fixed -top-14 inset-10  flex items-center justify-center z-50">
         <div className="mx-auto w-[40%] space-y-6 bg-white p-8 rounded-3xl">
           <div className="space-y-2 text-center">
-            <h1 className="text-3xl font-bold">Expense Tracker</h1>
+            <h1 className="text-3xl font-bold text-black">Expense Tracker</h1>
             <p className="text-gray-500 dark:text-gray-400">
               Add your expense details to keep track of your finances.
             </p>
