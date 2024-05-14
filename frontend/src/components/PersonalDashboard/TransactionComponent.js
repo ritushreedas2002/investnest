@@ -380,7 +380,7 @@ const TransactionComponent = () => {
       <div className="py-2 px-4 flex justify-between items-center">
         <div className="text-lg font-semibold">Transactions</div>
         <div className="text-right text-sm text-blue-500 cursor-pointer">
-          <Link href="/personaldashboard/transactions">View all</Link>
+          <Link href="/personal/transactions">View all</Link>
         </div>
       </div>
       <div className="flex justify-around font-semibold p-1 bg-gray-300/10 backdrop-blur-lg">
