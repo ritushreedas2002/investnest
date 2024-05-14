@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import CryptoCompareChart from "../highcharts/compare/page";
+import CryptoCompareChart from "@/app/highcharts/compare/page";
 
 const CoinCompare = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);

@@ -1,14 +1,13 @@
 "use client";
 import React from "react";
 import Head from "next/head";
-import CryptoTable from "./Compon";
-import VirtualPortfolio from "./VirtualPortfolio";
+import CryptoTable from "../../components/crypto/Compon";
+import VirtualPortfolio from "../../components/crypto/VirtualPortfolio";
 import WatchList from "@/app/crypto/watchlist/page";
 import Link from "next/link";
-import Dashboard from "./Glassy";
-import CryptoTopics from "./LearningChat";
-import CoinCompare from "./CoinCompare";
-
+import Dashboard from "@/components/crypto/Glassy";
+import CryptoTopics from "../../components/crypto/LearningChat";
+import CoinCompare from "@/components/crypto/CoinCompare"
 
 const CryptoHome = () => {
   return (

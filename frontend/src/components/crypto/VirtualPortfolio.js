@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Modal from "./Modal";
+import Modal from "../../app/crypto/Modal";
 
 const VirtualPortfolio = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -48,7 +48,7 @@ const VirtualPortfolio = () => {
         Insights - Get details <span className="ml-2">➔</span>
       </button>
       {/* <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} data={portfolioData} /> */}
-      {modalOpen &&portfolioData && (
+      {modalOpen && portfolioData && (
         <Modal
           isOpen={modalOpen}
           onClose={() => setModalOpen(false)}
