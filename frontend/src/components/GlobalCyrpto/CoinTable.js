@@ -151,6 +151,7 @@ const CoinTable = () => {
   const [selectedCoin, setSelectedCoin] = useState(null);
   const [watchlist, setWatchlist] = useState([]);  // Tracks starred coins
   const email = typeof window !== "undefined" ? localStorage.getItem("email") : null;
+  console.log(cryptoData);
 
   console.log(cryptoData)
   useEffect(() => {
@@ -188,7 +189,8 @@ const CoinTable = () => {
           coinName: coin.name,
           coinSymbol: coin.symbol,
           coinImage:coin.image,
-          coinPrice:coin.current_price
+          coinPrice:coin.current_price,
+          coinPrice24Change:coin.price_change_percentage_24h_in_currency
         });
       }
       // Refresh the watchlist

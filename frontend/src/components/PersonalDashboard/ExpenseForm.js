@@ -174,7 +174,7 @@ const ExpenseForm = ({ close }) => {
                   onBlur={() => handleBlur("title")}
                   placeholder="Enter the income title"
                   required
-                  className="mt-1 block w-full p-2 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  className="mt-1 block w-full text-black p-2 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 />
                 {touched.title && errors.title && (
                   <div style={{ color: "red" }}>{errors.title}</div>
@@ -215,7 +215,7 @@ const ExpenseForm = ({ close }) => {
                   onBlur={() => handleBlur("amount")}
                   placeholder="Enter the income amount"
                   required
-                  className="mt-1 block p-2 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  className="mt-1 block p-2 w-full text-black rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 />
                 {touched.amount && errors.amount && (
                   <div style={{ color: "red" }}>{errors.amount}</div>

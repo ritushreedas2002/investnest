@@ -30,7 +30,7 @@ export async function GET(req) {
 }
 export async function POST(req) {
     try {
-        const { userId, coinId,coinSymbol, coinName,coinImage,coinPrice } = await req.json();
+        const { userId, coinId,coinSymbol, coinName,coinImage,coinPrice,coinPrice24Change } = await req.json();
 
         // Attempt to find the user by userId
         let user = await coinWatchList.findOne({ userId: userId });
@@ -40,7 +40,8 @@ export async function POST(req) {
             coinSymbol:coinSymbol,
             coinName: coinName,
             coinImage:coinImage,
-            coinPrice:coinPrice
+            coinPrice:coinPrice,
+            coinPrice24Change:coinPrice24Change
         };
     
         console.log(newTransaction);

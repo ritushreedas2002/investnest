@@ -7,7 +7,8 @@ const cryptowatchlistSchema = new Schema({
   coinSymbol: { type: String, required: true },
   coinName: { type: String, required: true }, // e.g., 'Bitcoin'
   coinImage:{type:String, required:true},
-  coinPrice:{type: Number, required: true}
+  coinPrice:{type: Number, required: true},
+  coinPrice24Change:{type: Number, required: true}
 });
 
 // Define the user schema that includes an array of purchases

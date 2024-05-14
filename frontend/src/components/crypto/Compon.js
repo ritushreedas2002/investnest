@@ -233,7 +233,7 @@ return (
 
     <table className="min-w-full leading-normal">
       <tbody>
-        {loading
+        {loading || coins.length===0
           ? Array.from({ length: 10 }).map((_, index) => (
               <ShimmerRow key={index} />
             ))

@@ -106,7 +106,7 @@ const Dashboard = () => {
             </div>
             {/* Learning Window */}
             <div
-              className={` transition-all  bg-gray-200 rounded-xl duration-300 ease-in-out ${
+              className={` transition-all  bg-gray-500 rounded-xl duration-300 ease-in-out ${
                 showLearning ? "h-[100%]" : "h-0"
               } overflow-hidden w-full`}
             >
