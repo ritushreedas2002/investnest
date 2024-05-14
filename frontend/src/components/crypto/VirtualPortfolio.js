@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Modal from "../../app/crypto/Modal";
+import Modal from "./Modal";
 
 const VirtualPortfolio = () => {
   const [modalOpen, setModalOpen] = useState(false);
