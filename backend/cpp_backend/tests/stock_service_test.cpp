@@ -6,10 +6,10 @@ int main()
 {
     StockService ss;
 
-    OrderMatchService* hdfc_service = ss.stocks_map["hdfc"].get();
-    OrderMatchService* reliance_service = ss.stocks_map["reliance"].get();
-    OrderMatchService* airtel_service = ss.stocks_map["airtel"].get();
-    OrderMatchService* tata_service = ss.stocks_map["tata"].get();
+    OrderMatchService* hdfc_service = ss.stocks_service_map["hdfc"].get();
+    OrderMatchService* reliance_service = ss.stocks_service_map["reliance"].get();
+    OrderMatchService* airtel_service = ss.stocks_service_map["airtel"].get();
+    OrderMatchService* tata_service = ss.stocks_service_map["tata"].get();
 
     auto base_time = std::chrono::high_resolution_clock::now();
     
