@@ -80,7 +80,6 @@ class OrderBook(BaseModel):
 
 # /balance :- watchlist, balance
 
-# 
 
 @app.get("/user_info")
 async def get_user_information(user: User):
