@@ -6,45 +6,32 @@ import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import axios from "axios";
 import Datepicker from "tailwind-datepicker-react";
 
-
 const people = [
   {
     id: 1,
     name: "Bills",
-    avatar:
-      "/bills.png",
+    avatar: "/bills.png",
   },
   {
     id: 2,
     name: "Grocery",
-    avatar:
-      "/grocery.png",
+    avatar: "/grocery.png",
   },
   {
     id: 3,
     name: "Entertainment",
-    avatar:
-      "/music.png",
+    avatar: "/music.png",
   },
   {
     id: 4,
     name: "Clothing",
-    avatar:
-      "/clothing.png",
+    avatar: "/clothing.png",
   },
   {
     id: 5,
     name: "Others",
-    avatar:
-      "/others.png",
+    avatar: "/others.png",
   },
-  {
-    id: 6,
-    name: "Hellen Schmidt",
-    avatar:
-      "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
- 
 ];
 
 function classNames(...classes) {
@@ -60,24 +47,25 @@ const options = {
 };
 
 const BillsForm = ({ close }) => {
-  const [title, setTitle] = useState("");
+  const [billname, setBillname] = useState("");
   const [amount, setAmount] = useState("");
-  const [date, setDate] = useState("");
+  const [duedate, setDuedate] = useState("");
   const [selected, setSelected] = useState(people[0]);
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({
-    title: false,
+    billname: false,
     amount: false,
-    date: false,
+    duedate: false,
     category: false,
   });
-  const email = typeof window !== "undefined" ? localStorage.getItem("email") : null;
+  const email =
+    typeof window !== "undefined" ? localStorage.getItem("email") : null;
 
   const validate = () => {
     let tempErrors = {};
-    if (!title) tempErrors.title = "Title is required.";
+    if (!billname) tempErrors.billname = "Title is required.";
     if (!amount) tempErrors.amount = "Amount is required.";
-    if (!date) tempErrors.date = "Date is required.";
+    if (!duedate) tempErrors.duedate = "Date is required.";
     if (!selected.name) tempErrors.category = "Category is required.";
 
     setErrors(tempErrors);
@@ -87,36 +75,29 @@ const BillsForm = ({ close }) => {
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent default form submission behavior
     if (!validate()) return;
-    const dateObj = new Date(date);
+    const dateObj = new Date(duedate);
     const timeZoneOffset = dateObj.getTimezoneOffset() * 60000; // convert offset to milliseconds
     const localDate = new Date(dateObj.getTime() - timeZoneOffset);
     console.log(dateObj);
-    // Extract year and month, ensuring the month is formatted as two digits
-    const year = localDate.getFullYear().toString(); // Get year as string
-    const month = (localDate.getMonth() + 1).toString().padStart(2, "0");
     const formData = {
-      title,
+      billname,
       amount: Number(amount),
-      date: localDate.toISOString().split("T")[0],
+      duedate: localDate.toISOString().split("T")[0],
       category: selected.name,
-      year,
-      month,
       email,
     };
-
     console.log(formData);
     try {
       // Use Axios to post the data
-      const response = await axios.post("/api/transaction/expense", formData, {
+      const response = await axios.post("/api/targets/bills", formData, {
         headers: {
           "Content-Type": "application/json",
         },
       });
-
       console.log(response.data); // Process or log the result from the server
-      setTitle("");
+      setBillname("");
       setAmount("");
-      setDate("");
+      setDuedate("");
       setSelected(people[0]);
       close(); // Close the modal on successful submission
     } catch (error) {
@@ -136,10 +117,10 @@ const BillsForm = ({ close }) => {
   const handleChange = (selectedDate) => {
     if (selectedDate) {
       // Ensure the date from the datepicker is a valid Date object
-      setDate(selectedDate);
+      setDuedate(selectedDate);
     } else {
       console.error("Selected date is invalid:", selectedDate);
-      setDate(new Date().toISOString().split("T")[0]); // Fallback to today's date if error
+      setDuedate(new Date().toISOString().split("T")[0]); // Fallback to today's date if error
     }
   };
   const handleClose = (state) => {
@@ -152,9 +133,9 @@ const BillsForm = ({ close }) => {
       <div className="fixed -top-14 inset-10  flex items-center justify-center z-50">
         <div className="mx-auto w-[40%] space-y-6 p-8 rounded-3xl bg-blue-200">
           <div className="space-y-2 text-center">
-            <h1 className="text-3xl font-bold text-black">Expense Tracker</h1>
+            <h1 className="text-3xl font-bold text-black">Add your Bills</h1>
             <p className="text-gray-500 dark:text-gray-400">
-              Add your expense details to keep track of your finances.
+              Add your monthly bills to never miss out any payment.
             </p>
           </div>
           <form className="space-y-4" onSubmit={(e) => preventDefault()}>
@@ -164,20 +145,20 @@ const BillsForm = ({ close }) => {
                   htmlFor="title"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Title
+                  Bill Name
                 </label>
                 <input
                   type="text"
                   id="title"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
+                  value={billname}
+                  onChange={(e) => setBillname(e.target.value)}
                   onBlur={() => handleBlur("title")}
-                  placeholder="Enter the income title"
+                  placeholder="Enter the bill name"
                   required
                   className="mt-1 block w-full text-black p-2 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 />
-                {touched.title && errors.title && (
-                  <div style={{ color: "red" }}>{errors.title}</div>
+                {touched.billname && errors.billname && (
+                  <div style={{ color: "red" }}>{errors.billname}</div>
                 )}
               </div>
               <div className="space-y-2">
@@ -185,17 +166,17 @@ const BillsForm = ({ close }) => {
                   htmlFor="date"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Date
+                  Due Date
                 </label>
                 <Datepicker
-                  value={date}
+                  value={duedate}
                   options={options}
                   onChange={handleChange}
                   show={show}
                   setShow={handleClose}
                 />
-                {touched.date && errors.date && (
-                  <div style={{ color: "red" }}>{errors.date}</div>
+                {touched.duedate && errors.duedate && (
+                  <div style={{ color: "red" }}>{errors.duedate}</div>
                 )}
               </div>
             </div>
@@ -213,7 +194,7 @@ const BillsForm = ({ close }) => {
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
                   onBlur={() => handleBlur("amount")}
-                  placeholder="Enter the income amount"
+                  placeholder="Enter the bill amount"
                   required
                   className="mt-1 block p-2 w-full text-black rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 />

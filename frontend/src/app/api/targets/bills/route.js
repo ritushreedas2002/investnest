@@ -2,7 +2,7 @@ import { connect } from "@/dbConfig/dbConfig";
 import BillsModel from "@/models/billingModel";
 import { NextRequest, NextResponse } from "next/server";
 import mongoose from "mongoose";
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 connect();
 
 export async function GET(request) {
@@ -23,7 +23,18 @@ export async function GET(request) {
         status: 404,
       });
     }
-    return new NextResponse(JSON.stringify({ bills: user.bills }), {
+
+    const transformedBills = user.bills.map((bill) => ({
+      id: bill._id.toString(),
+      billName: bill.billName,
+      amount: bill.amount,
+      category: bill.category,
+      dueDate: bill.dueDate.toISOString().split("T")[0], // Extract the date part only
+    }));
+
+    console.log(transformedBills);
+
+    return new NextResponse(JSON.stringify(transformedBills), {
       status: 200,
     });
   } catch (error) {
@@ -43,13 +54,13 @@ export async function POST(request) {
 
     // Check if user exists
     let user = await BillsModel.findOne({ userId: email });
-    
+
     const newBill = {
       billName: billname,
       amount: numericGoal,
       dueDate: duedate,
       paid: paid,
-      category: category  // Ensure date is handled correctly
+      category: category, // Ensure date is handled correctly
     };
 
     if (user) {
@@ -80,7 +91,6 @@ export async function POST(request) {
   }
 }
 
-
 export async function PUT(request) {
   try {
     const reqBody = await request.json();
@@ -102,9 +112,9 @@ export async function PUT(request) {
     const numericAmt = Number(amount);
     const ddate = new Date(duedate);
     // Update the current amount and recalculate the achieved percentage
-    plan.amount=numericAmt;
-    plan.dueDate=ddate;
-    plan.paid=paid;
+    plan.amount = numericAmt;
+    plan.dueDate = ddate;
+    plan.paid = paid;
 
     // Save the user document
     await user.save();
@@ -119,7 +129,6 @@ export async function PUT(request) {
     });
   }
 }
-
 
 export async function DELETE(request) {
   try {
