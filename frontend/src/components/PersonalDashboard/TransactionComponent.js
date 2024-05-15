@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Link from "next/link";
-import IncomeForm from "./IncomeForm";
-import ExpenseForm from "./ExpenseForm";
-import BillsForm from "./BillsForm"; // Import BillsForm
 
 const ShimmerRow = ({ index }) => {
   return (
@@ -26,7 +23,6 @@ const TransactionComponent = () => {
     expenses: [],
     bills: [],
   });
-  const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const email =
     typeof window !== "undefined" ? localStorage.getItem("email") : null;
@@ -71,16 +67,8 @@ const TransactionComponent = () => {
     }
   }, [activeTab, email]);
 
-  const openModal = () => {
-    setShowModal(true);
-  };
-
-  const closeModal = () => {
-    setShowModal(false);
-  };
-
   const renderTransactions = (type) => {
-    if (isLoading || transactions[type].length === 0) {
+    if (transactions[type].length === 0) {
       return [...Array(5)].map((_, index) => (
         <ShimmerRow index={index} key={index} />
       ));
@@ -151,20 +139,6 @@ const TransactionComponent = () => {
       <div className="h-[200px] overflow-y-auto no-scrollbar">
         {renderTransactions(activeTab)}
       </div>
-      <button
-        className="absolute bottom-3 right-4 w-14 rounded-lg text-center p-2 bg-blue-500 hover:bg-blue-600 text-white text-sm cursor-pointer"
-        onClick={openModal}
-      >
-        Add
-      </button>
-      {showModal &&
-        (activeTab === "income" ? (
-          <IncomeForm close={closeModal} />
-        ) : activeTab === "expenses" ? (
-          <ExpenseForm close={closeModal} />
-        ) : (
-          <BillsForm close={closeModal} />
-        ))}
     </div>
   );
 };

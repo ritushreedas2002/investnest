@@ -94,7 +94,7 @@ export async function POST(request) {
 export async function PUT(request) {
   try {
     const reqBody = await request.json();
-    const { email, id, amount, duedate, paid } = reqBody;
+    const { email, id, billname, amount, duedate, paid, category } = reqBody;
     const user = await BillsModel.findOne({
       userId: email,
       "bills._id": new mongoose.Types.ObjectId(id),
@@ -115,6 +115,8 @@ export async function PUT(request) {
     plan.amount = numericAmt;
     plan.dueDate = ddate;
     plan.paid = paid;
+    plan.billName = billname;
+    plan.category = category;
 
     // Save the user document
     await user.save();

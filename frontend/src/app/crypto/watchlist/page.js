@@ -71,6 +71,7 @@ const WatchList = () => {
             return { ...coin, ...details };
           });
         setWatchlist(matchedData);
+        console.log(matchedData);
         setLoading(false);
       } catch (error) {
         console.error("Failed to fetch watchlist:", error);
@@ -205,7 +206,7 @@ const WatchList = () => {
                       >
                         {change24[coin.id]
                           ? `${change24[coin.id].toFixed(2)}%`
-                          : `${coin.coinPrice24Change.toFixed(2)}%`}
+                          : `${coin?.coinPrice24Change?.toFixed(2)}%`}
                       </span>
                     </td>
                     <td className="py-3 px-6 text-right font-semibold">
@@ -218,7 +219,7 @@ const WatchList = () => {
                       >
                         {change1m[coin.id]
                           ? `${change1m[coin.id].toFixed(2)}%`
-                          : `${coin.coinPrice24Change.toFixed(2)}%`}
+                          : `${coin?.coinPrice24Change?.toFixed(2)}%`}
                       </span>
                     </td>
                     <td className="py-3 px-6 text-center">

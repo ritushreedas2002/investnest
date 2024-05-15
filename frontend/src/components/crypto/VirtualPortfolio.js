@@ -5,17 +5,16 @@ import Modal from "./Modal";
 const VirtualPortfolio = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [portfolioData, setPortfolioData] = useState(null);
+  const [totalProfitLoss, setTotalProfitLoss] = useState(0);
+
   const email =
     typeof window !== "undefined" ? localStorage.getItem("email") : null;
 
-  // const sampleData = [
-  //   { name: "Bitcoin", unit: "1 BTC", date: "2021-01-01", boughtPrice: 30000, currentPrice: 42000 },
-  //   { name: "Ethereum", unit: "2 ETH", date: "2021-02-01", boughtPrice: 1500, currentPrice: 3200 },
-  //   // Add more data as needed
-  // ];
   useEffect(() => {
     fetchPortfolioData();
+    fetchTotalProfitLoss();
   }, []);
+
   const fetchPortfolioData = async () => {
     try {
       const response = await fetch(`/api/crypto?email=${email}`); // Assuming you have an API route to fetch portfolio data
@@ -23,6 +22,20 @@ const VirtualPortfolio = () => {
       setPortfolioData(data);
     } catch (error) {
       console.error("Error fetching portfolio data:", error);
+    }
+  };
+
+  const fetchTotalProfitLoss = async () => {
+    try {
+      const response = await fetch(`/api/profitnloss?email=${email}`);
+      if (response.ok) {
+        const data = await response.json();
+        setTotalProfitLoss(data.totalProfit);
+      } else {
+        console.error("Error fetching total profit/loss:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching total profit/loss:", error);
     }
   };
 
@@ -36,10 +49,12 @@ const VirtualPortfolio = () => {
         </select>
       </div>
       <div className="text-white mt-4">
-        <p className="text-sm opacity-70">
-          Since yesterday, your assets have grown by
+      <p className="text-sm opacity-70">
+          Since you bought your assets, your total profit/loss is
         </p>
-        <p className="text-2xl font-bold">$755.47</p>
+        <p className={`text-2xl font-bold ${totalProfitLoss >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+          ${totalProfitLoss.toFixed(2)}
+        </p>
       </div>
       <button
         onClick={() => setModalOpen(true)}
@@ -53,6 +68,7 @@ const VirtualPortfolio = () => {
           isOpen={modalOpen}
           onClose={() => setModalOpen(false)}
           data={portfolioData}
+          email={email}
         />
       )}
     </div>

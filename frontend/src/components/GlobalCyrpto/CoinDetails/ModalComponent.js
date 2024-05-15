@@ -37,6 +37,7 @@ const ModalComponent = ({ coin, onClose }) => {
   let { getCoinData, coinData: data, currency } = useContext(CryptoContext);
   const [units, setUnits] = useState(0);
   const email=localStorage.getItem("email");
+  // console.log(data);
 
   useLayoutEffect(() => {
     getCoinData(coin);

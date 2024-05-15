@@ -2,15 +2,8 @@
 import React, { useEffect, useState } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-// import HC_exporting from "highcharts/modules/exporting";
-// import HC_exportData from "highcharts/modules/export-data";
-// import HC_accessibility from "highcharts/modules/accessibility";
 import axios from "axios";
 import PieShimmerChart from "../Shimmer/ShimmerMonthChart";
-// Load modules
-// HC_exporting(Highcharts);
-// HC_exportData(Highcharts);
-// HC_accessibility(Highcharts);
 
 const PieChart = () => {
   const [chartData, setChartData] = useState([]);
@@ -39,13 +32,8 @@ const PieChart = () => {
         console.error("Error fetching data: ", error);
       }
     };
-
+    
     fetchData();
-
-    // const intervalId = setInterval(() => {
-    //   fetchData();  // Your function that fetches the latest chart data
-    // }, 10000);
-    // return () => clearInterval(intervalId);
   }, []);
 
   useEffect(() => {
