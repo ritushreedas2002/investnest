@@ -3,51 +3,28 @@ import UserPortfolio from "@/models/virtualCyrptoModel";
 import { NextResponse } from "next/server";
 
 connect();
+export async function GET(request){
+  try{
 
-// export async function POST(request) {
-//   try {
-//     const users = await UserPortfolio.find();
-//     const coinIdSet = new Set();
+    const url = new URL(request.url);
+    const email = url.searchParams.get("email"); // Correct way to get query parameters in Next.js middleware
 
-//     users.forEach(user => {
-//       user.transactions.forEach(transaction => {
-//         coinIdSet.add(transaction.coinId);
-//       });
-//     });
+    if (!email) {
+      return new NextResponse(
+        JSON.stringify({ msg: "Email parameter is required" }),
+        { status: 400 }
+      );
+    }
 
-//     const uniqueCoinIds = Array.from(coinIdSet);
-//     console.log('Unique Coin IDs:', uniqueCoinIds);
-
-//     // Fetch prices for uniqueCoinIds
-//     const coinIdsQueryString = uniqueCoinIds.join(',');
-//     const priceResponse = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${coinIdsQueryString}&vs_currencies=usd`);
-//     const priceData = await priceResponse.json();
-
-//     // Structure prices data
-//     const prices = uniqueCoinIds.map(coinId => ({
-//       coinId,
-//       price: priceData[coinId]?.usd || null // Ensure there is a fallback in case the price is not found
-//     }));
-
-//     console.log('Prices:', prices);
-
-//     const userTransactions = users.map(user => ({
-//       userId: user.userId,
-//       transactions: user.transactions.map(transaction => ({
-//         coinId: transaction.coinId,
-//         quantity: transaction.quantity
-//       }))
-//     }));
-
-//     return new NextResponse(JSON.stringify({ userTransactions, prices }));
-//   } catch (error) {
-//     console.error('Error processing request:', error);
-//     return new NextResponse(JSON.stringify({ message: 'Failed to process request', error: error.toString() }), { status: 500 });
-//   }
-// }
+    const price=await UserPortfolio.findOne({userId:email});
+    return  new NextResponse(JSON.stringify({ message: 'successfully', daily:price.dailyPrice}), { status: 500 });
 
 
-
+  }catch(error){
+    console.error('Error processing request:', error);
+      return new NextResponse(JSON.stringify({ message: 'Failed to process request', error: error.toString() }), { status: 500 });
+  }
+}
 export async function POST(request) {
     try {
       const users = await UserPortfolio.find();
@@ -60,12 +37,17 @@ export async function POST(request) {
       const priceResponse = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${coinIdsQueryString}&vs_currencies=usd`);
       const priceData = await priceResponse.json();
   
+
       // Save daily price data to user portfolios
       await Promise.all(users.map(async user => {
+        user.dailyPrice=[];
         user.transactions.forEach(transaction => {
+          
           const { coinId, quantity } = transaction;
           const price = priceData[coinId]?.usd;
+          
           if (price) {
+
             user.dailyPrice.push({ coinId, unit: quantity, price });
           }
         });
