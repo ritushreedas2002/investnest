@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 
 connect();
 
-export async function POST(request) {
+export async function handler(request) {
   try {
     const users = await UserPortfolio.find();
 
