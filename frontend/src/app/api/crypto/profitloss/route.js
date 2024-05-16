@@ -48,7 +48,7 @@ export async function POST(request) {
           
           if (price) {
 
-            user.dailyPrice.push({ coinId, unit: quantity, price });
+            user.dailyPrice.push({ coinId, unit: quantity, price});
           }
         });
         await user.save(); // Ensure to await the save operation
