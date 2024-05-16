@@ -10,7 +10,7 @@ export async function GET(request) {
         const userTransactions = users.map(user => ({
             userId: user.userId,
             transactions: user.transactions.map(transaction => ({
-                coinName: transaction.coinName,
+                coinId: transaction.coinId,
                 quantity: transaction.quantity
             }))
         }));
