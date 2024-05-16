@@ -59,13 +59,7 @@ const Modal = ({ isOpen, onClose, data, email }) => {
       }, 0);
 
       // Send the calculated total profit/loss to the backend
-      fetch('/api/profitnloss', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, totalProfit: totalProfitLoss }),
-      });
+      
     }
   }, [prices, data, symbolToIdMap, email]);
 
