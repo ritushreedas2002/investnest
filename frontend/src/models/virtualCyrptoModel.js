@@ -8,13 +8,20 @@ const cryptoPurchaseSchema = new Schema({
   coinName: { type: String, required: true }, // e.g., 'Bitcoin'
   purchaseDate: { type: Date, default: Date.now }, // Date of purchase
   purchasePrice: { type: Number, required: true }, // Price of crypto at time of purchase
-  quantity: { type: Number, required: true }, // Amount of cryptocurrency purchased
+  quantity: { type: Number, required: true }, // Amount of cryptocurrency purchased //
+});
+
+const dailyPriceSchema = new Schema({
+  coinId: { type: String },
+  unit: { type: Number, default: 0 },
+  price: { type: Number }
 });
 
 // Define the user schema that includes an array of purchases
 const userPortfolioSchema = new Schema({
   userId: { type: String, required: true, unique: true },
-  transactions: [cryptoPurchaseSchema] // Array of cryptocurrency purchases
+  transactions: [cryptoPurchaseSchema], // Array of cryptocurrency purchases
+  dailyPrice: [dailyPriceSchema]
 });
 
 // Create the model from the schema
