@@ -14,8 +14,7 @@ const Modal = ({ isOpen, onClose, data, email }) => {
   console.log(data);
 
   useEffect(() => {
-    const ids = data.data
-      .map((coin) => symbolToIdMap[coin.coinSymbol.toLowerCase()])
+    const ids = data?.map((coin) => symbolToIdMap[coin.coinSymbol.toLowerCase()])
       .filter((id) => id)
       .join(",");
 
@@ -48,7 +47,7 @@ const Modal = ({ isOpen, onClose, data, email }) => {
 
   useEffect(() => {
     if (prices && data) {
-      const totalProfitLoss = data.data.reduce((acc, item) => {
+      const totalProfitLoss = data?.reduce((acc, item) => {
         const coinId = symbolToIdMap[item.coinSymbol.toLowerCase()];
         const currentPrice = prices[coinId];
         if (currentPrice) {
@@ -116,7 +115,7 @@ const Modal = ({ isOpen, onClose, data, email }) => {
               </tr>
             </thead>
             <tbody>
-              {data?.data.map((item, index) => {
+              {data?.map((item, index) => {
                 const coinId = symbolToIdMap[item.coinSymbol.toLowerCase()];
                 const currentPrice = prices[coinId]?.current;
                 console.log(currentPrice);
