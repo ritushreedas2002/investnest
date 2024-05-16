@@ -55,7 +55,7 @@ const WatchList = () => {
         const response = await axios.get(
           `/api/crypto/watchlist?userId=${email}`
         );
-
+        console.log(response.data);
         const symbolsFromBackend = response.data.data.map((item) =>
           item.coinSymbol.toLowerCase()
         );
