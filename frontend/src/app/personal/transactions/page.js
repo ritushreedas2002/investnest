@@ -26,10 +26,38 @@ const ShimmerRow = () => (
     </td>
   </tr>
 );
+const ShimmerRow1 = () => (
+  <tr className="bg-gray-900 border-b border-gray-700">
+    <td className="px-6 py-4">
+      <div className="animate-pulse h-4 bg-gray-700 rounded"></div>
+    </td>
+    <td className="px-6 py-4">
+      <div className="animate-pulse h-4 bg-gray-700 rounded"></div>
+    </td>
+    <td className="px-6 py-4">
+      <div className="animate-pulse h-4 bg-gray-700 rounded"></div>
+    </td>
+    <td className="px-6 py-4">
+      <div className="animate-pulse h-4 bg-gray-700 rounded"></div>
+    </td>
+    <td className="px-6 py-4">
+      <div className="animate-pulse h-4 bg-gray-700 rounded"></div>
+    </td>
+    <td className="px-6 py-4">
+      <div className="animate-pulse h-4 bg-gray-700 rounded"></div>
+    </td>
+  </tr>
+);
 
 const ShimmerTable = () => {
   const shimmerRows = Array.from({ length: 9 }, (_, index) => (
     <ShimmerRow key={index} />
+  ));
+  return <>{shimmerRows}</>;
+};
+const ShimmerTable1 = () => {
+  const shimmerRows = Array.from({ length: 9 }, (_, index) => (
+    <ShimmerRow1 key={index} />
   ));
   return <>{shimmerRows}</>;
 };
@@ -400,16 +428,7 @@ const TableComponent = () => {
             </thead>
             <tbody>
               {bills?.length === 0 ? (
-                <tr>
-                  <td colSpan="5" className="text-center py-4">
-                    <button
-                      onClick={() => alert("Add new bill")}
-                      className="flex items-center justify-center p-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md"
-                    >
-                      <MdAdd className="mr-1" /> Add
-                    </button>
-                  </td>
-                </tr>
+                <ShimmerTable1 />
               ) : (
                 bills?.map((bill) => (
                   <tr
