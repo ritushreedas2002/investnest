@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 export async function connect() {
     try {
-        mongoose.connect("mongodb://arpande:zmxncbv%40123@ac-dhs1i5d-shard-00-00.nhcw4dm.mongodb.net:27017,ac-dhs1i5d-shard-00-01.nhcw4dm.mongodb.net:27017,ac-dhs1i5d-shard-00-02.nhcw4dm.mongodb.net:27017/?ssl=true&replicaSet=atlas-tzfa6f-shard-0&authSource=admin&retryWrites=true&w=majority&appName=Cluster0");
+        mongoose.connect("mongodb://admin-ritushree:Mo4gS9UnLrFY1J0Y@ac-m3eu5ek-shard-00-00.s6k4ce2.mongodb.net:27017,ac-m3eu5ek-shard-00-01.s6k4ce2.mongodb.net:27017,ac-m3eu5ek-shard-00-02.s6k4ce2.mongodb.net:27017/FINANCE?ssl=true&replicaSet=atlas-14fxtv-shard-0&authSource=admin&retryWrites=true&w=majority&appName=Cluster0");
         const connection = mongoose.connection;
 
         connection.on('connected', () => {
