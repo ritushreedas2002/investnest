@@ -269,16 +269,7 @@ const TableComponent = () => {
     const timeZoneOffset = dateObject.getTimezoneOffset() * 60000; // convert offset to milliseconds
     console.log(timeZoneOffset)
     const localDate = new Date(dateObject.getTime() - timeZoneOffset);
-    console.log(localDate);
-      const body={
-        email: userEmail,
-        billName: currentBill.billName,
-        amount: currentBill.amount,
-        actualDueDate: currentBill.dueDate,
-        reminderDateTime: localDate.toISOString().split("T")[0],
-      }
-      console.log(body)
-      await axios.post(`https://bill-reminder-delta.vercel.app/api/reminder`, {
+      await axios.post(`/api/crypto/reminder`, {
         email: userEmail,
         billName: currentBill.billName,
         amount: currentBill.amount,
@@ -291,7 +282,7 @@ const TableComponent = () => {
           bill.id === currentBill.id ? { ...bill, reminder: reminderDate } : bill
         )
       );
-      console.error("Reminder set successfully");
+      console.log("Reminder set successfully");
       closeModal3();
     } catch (error) {
       console.error("Failed to set reminder:", error);
