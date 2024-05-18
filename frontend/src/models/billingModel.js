@@ -20,6 +20,10 @@ const billSchema = new Schema({
     },
     category: {
         type: String
+    },
+    reminder: {
+        type: Date,
+        required: false
     }
 });
 

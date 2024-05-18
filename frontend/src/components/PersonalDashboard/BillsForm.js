@@ -39,6 +39,8 @@ function classNames(...classes) {
 }
 
 const options = {
+  minDate: new Date(new Date().setHours(0, 0, 0, 0)),
+  defaultDate: new Date(),
   inputDateFormatProp: {
     day: "numeric",
     month: "long",
@@ -49,7 +51,7 @@ const options = {
 const BillsForm = ({ close }) => {
   const [billname, setBillname] = useState("");
   const [amount, setAmount] = useState("");
-  const [duedate, setDuedate] = useState("");
+  const [duedate, setDuedate] = useState(new Date());
   const [selected, setSelected] = useState(people[0]);
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({

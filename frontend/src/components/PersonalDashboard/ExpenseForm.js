@@ -55,7 +55,7 @@ const options = {
 const ExpenseForm = ({ close }) => {
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(new Date());
   const [selected, setSelected] = useState(people[0]);
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({

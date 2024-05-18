@@ -1,11 +1,13 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { MdAdd } from "react-icons/md";
+import { MdAdd, MdOutlineAlarm, MdDeleteForever } from "react-icons/md";
+import { FaRegEdit } from "react-icons/fa";
 import IncomeForm from "../../../components/PersonalDashboard/IncomeForm";
 import ExpenseForm from "../../../components/PersonalDashboard/ExpenseForm";
 import BillsForm from "../../../components/PersonalDashboard/BillsForm";
 import BillEditForm from "./BillEditForm";
+import Datepicker from "tailwind-datepicker-react";
 
 const ShimmerRow = () => (
   <tr className="bg-gray-900 border-b border-gray-700">
@@ -62,6 +64,19 @@ const ShimmerTable1 = () => {
   return <>{shimmerRows}</>;
 };
 
+const getDatepickerOptions = (dueDate) => {
+  return {
+    minDate: new Date(new Date().setHours(0, 0, 0, 0)),
+    maxDate: new Date(dueDate),
+    defaultDate: new Date(),
+    inputDateFormatProp: {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    },
+  };
+};
+
 const TableComponent = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isTypeOpen, setIsTypeOpen] = useState(false);
@@ -72,7 +87,10 @@ const TableComponent = () => {
   const [showModal, setShowModal] = useState(false);
   const [showModal1, setShowModal1] = useState(false);
   const [showModal2, setShowModal2] = useState(false);
+  const [showModal3, setShowModal3] = useState(false);
   const [editingBill, setEditingBill] = useState(null);
+  const [reminderDate, setReminderDate] = useState(new Date());
+  const [currentBill, setCurrentBill] = useState(null);
 
   const openModal = () => {
     setShowModal(true);
@@ -97,6 +115,16 @@ const TableComponent = () => {
   const closeModal2 = () => {
     setShowModal2(false);
     setEditingBill(null);
+  };
+
+  const openModal3 = (bill) => {
+    setCurrentBill(bill);
+    setShowModal3(true);
+  };
+
+  const closeModal3 = () => {
+    setShowModal3(false);
+    setCurrentBill(null);
   };
 
   const userEmail =
@@ -198,7 +226,6 @@ const TableComponent = () => {
       await axios.delete(`/api/targets/bills`, {
         data: { email: userEmail, id: bill.id },
       });
-
       setBills((currentBills) =>
         currentBills.filter((bill1) => bill1.id !== bill.id)
       );
@@ -206,26 +233,6 @@ const TableComponent = () => {
       console.error("Failed to delete bill:", error);
     }
   };
-
-  // const handleEditBill = async (bill) => {
-  //   try {
-  //     await axios.put(`/api/targets/bills`, {
-  //       data: {
-  //         email: userEmail,
-  //         id: bill.id,
-  //         amount: bill.amount,
-  //         duedate: bill.dueDate,
-  //         paid: bill.paid,
-  //       },
-  //     });
-
-  //     setBills((currentBills) =>
-  //       currentBills.filter((bill1) => bill.id !== bill.id)
-  //     );
-  //   } catch (error) {
-  //     console.error("Failed to delete bill:", error);
-  //   }
-  // };
 
   const handleEditBill = (bill) => {
     setEditingBill(bill);
@@ -238,6 +245,41 @@ const TableComponent = () => {
         bill.id === updatedBill.id ? { ...bill, ...updatedBill } : bill
       )
     );
+  };
+
+  const [show, setShow] = useState(false);
+  const handleChange = (selectedDate) => {
+    if (selectedDate) {
+      // Ensure the date from the datepicker is a valid Date object
+      setReminderDate(selectedDate);
+    } else {
+      console.error("Selected date is invalid:", selectedDate);
+      setDuedate(new Date().toISOString().split("T")[0]); // Fallback to today's date if error
+    }
+  };
+  const handleClose = (state) => {
+    setShow(state);
+  };
+
+  const handleSetReminder = async () => {
+    try {
+      await axios.post(`https://bill-reminder-delta.vercel.app/api/reminder`, {
+        email: userEmail,
+        billName: currentBill.billName,
+        amount: currentBill.amount,
+        actualDueDate: currentBill.dueDate,
+        reminderDateTime: reminderDate,
+      });
+      setBills((currentBills) =>
+        currentBills.map((bill) =>
+          bill.id === currentBill.id ? { ...bill, reminder: reminderDate } : bill
+        )
+      );
+      console.error("Reminder set successfully");
+      closeModal3();
+    } catch (error) {
+      console.error("Failed to set reminder:", error);
+    }
   };
 
   return (
@@ -406,22 +448,25 @@ const TableComponent = () => {
           <table className="min-w-full text-sm text-left text-gray-200 bg-gray-900">
             <thead className="text-xs text-gray-400 uppercase bg-gray-800">
               <tr>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-4 py-3 whitespace-nowrap">
                   Bill Name
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="pl-4 py-3">
                   Amount
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="pl-2 py-3">
                   Category
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="pl-4 py-3 whitespace-nowrap">
                   Due Date
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="pl-6 py-3">
                   Edit
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="pl-2 py-3">
+                  Reminder
+                </th>
+                <th>
                   Delete
                 </th>
               </tr>
@@ -435,21 +480,31 @@ const TableComponent = () => {
                     key={bill._id}
                     className="bg-gray-900 border-b border-gray-700 hover:bg-gray-800"
                   >
-                    <th
+                    <td
                       scope="row"
-                      className="px-6 py-4 font-medium text-gray-200 whitespace-nowrap"
+                      className="pl-6 py-4 font-medium text-gray-200 whitespace-nowrap"
                     >
                       {bill.billName}
-                    </th>
-                    <td className="px-6 py-4">{bill.amount}</td>
-                    <td className="px-6 py-4">{bill.category}</td>
-                    <td className="px-6 py-4">{bill.dueDate}</td>
-                    <td className="px-6 py-4 text-blue-600 hover:text-blue-700">
-                      <button onClick={() => handleEditBill(bill)}>Edit</button>
                     </td>
-                    <td className="px-6 py-4 text-blue-600 hover:text-blue-700">
+                    <td className="pl-6 py-4">{bill.amount}</td>
+                    <td className="pl-6 py-4">{bill.category}</td>
+                    <td className="pl-3 py-4">{bill.dueDate}</td>
+                    <td className="pl-8 py-4 text-2xl text-blue-600 hover:text-white">
+                      <button onClick={() => handleEditBill(bill)}>
+                        <FaRegEdit />
+                      </button>
+                    </td>
+                    <td className="pl-6 py-4 ">
+                      <button
+                        onClick={() => openModal3(bill)}
+                        className="text-3xl font-bold text-blue-600 hover:text-white  rounded-md"
+                      >
+                        <MdOutlineAlarm />
+                      </button>
+                    </td>
+                    <td className="pr-2 py-4 text-3xl text-blue-600 hover:text-white">
                       <button onClick={() => handleDeleteBill(bill)}>
-                        Delete
+                        <MdDeleteForever />
                       </button>
                     </td>
                   </tr>
@@ -472,6 +527,35 @@ const TableComponent = () => {
               billData={editingBill}
               handleSave={handleSaveBill}
             />
+          )}
+          {showModal3 && (
+            <div className="fixed inset-0 flex items-center justify-center z-50">
+              <div className="bg-white rounded-lg shadow-lg p-8">
+                <h2 className="text-xl mb-4 text-blue-800">Set Reminder</h2>
+                <Datepicker
+                  value={reminderDate}
+                  options={getDatepickerOptions(currentBill.dueDate)}
+                  onChange={handleChange}
+                  show={show}
+                  setShow={handleClose}
+                  className="w-full p-2 border rounded"
+                />
+                <div className="flex justify-end mt-4">
+                  <button
+                    onClick={closeModal3}
+                    className="bg-gray-500 text-white px-4 py-2 rounded mr-2"
+                  >
+                    Close
+                  </button>
+                  <button
+                    onClick={handleSetReminder}
+                    className="bg-blue-500 text-white px-4 py-2 rounded"
+                  >
+                    Set Reminder
+                  </button>
+                </div>
+              </div>
+            </div>
           )}
         </div>
       </div>

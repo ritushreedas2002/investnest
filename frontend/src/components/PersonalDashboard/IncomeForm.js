@@ -13,9 +13,8 @@ const options = {
 
 const IncomeForm = ({ close }) => {
   const [source, setTitle1] = useState("");
-  const [date1, setDate1] = useState("");
+  const [date1, setDate1] = useState(new Date());
   const [amount1, setAmount1] = useState("");
-  // const [selected, setSelected] = useState(people[0]);
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({
     title: false,
