@@ -15,7 +15,7 @@ const LearningDetails = () => {
     const fetchArticles = async () => {
       const params = new URLSearchParams({
         q: "Personal Finance Management", // Your query
-        count: "7", // Number of results to return
+        count: "5", // Number of results to return
         offset: "0", // Results offset for pagination
         mkt: "en-US", // Market code
         safeSearch: "Off", // Safe search setting
