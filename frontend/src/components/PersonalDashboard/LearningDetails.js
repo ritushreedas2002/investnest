@@ -8,7 +8,7 @@ const LearningDetails = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [articles, setArticles] = useState([]);
-  const apiKey = "860ae4cb72fa492e8b732f2f4c5ca1f2"; // Replace with your actual API key
+  const apiKey = "7e0915e87788450a87377961e35e8cfd"; // Replace with your actual API key
 
   useEffect(() => {
     // Fetch articles from Bing News API
